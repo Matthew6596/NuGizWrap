@@ -1,0 +1,17 @@
+{
+  "name": "com.mattonmat.ttmoddingkit",
+  "version": "0.0.1",
+  "description": "A package of editor scripts that support level modding in classic TT games (TCS, LIJ1, LB1).\n\nSupported Files:\n\u2022 GIZ",
+  "displayName": "TT Modding Kit",
+  "author": {
+    "name": "Matthew Satterfield (MattonMat)",
+    "email": "satterfieldfour@gmail.com"
+  },
+  "keywords": [
+    "modding",
+    "lego"
+  ],
+  "dependencies": {
+    "com.unity.splines": "2.8.4"
+  }
+}

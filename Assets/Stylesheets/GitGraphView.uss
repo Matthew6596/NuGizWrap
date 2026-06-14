@@ -1,0 +1,42 @@
+GridBackground {
+    --grid-background-color: #1E1E1E;
+    --line-color: rgba(193, 196, 192, 0.1);
+    --thick-line-color: rgba(193, 196, 192, 0.3);
+    --spacing: 15;
+}
+
+/* Node base */
+.node {
+    background-color: #2D2D2D;
+    border-color: #3E3E3E;
+    border-width: 1px;
+    border-radius: 6px;
+    min-width: 150px;
+}
+
+/* Title bar */
+.node #title {
+    background-color: #1A1A1A;
+    border-bottom-width: 1px;
+    border-bottom-color: #3E3E3E;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 4px 8px;
+}
+
+.node #title-label {
+    color: #FFFFFF;
+    font-size: 12px;
+    -unity-font-style: bold;
+}
+
+/* Body */
+.node #contents {
+    padding: 4px;
+}
+
+/* Selection highlight */
+.node:selected {
+    border-color: #4C8BF5;
+    border-width: 2px;
+}
