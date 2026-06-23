@@ -13,7 +13,7 @@ namespace TTModdingKit.Gizmos
 
     public class TechnoSection : GizmoSection
     {
-        public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LIJ1,TTGame.LB1);
+        public override bool IsGameCompatible(TTGame game) => TTUnityProject.Prefs.gizmo.allowAllRegisteredGizmos ? game.CompareGames(TTGame.TCS, TTGame.LIJ1, TTGame.LB1) : game.CompareGames(TTGame.LIJ1,TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LIJ1=>6,TTGame.LB1 => 8, _ => 1 };
 
         public override string ID => "Techno";

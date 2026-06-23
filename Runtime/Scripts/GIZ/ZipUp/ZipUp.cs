@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class ZipUp : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => (game) switch { TTGame.TCS => new[] { "Active" }, _ => new[] { "Active", "InUse" } };
+
         public Transform start, axis, end;
         public short unknown1, unknown2;
         public bool swing, unknown3, twoWay, invisible, unknown4, targetsInvisible, unknown5;

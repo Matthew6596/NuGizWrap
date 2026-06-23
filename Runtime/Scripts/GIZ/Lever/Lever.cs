@@ -7,6 +7,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Lever : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Down", "Down (Goodie)", "Down (Baddie)" };
+
         public enum HandleColor
         {
             None = 0, Red = (byte)'r', Orange = (byte)'o', Yellow = (byte)'y',

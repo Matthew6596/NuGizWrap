@@ -10,7 +10,7 @@ namespace TTModdingKit
         [MenuItem("TT Modding/Export/File/GSC")]
         static void Export() 
         {
-            string path = EditorUtility.SaveFilePanel("Export GSC File", "", "levelgsc", "gsc");
+            string path = EditorUtility.SaveFilePanel("Export GSC File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgsc", "gsc");
             if (string.IsNullOrEmpty(path) || !Directory.Exists(Path.GetDirectoryName(path))) return;
 
             Export(path);

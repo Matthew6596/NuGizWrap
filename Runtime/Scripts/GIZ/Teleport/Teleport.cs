@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Teleport : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => (game) switch { TTGame.TCS => new[] { "Occupied" }, _ => new[] { "Occupied", "Not Occupied" } };
+
         public string unknown1, unknown2, unknown3;
         public Vector3 unknown4, unknown5;
         public float unknown6, unknown7, unknown8, unknown9, unknown10, unknown11;

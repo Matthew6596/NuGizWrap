@@ -19,12 +19,50 @@ namespace TTModdingKit.GizFlow
             var stylesheet = TTResourceManager.LoadEditorAsset<StyleSheet>("Stylesheets/GitGraphView", ".uss");
             if (stylesheet != null) styleSheets.Add(stylesheet);
 
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            SetupZoom(ContentZoomer.DefaultMinScale/4, ContentZoomer.DefaultMaxScale*2);
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
+            graphViewChanged = OnGraphViewChanged;
 
             Insert(0, new GridBackground());
+        }
+
+        private GraphViewChange OnGraphViewChanged(GraphViewChange change)
+        {
+            //Deletions
+            change.elementsToRemove?.ForEach(el =>
+            {
+                if (el is GitBox box) GitManager.RemoveBox(box);
+                else if (el is Edge edge)
+                {
+                    var outputNode = edge.output.node as GitBox;
+                    var inputNode = edge.input.node as GitBox;
+
+                    outputNode.children.Remove(inputNode);
+                    inputNode.parents.Remove((outputNode, outputNode.GetOutputPortIndex(edge.output)));
+                }
+            });
+
+            //Moves
+            change.movedElements?.OfType<GitBox>().ToList().ForEach(n => { 
+                var pos = n.GetPosition().position;
+                n.x = pos.x;
+                n.y = pos.y;
+            });
+
+            //Creations
+            change.edgesToCreate?.ForEach(edge =>
+            {
+                if (edge.input.node is not GitBox inputNode || edge.output.node is not GitBox outputNode) return;
+
+                outputNode.children.Add(inputNode);
+                inputNode.parents.Add((outputNode, outputNode.GetOutputPortIndex(edge.output)));
+            });
+
+            EditorUtility.SetDirty(GitManager.Instance);
+
+            return change;
         }
 
         public void AddBox(GitBox node, Vector2? position=null)
@@ -32,6 +70,11 @@ namespace TTModdingKit.GizFlow
             Vector2 pos = position ?? contentViewContainer.WorldToLocal(layout.center);
             node.SetPosition(new Rect(pos, new Vector2(150, 200)));
             AddElement(node);
+        }
+
+        public void ClearBoxes()
+        {
+            foreach(var el in graphElements) if(el is Node n) RemoveElement(n);
         }
 
         public override void AddToSelection(ISelectable selectable)

@@ -7,6 +7,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Panel : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Finished" };
+
         public enum Type { AstromechDroid = 0, ProtocolDroid = 1, BountyHunter = 2, Stormtrooper = 3 }
 
         public Type type;

@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Techno : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Active", "Special Button Down", "Got Handle" };
+
         public string controlType;
         public byte unknown1;
         public string controlledEntity;

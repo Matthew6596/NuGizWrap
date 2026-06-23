@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Shard : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Got" };
+
         public short unknown1, unknown2;
 
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;

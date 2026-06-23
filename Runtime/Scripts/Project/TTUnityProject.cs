@@ -10,6 +10,8 @@ using UnityEngine.Events;
 
 namespace TTModdingKit
 {
+    using Terrain;
+
     [InitializeOnLoad]
     public class TTUnityProject : ScriptableObject
     {
@@ -37,6 +39,7 @@ namespace TTModdingKit
         public static string AbsoluteProjectAssetPath => ProjectAssetPath.Replace("Assets", Application.dataPath);
         public static string GetGamePath(TTGame game) => _instance.modManagerLinked ? _instance.modManagerSettings.GetGamePath(game) : "";
         public static string GetGamePath() => GetGamePath(Game);
+        public static string GetDefaultFileExplorerPath() => Prefs.general.defaultFileDirectoryToCurrentGame ? Path.GetDirectoryName(TTUnityProject.GetGamePath()) : "";
 
         private static TTUnityProject _instance;
 
@@ -174,9 +177,93 @@ namespace TTModdingKit
         [Serializable]
         public struct Preferences
         {
-            public bool generateEmptyGizmoSections;
-            public bool onlyGenerateCompatibleGizmoSections;
-            public bool defaultFileDirectoryToCurrentGame;
+            //General
+            [Serializable]
+            public struct General
+            {
+                public bool defaultFileDirectoryToCurrentGame;
+            }
+            public General general;
+
+            //Gizmo
+            [Serializable]
+            public struct Gizmo
+            {
+                public bool generateEmptyGizmoSections;
+                public bool onlyGenerateCompatibleGizmoSections;
+                public bool allowAllRegisteredGizmos;
+            }
+            public Gizmo gizmo;
+
+            //Terrain
+            [Serializable]
+            public struct Terrain
+            {
+                public float terrainAlpha;
+                public Dictionary<SurfaceType, Color> terrainColors;
+            }
+            public Terrain terrain;
+
+            //AI2
+            [Serializable]
+            public struct AI2
+            {
+                public int version;
+                public bool alwaysExportMaxVersion;
+                public Color locatorColor, triggerColor;
+            }
+            public AI2 ai2;
+
+            public static Preferences Default => new()
+            {
+                general = new() 
+                { 
+                    defaultFileDirectoryToCurrentGame = true 
+                },
+
+                gizmo = new()
+                {
+                    generateEmptyGizmoSections = false,
+                    onlyGenerateCompatibleGizmoSections = true,
+                    allowAllRegisteredGizmos = false,
+                },
+
+                terrain = new()
+                {
+                    terrainAlpha = 0.1f,
+                    terrainColors = new()
+                    {
+                        { SurfaceType.Unknown, Color.magenta }, //meant to be temp
+                        { SurfaceType.None, Color.grey },
+                        { SurfaceType.Slip, Color.yellow },
+                        { SurfaceType.Water, Color.blue },
+                        { SurfaceType.Instakill, new Color(1f, 0f, 0.3f) },
+                        { SurfaceType.Fastkill, Color.red },
+                        { SurfaceType.Slowkill, new Color(0.7f, 0.4f, 0f) },
+                        { SurfaceType.R2SwampWater, new Color(0.44f, 0.52f, 0f) },
+                        { SurfaceType.PushblockSurface, new Color(0.3f, 0f, 0.8f) },
+                        { SurfaceType.Edge, new Color(0.1f, 0.2f, 0.6f) },
+                        { SurfaceType.ForceMovable, new Color(0.2f, 0.8f, 0.2f) },
+                        { SurfaceType.GameMovable, new Color(0f, 0.6f, 0.5f) },
+                        { SurfaceType.SpinnerSide, Color.green },
+                        { SurfaceType.Ice, new Color(0.6f, 0.94f, 0.94f) },
+                        { SurfaceType.MetalObject, new Color(0.55f, 0.55f, 0.55f) },
+                        { SurfaceType.EnergyWall, new Color(0.25f, 0.87f, 0.87f) },
+                        { SurfaceType.ReflectiveFloor, Color.black },
+                        { SurfaceType.MapCustomFloor, new Color(1, 0.510f, 0.776f) },
+                        { SurfaceType.Button, new Color(0.298f, 0.733f, 0.09f) },
+                        { SurfaceType.StopHover, new Color(0.248f, 0.001f, 0.001f) },
+                    }
+                },
+
+                ai2 = new() 
+                { 
+                    version = 21,
+                    alwaysExportMaxVersion = true,
+                    locatorColor = Color.purple,
+                    triggerColor = new(1f,.647f,1f,0.1f),
+                },
+            };
         }
     }
 }

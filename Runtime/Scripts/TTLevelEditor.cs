@@ -9,6 +9,9 @@ using System;
 namespace TTModdingKit
 {
     using Gizmos;
+    using Terrain;
+    using GizFlow;
+    using AI;
 
     public static class TTLevelEditor
     {
@@ -39,7 +42,7 @@ namespace TTModdingKit
         [MenuItem("TT Modding/Export/Level", priority = 22)]
         static void ExportModLevel() 
         {
-            string path = EditorUtility.SaveFolderPanel("Export Level", "", "");
+            string path = EditorUtility.SaveFolderPanel("Export Level", TTUnityProject.GetDefaultFileExplorerPath(), "");
             if (!Directory.Exists(path)) return;
 
             double exportTime = ExportLevel(path);
@@ -51,7 +54,34 @@ namespace TTModdingKit
         [MenuItem("TT Modding/Import/Level", priority = 23)]
         static void ImportModLevel()
         {
+            string dir = EditorUtility.OpenFolderPanel("Import Level", TTUnityProject.GetDefaultFileExplorerPath(), "");
+            if (!Directory.Exists(dir)) return;
 
+            double importTime = ImportLevel(dir);
+            if (importTime == -1) return;
+
+            EditorUtility.DisplayDialog("Level Imported!", $"Level '{Path.GetFileName(dir)}' successfully imported in {importTime} seconds", "OK");
+        }
+
+        public static double ImportLevel(string directory)
+        {
+            string levelName = Path.GetFileName(directory);
+            double startTime = EditorApplication.timeSinceStartup;
+
+            Errored = false;
+            //GSCExporter.Export($"{filepath}_pc.gsc"); //future matt don't forget _pc
+            //if (Errored) return -1;
+            TERImporter.Import(Path.Combine(directory,$"{levelName}.ter"), notify: false);
+            if (Errored) return -1;
+            GIZImporter.Import(Path.Combine(directory, $"{levelName}.giz"), notify: false);
+            if (Errored) return -1;
+            AI2Importer.Import(Path.Combine(directory, $"AI/{levelName}.ai2"), notify: false);
+            if (Errored) return -1;
+            GITImporter.Import(Path.Combine(directory, $"{levelName}.git"), notify: false);
+            if (Errored) return -1;
+            EditorUtility.ClearProgressBar();
+
+            return EditorApplication.timeSinceStartup - startTime;
         }
 
         public static double ExportLevel(string path)
@@ -61,7 +91,7 @@ namespace TTModdingKit
             double startTime = EditorApplication.timeSinceStartup;
 
             Errored = false;
-            GSCExporter.Export($"{filepath}.gsc");
+            GSCExporter.Export($"{filepath}_pc.gsc");
             if (Errored) return -1;
             TERExporter.Export($"{filepath}.ter");
             if (Errored) return -1;

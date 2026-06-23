@@ -13,6 +13,8 @@ namespace TTModdingKit.Gizmos
 
     public class GizForce : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "AtEnd", "NotAtStart", "AtStart", "StackComplete", "StackCompleteInOrder", "Destroyed/Thrown", "Complete", "BeingUsed" };
+
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
 
         [Flags]

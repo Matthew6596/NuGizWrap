@@ -240,26 +240,19 @@ namespace TTModdingKit.Helper
             bytes.AddString(value);
         }
 
-        public static string ReadString8(this BinaryReader reader)
+        public static string ReadString8(this BinaryReader reader) => ReadString(reader, reader.ReadByte());
+
+        public static string ReadString16(this BinaryReader reader) => ReadString(reader, reader.ReadInt16());
+
+        public static string ReadString32(this BinaryReader reader) => ReadString(reader, reader.ReadInt32());
+        public static string ReadString(this BinaryReader reader, int length)
         {
-            byte len = reader.ReadByte();
-            byte[] bytes = reader.ReadBytes(len);
-            return Encoding.UTF8.GetString(bytes);
+            char[] chars = reader.ReadChars(length);
+            for (int i = 0; i < length; i++) if (chars[i] == '\0') chars[i] = ' ';
+            return new(chars);
         }
 
-        public static string ReadString16(this BinaryReader reader)
-        {
-            short len = reader.ReadInt16();
-            byte[] bytes = reader.ReadBytes(len);
-            return Encoding.UTF8.GetString(bytes);
-        }
-
-        public static string ReadString32(this BinaryReader reader)
-        {
-            int len = reader.ReadInt32();
-            byte[] bytes = reader.ReadBytes(len);
-            return Encoding.UTF8.GetString(bytes);
-        }
+        public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
         public static float ToFloatAng(this ushort ang) => (ang / 65536f) * 360;
         public static ushort ToShortAng(this float ang) => (ushort)((ang / 360f) * 65536f);

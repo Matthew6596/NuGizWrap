@@ -18,8 +18,7 @@ namespace TTModdingKit.Gizmos
         [MenuItem("TT Modding/Import/File/GIZ")]
         static void Import()
         {
-            string dir = TTUnityProject.Prefs.defaultFileDirectoryToCurrentGame ? Path.GetDirectoryName(TTUnityProject.GetGamePath()) : "";
-            string path = EditorUtility.OpenFilePanel("Import GIZ File", dir, "giz");
+            string path = EditorUtility.OpenFilePanel("Import GIZ File", TTUnityProject.GetDefaultFileExplorerPath(), "giz");
             if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
 
             Import(path, true);
@@ -77,9 +76,9 @@ namespace TTModdingKit.Gizmos
             }
 
             //Get project prefs for clean up
-            var projPrefs = TTUnityProject.Instance.prefs;
-            bool destroyEmptySections = !projPrefs.generateEmptyGizmoSections;
-            bool destroyUncompatible = projPrefs.onlyGenerateCompatibleGizmoSections;
+            var gizPrefs = TTUnityProject.Instance.prefs.gizmo;
+            bool destroyEmptySections = !gizPrefs.generateEmptyGizmoSections;
+            bool destroyUncompatible = gizPrefs.onlyGenerateCompatibleGizmoSections;
 
             //Loop gizmo types
             foreach (var sectionType in SectionTypes)

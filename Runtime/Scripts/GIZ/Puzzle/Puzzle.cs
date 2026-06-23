@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Puzzle : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Solved" };
+
         public static float GizmoAlpha = 0.5f;
 
         public float unknown1;

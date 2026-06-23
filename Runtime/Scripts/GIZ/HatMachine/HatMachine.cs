@@ -7,6 +7,8 @@ namespace TTModdingKit.Gizmos
 {
     public class HatMachine : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Finished" };
+
         public enum Type
         {
             Random = 0, Leia = 1, Fedora = 2, TopHat=3, BaseballCap=4,

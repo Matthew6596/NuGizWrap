@@ -12,6 +12,8 @@ namespace TTModdingKit.Gizmos
 
     public class GizDig : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "AtEnd", "NotAtStart", "AtStart" };
+
         [Flags]
         public enum InteractionOptions
         {

@@ -8,13 +8,18 @@ namespace TTModdingKit.Gizmos
 {
     public class Blowup : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => (game) switch { 
+            TTGame.TCS => new[] { "Blownup", "Punched", "Plugging" }, 
+            _ => new[] { "Blownup", "Punched", "Plugging", "BeenPickedUp" }
+        };
+
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
 
         [Flags]
         public enum InteractionOptions
         {
             None = 0, Unk1 = 1, Unk2 = 2, Collision = 4, ProximityTrigger = 8, Unk3 = 16, Unk4 = 32,
-            Unk5 = 64, Unk6_DropHealth = 128, DropPowerup = 256, Unk7 = 512, Unk8 = 1024, Unk9 = 2048,
+            Glass = 64, Unk6_DropHealth = 128, DropPowerup = 256, Unk7 = 512, Unk8 = 1024, Unk9 = 2048,
             Unk10 = 4096, Unk11 = 8192, Unk12 = 16384, RangedAttackable = 32768, MeleeAttackable = 0x10000, Unk13 = 0x20000, Unk14 = 0x40000,
             Unk15 = 0x80000, Unk16 = 0x100000, Unk17_ThermalSticky = 0x200000, Unk18 = 0x400000, Unk19 = 0x800000, Unk20_Torpedo = 0x1000000,
             Unk21 = 0x2000000, Unk22 = 0x4000000, Unk23 = 0x8000000, Unk24 = 0x10000000, Unk25 = 0x20000000, Unk26 = 0x40000000,

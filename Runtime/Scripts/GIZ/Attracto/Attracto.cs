@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Attracto : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Filled" };
+
         public byte pieceCount;
         public string unknown1;
 

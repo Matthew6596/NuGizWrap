@@ -9,6 +9,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Signal : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Active" };
+
         public enum Character { Batman=(byte)'b', Robin=(byte)'r' }
         public enum Suit { 
             BatmanDefault= (byte)'b', RobinDefault= (byte)'r',

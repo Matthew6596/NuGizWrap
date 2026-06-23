@@ -9,6 +9,8 @@ namespace TTModdingKit.Gizmos
 {
     public class GizFlock : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Finished", "Started" };
+
         public string creature;
         public short creatureCount;
         public int interactionOptions;

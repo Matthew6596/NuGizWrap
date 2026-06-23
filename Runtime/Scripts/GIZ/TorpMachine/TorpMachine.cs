@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class TorpMachine : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Ready" };
+
         public bool redOutline = false;
         public short unknown1;
 

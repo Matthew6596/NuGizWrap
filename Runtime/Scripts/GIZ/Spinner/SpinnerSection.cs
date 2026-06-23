@@ -143,7 +143,9 @@ namespace TTModdingKit.Gizmos
                 //Support for versions <5 excluded here
 
                 byte specObjVers = bytes.ReadByte(ref index);
+                spinner.specialObjectVersion = specObjVers;
                 byte specObjCount = bytes.ReadByte(ref index);
+                spinner.animObjects = new Spinner.SpecialObject[specObjCount];
                 for (int j = 0; j < specObjCount; j++)
                 {
                     Spinner.SpecialObject specObj = new()
@@ -156,6 +158,7 @@ namespace TTModdingKit.Gizmos
                         animationTime = bytes.ReadFloat(ref index),
                     };
                     if (specObjVers >= 2) specObj.unknown2 = bytes.ReadInt(ref index);
+                    spinner.animObjects[j] = specObj;
                 }
 
                 //Support for versions <7 excluded here

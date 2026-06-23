@@ -21,7 +21,9 @@ namespace TTModdingKit.GizFlow
 
         private void CreateCollapseBox()
         {
-            outputContainer.Add(InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(NodeOutput)));
+            //ClearOutputPorts();
+            AddOutputPort("collapse_output", "Output");
+            //RefreshPortConnections();
 
             //Collapse toggle that appears on the node box
             nodeToggle = new("Collapsed");
@@ -85,7 +87,9 @@ namespace TTModdingKit.GizFlow
         public override void ContentFromLines(IEnumerable<string> linesIen, ref int index)
         {
             BasePropsFromLines(linesIen, ref index);
-            throw new System.NotImplementedException();
+            string[] lines = linesIen.ToArray();
+            while (index < lines.Length && !lines[index].Contains('}')) index++;
+            index++;
         }
     }
 }

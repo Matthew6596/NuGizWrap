@@ -7,6 +7,8 @@ namespace TTModdingKit.Gizmos
 {
     public class SecurityDoor : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Opened" };
+
         public static string[] LIJ1Types => new string[] { "Enemy", "Thuggee", "PostBox" };
         public static string[] LB1Types => new string[] { "NoDoor", "LoveHearts" };
 

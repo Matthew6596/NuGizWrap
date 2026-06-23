@@ -50,7 +50,7 @@ namespace TTModdingKit.Gizmos
         [MenuItem("TT Modding/Export/File/GIZ")]
         static void Export() 
         {
-            string path = EditorUtility.SaveFilePanel("Export GIZ File", "", "levelgiz", "giz");
+            string path = EditorUtility.SaveFilePanel("Export GIZ File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgiz", "giz");
             if (string.IsNullOrEmpty(path) || !Directory.Exists(Path.GetDirectoryName(path))) return;
 
             Export(path, true);

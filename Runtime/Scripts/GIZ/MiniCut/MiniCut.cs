@@ -9,6 +9,8 @@ namespace TTModdingKit.Gizmos
 {
     public class MiniCut : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Played", "Playing" };
+
         public float unknown1, unknown2, unknown3, unknown4, unknown5;
         public MiniCutPart[] miniCutParts;
 

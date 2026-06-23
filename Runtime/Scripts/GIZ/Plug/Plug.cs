@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Plug : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Plugged", "ID1", "ID2", "ID3", "ID4", "ID5", "NotPlugged" };
+
         public short unknown1, unknown2, unknown3;
         public byte unknown4;
         public float unknown5;

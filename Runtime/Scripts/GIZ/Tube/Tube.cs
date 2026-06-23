@@ -8,6 +8,8 @@ namespace TTModdingKit.Gizmos
 
     public class Tube : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Active" };
+
         [Min(0.000001f)]
         public float height, radius;
         public bool magnetic;

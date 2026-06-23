@@ -9,11 +9,13 @@ namespace TTModdingKit.Gizmos
 {
     public class GizmoPickup : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Collected" };
+
         public enum Type { SilverStud= (byte)'s', GoldStud= (byte)'g', BlueStud= (byte)'b', PurpleStud= (byte)'p', 
             Minikit= (byte)'m', Powerup= (byte)'u', Heart= (byte)'h', 
             RedBrick= (byte)'r', ChallengeMinikit= (byte)'c', Torpedo= (byte)'t'
         }
-        public enum SpawnType { None, Triggered=2, AutoCollect=6 }
+        public enum SpawnType { None, Unk1=1, Triggered=2, Unk2=3, AutoCollect=6, Unk3=7, Unk4=8, Unk5=10, Unk6=11 }
 
         public Type type;
         public SpawnType spawnType;
@@ -34,7 +36,8 @@ namespace TTModdingKit.Gizmos
         [MenuItem("TT Modding/Gizmos/Pickups/Refresh Models")]
         private static void RefreshAllPickupModels()
         {
-            foreach (var pup in FindObjectsByType<GizmoPickup>(FindObjectsInactive.Include, FindObjectsSortMode.None)) pup.RefreshModel();
+            foreach (var pup in FindObjectsByType<GizmoPickup>(FindObjectsInactive.Include, FindObjectsSortMode.None)) 
+                pup.RefreshModel();
         }
 
         private void RefreshModel()
@@ -55,32 +58,27 @@ namespace TTModdingKit.Gizmos
             };
 
             if (!TryGetComponent(out MeshRenderer renderer)) renderer = gameObject.AddComponent<MeshRenderer>();
-            Material mat = new(Shader.Find("Universal Render Pipeline/Lit"));
-
-            mat.color = (type) switch
+            Material mat = new(Shader.Find("Universal Render Pipeline/Lit"))
             {
-                Type.SilverStud => Color.silver,
-                Type.GoldStud => Color.gold,
-                Type.BlueStud => Color.blue,
-                Type.PurpleStud => Color.purple,
-                Type.Minikit => Color.whiteSmoke,
-                Type.Powerup => Color.cornflowerBlue,
-                Type.Heart => Color.darkRed,
-                Type.RedBrick => Color.red,
-                Type.ChallengeMinikit => Color.blue,
-                Type.Torpedo => Color.magenta,
-                _ => Color.black
+                color = (type) switch
+                {
+                    Type.SilverStud => Color.silver,
+                    Type.GoldStud => Color.gold,
+                    Type.BlueStud => Color.blue,
+                    Type.PurpleStud => Color.purple,
+                    Type.Minikit => Color.whiteSmoke,
+                    Type.Powerup => Color.cornflowerBlue,
+                    Type.Heart => Color.darkRed,
+                    Type.RedBrick => Color.red,
+                    Type.ChallengeMinikit => Color.blue,
+                    Type.Torpedo => Color.magenta,
+                    _ => Color.black
+                }
             };
             renderer.material = mat;
 
             meshGenerated = true;
         }
     }
-
-    public static class EnumExt 
-    {
-        public static T ToEnumOrDefault<T>(this int value, T defaultValue) where T : Enum => Enum.IsDefined(typeof(T), value) ? (T)(object)value : defaultValue;
-    }
-
 }
 #endif

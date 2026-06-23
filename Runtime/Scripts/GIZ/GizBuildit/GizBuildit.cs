@@ -12,6 +12,8 @@ namespace TTModdingKit.Gizmos
 
     public class GizBuildit : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Finished" };
+
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
 
         public byte specialObjectVersion = 3;

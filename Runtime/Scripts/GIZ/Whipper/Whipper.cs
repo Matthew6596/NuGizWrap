@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Whipper : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Done" };
+
         public float unknown1;
         public byte unknown2, unknown3;
         public float unknown4;

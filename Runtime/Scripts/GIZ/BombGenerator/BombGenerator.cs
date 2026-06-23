@@ -11,6 +11,8 @@ namespace TTModdingKit.Gizmos
 
     public class BombGenerator : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Active" };
+
         public int unknown1;
         public float unknown2;
         public byte specialObjectVersion;

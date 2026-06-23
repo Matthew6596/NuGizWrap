@@ -13,7 +13,12 @@ namespace TTModdingKit.Gizmos
 
     public class GizObstacle : Gizmo
     {
-        public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
+        public override string[] GetOutputNames(TTGame game) => (game) switch { 
+            TTGame.TCS => new[] { "AtEnd", "NotAtStart", "Proximity", "AtStart", "PlayingForward" },
+            _ => new[] { "AtEnd", "NotAtStart", "Proximity", "AtStart", "PlayingForward", "Destroyed", "WithinActiveFrames" }
+        };
+
+        public static float GizmoScale = 0.2f, GizmoAlpha = 0.5f;
 
         public Transform triggerTransform;
         public float unknown1;
@@ -63,9 +68,7 @@ namespace TTModdingKit.Gizmos
             col.a = GizmoAlpha;
             Giz.color = col;
 
-            if (triggerTransform != null && triggerTransform.TryGetComponent(out SphereCollider trigger)) 
-                Giz.DrawSphere(triggerTransform.position, trigger.radius);
-            else 
+            if (triggerTransform == null || !triggerTransform.TryGetComponent(out GizObstacleTrigger t)) 
                 Giz.DrawSphere(transform.position, GizmoScale);
         }
 

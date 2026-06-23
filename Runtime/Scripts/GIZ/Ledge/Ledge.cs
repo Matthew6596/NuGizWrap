@@ -7,6 +7,8 @@ namespace TTModdingKit.Gizmos
 {
     public class Ledge : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "CanUse", "Occupied" };
+
         //public enum Type { None = '\0', Empty = 'e', Four = '4', Eight = '8' }
 
         public byte unknown1;

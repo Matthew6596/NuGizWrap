@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 namespace TTModdingKit.GizFlow
 {
@@ -51,9 +52,9 @@ namespace TTModdingKit.GizFlow
             gitTabPane.Add(resetCamBtn);
 
             //Add flowbox and collapse buttons
-            var addFlowBoxBtn = new Button(() => { gitGraph.AddBox(new FlowBox("New FlowBox")); });
+            var addFlowBoxBtn = new Button(() => { GitManager.AddBox(new FlowBox("New FlowBox")); });
             addFlowBoxBtn.Add(new Label("Add FlowBox"));
-            var addCollapseBtn = new Button(() => { gitGraph.AddBox(new CollapseBox("New Collapse")); });
+            var addCollapseBtn = new Button(() => { GitManager.AddBox(new CollapseBox("New Collapse")); });
             addCollapseBtn.Add(new Label("Add Collapse Box"));
             gitTabPane.Add(addFlowBoxBtn);
             gitTabPane.Add(addCollapseBtn);
@@ -68,6 +69,23 @@ namespace TTModdingKit.GizFlow
                 if (box != null) boxPropertiesView.Add(box.GetRootVisualElement());
             });
         }
+
+        public static void SyncGraphNodes(List<GitBox> boxes)
+        {
+            gitGraph.ClearBoxes();
+            foreach (var box in boxes)
+            {
+                gitGraph.AddBox(box);
+                var pos = box.GetPosition();
+                pos.x = box.x;
+                pos.y = box.y;
+                box.SetPosition(pos);
+            }
+        }
+
+        public static void DeleteElements(IEnumerable<GraphElement> elements) => gitGraph.DeleteElements(elements);
+
+        public static void AddElement(GraphElement el) => gitGraph.AddElement(el);
     }
 }
 #endif

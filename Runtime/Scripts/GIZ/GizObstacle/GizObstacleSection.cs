@@ -47,9 +47,10 @@ namespace TTModdingKit.Gizmos
 
                 Vector3 triggerPos = obs.transform.position;
                 float triggerRadius = 0.5f;
-                if (obs.triggerTransform != null && obs.triggerTransform.TryGetComponent(out SphereCollider trigger))
+                var triggerTransform = obs.triggerTransform;
+                if (triggerTransform != null && triggerTransform.TryGetComponent<GizObstacleTrigger>(out var trigger))
                 {
-                    triggerPos = trigger.transform.position;
+                    triggerPos = triggerTransform.position;
                     triggerRadius = trigger.radius;
                 }
 
@@ -154,7 +155,7 @@ namespace TTModdingKit.Gizmos
 
                 Transform triggerTransform = new GameObject("trigger_transform").transform;
                 triggerTransform.SetParent(obsObj.transform);
-                var trigger = triggerTransform.gameObject.AddComponent<SphereCollider>();
+                var trigger = triggerTransform.gameObject.AddComponent<GizObstacleTrigger>();
                 obs.triggerTransform = triggerTransform;
 
                 if (version >= 2) triggerTransform.position = bytes.ReadVector3(ref index);

@@ -8,6 +8,8 @@ namespace TTModdingKit.Gizmos
 
     public class Grapple : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Active", "Occupied", "Occupied By 2" };
+
         public short unknown1, unknown2;
         public float unknown3;
         public bool unknown4;

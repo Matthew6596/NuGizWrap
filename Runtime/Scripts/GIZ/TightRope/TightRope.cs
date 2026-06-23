@@ -6,6 +6,8 @@ namespace TTModdingKit.Gizmos
 {
     public class TightRope : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game) => new[] { "Active" };
+
         public Vector3 unknown1, unknown2, unknown3, unknown4;
         public short unknown5, unknown6, unknown7, unknown8;
         public byte unknown9, unknown10, unknown11;

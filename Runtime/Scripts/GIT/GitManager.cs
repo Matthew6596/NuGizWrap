@@ -5,27 +5,36 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
+using Object = UnityEngine.Object;
 
 namespace TTModdingKit.GizFlow
 {
-    public class GitManager : MonoBehaviour
+    using Helper;
+
+    public class GitManager : MonoBehaviour, ISerializationCallbackReceiver
     {
-        public static GitManager Instance { get; private set; }
+        [SerializeField, HideInInspector] private string serializedGraph = "";
+
+        private static GitManager _instance;
+        public static GitManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindFirstObjectByType<GitManager>(FindObjectsInactive.Exclude);
+                    if (_instance == null)
+                    {
+                        _instance = new GameObject("Gizmo Flow").AddComponent<GitManager>();
+                    }
+                }
+                return _instance;
+            }
+        }
 
         public GitOptions gitOptions = new();
 
-        [NonSerialized]
         public List<GitBox> boxes = new();
-
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else
-            {
-                EditorUtility.DisplayDialog("GitManager Already Exists", $"Only one GitManager can exist in a scene, and there is already one on gameObject '{Instance.name}'.", "OK");
-                Destroy(gameObject);
-            }
-        }
 
         private void OnDrawGizmosSelected()
         {
@@ -45,7 +54,25 @@ namespace TTModdingKit.GizFlow
             }*/
         }
 
+        [MenuItem("TT Modding/Analysis/Log Git Boxes")]
+        private static void LogBoxes()
+        {
+            Debug.Log($"Total Boxes: {Instance.boxes.Count}");
+        }
+
         public static GitBox FindBoxByID(int boxID) => Instance.boxes.Where(b=>b.boxID == boxID).FirstOrDefault();
+
+        public static void AddBox(GitBox box)
+        {
+            Instance.boxes.Add(box);
+            GitWindow.SyncGraphNodes(Instance.boxes);
+        }
+
+        public static void RemoveBox(GitBox box)
+        {
+            Instance.boxes.Remove(box);
+            GitWindow.SyncGraphNodes(Instance.boxes);
+        }
 
         public string[] ToLines()
         {
@@ -84,15 +111,32 @@ namespace TTModdingKit.GizFlow
                     case "Collapse":
                         CollapseBox collapse = new();
                         collapse.ContentFromLines(lines, ref index);
-                        boxes.Add(collapse);
+                        AddBox(collapse);
+                        collapse.RefreshVisualElements();
                         break;
                     case "FlowBox":
                         FlowBox flow = new();
                         flow.ContentFromLines(lines, ref index);
-                        boxes.Add(flow);
+                        AddBox(flow);
+                        flow.RefreshFlowBoxElements();
                         break;
                 }
             }
+        }
+
+        public void OnBeforeSerialize()
+        {
+            return;
+            serializedGraph = string.Join('\n', ToLines());
+        }
+
+        public void OnAfterDeserialize()
+        {
+            return;
+            EditorApplication.delayCall += () =>
+            {
+                if (!string.IsNullOrEmpty(serializedGraph)) FromLines(serializedGraph.Split('\n'));
+            };
         }
     }
 }
