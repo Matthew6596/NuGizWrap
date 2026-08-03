@@ -13,7 +13,7 @@ namespace TTModdingKit.Gizmos
         public static string[] LB1Types => new string[] { "NoDoor", "LoveHearts" };
 
         public string type;
-        public string unknown1;
+        public GameScene.SpecialObjectReference specialObject;
 
         private void OnValidate()
         {

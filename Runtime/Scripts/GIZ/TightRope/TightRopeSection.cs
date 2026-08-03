@@ -40,8 +40,29 @@ namespace TTModdingKit.Gizmos
                 var rope = ropes[i];
                 bytes.AddFixedString(rope.name, 16);
 
-                bytes.AddVector3(rope.unknown1);
-                bytes.AddVector3(rope.unknown2);
+                //Preparing/getting knob variables
+                Vector3 startKnobPos = Vector3.zero, endKnobPos = Vector3.zero;
+                float startXAng = 0, startYAng = 0, endXAng = 0, endYAng = 0;
+                bool startPinSide = false, endPinSide = false;
+                if (rope.startKnob != null)
+                {
+                    Transform startTransform = rope.startKnob.transform;
+                    startKnobPos = startTransform.position;
+                    startXAng = startTransform.eulerAngles.x;
+                    startYAng = startTransform.eulerAngles.y;
+                    startPinSide = rope.startKnob.pinFacingSideways;
+                }
+                if (rope.endKnob != null)
+                {
+                    Transform endTransform = rope.startKnob.transform;
+                    endKnobPos = endTransform.position;
+                    endXAng = endTransform.eulerAngles.x;
+                    endYAng = endTransform.eulerAngles.y;
+                    endPinSide = rope.endKnob.pinFacingSideways;
+                }
+
+                bytes.AddVector3(startKnobPos);
+                bytes.AddVector3(endKnobPos);
                 if (version >= 4)
                 {
                     bytes.AddVector3(rope.unknown3);
@@ -50,16 +71,16 @@ namespace TTModdingKit.Gizmos
 
                 if (version >= 2)
                 {
-                    bytes.AddShort(rope.unknown5);
-                    bytes.AddShort(rope.unknown6);
-                    bytes.AddShort(rope.unknown7);
-                    bytes.AddShort(rope.unknown8);
+                    bytes.AddShort((short)startXAng.ToShortAng());
+                    bytes.AddShort((short)startYAng.ToShortAng());
+                    bytes.AddShort((short)endXAng.ToShortAng());
+                    bytes.AddShort((short)endYAng.ToShortAng());
 
-                    bytes.Add(rope.unknown9);
-                    bytes.Add(rope.unknown10);
+                    bytes.Add((byte)(startPinSide ? 1 : 0));
+                    bytes.Add((byte)(endPinSide ? 1 : 0));
                 }
 
-                if (version >= 3) bytes.Add(rope.unknown11);
+                if (version >= 3) bytes.Add((byte)(rope.alwaysShowStartKnob ? 1 : 0));
 
             }
 
@@ -80,8 +101,14 @@ namespace TTModdingKit.Gizmos
                 ropeObj.transform.SetParent(transform);
                 var rope = ropeObj.AddComponent<TightRope>();
 
-                rope.unknown1 = bytes.ReadVector3(ref index);
-                rope.unknown2 = bytes.ReadVector3(ref index);
+                rope.startKnob = new GameObject("start_knob").AddComponent<TightRopeKnob>();
+                rope.startKnob.transform.SetParent(ropeObj.transform);
+                rope.endKnob = new GameObject("end_knob").AddComponent<TightRopeKnob>();
+                rope.endKnob.transform.SetParent(ropeObj.transform);
+
+                Transform startKnobTransform = rope.startKnob.transform, endKnobTransform = rope.endKnob.transform;
+                startKnobTransform.position = bytes.ReadVector3(ref index);
+                endKnobTransform.position = bytes.ReadVector3(ref index);
                 if (version >= 4)
                 {
                     rope.unknown3 = bytes.ReadVector3(ref index);
@@ -90,16 +117,15 @@ namespace TTModdingKit.Gizmos
 
                 if (version >= 2)
                 {
-                    rope.unknown5 = bytes.ReadShort(ref index);
-                    rope.unknown6 = bytes.ReadShort(ref index);
-                    rope.unknown7 = bytes.ReadShort(ref index);
-                    rope.unknown8 = bytes.ReadShort(ref index);
+                    
+                    startKnobTransform.eulerAngles = bytes.ReadXYEuler(ref index);
+                    endKnobTransform.eulerAngles = bytes.ReadXYEuler(ref index);
 
-                    rope.unknown9 = bytes.ReadByte(ref index);
-                    rope.unknown10 = bytes.ReadByte(ref index);
+                    rope.startKnob.pinFacingSideways = bytes.ReadByte(ref index) != 0;
+                    rope.endKnob.pinFacingSideways = bytes.ReadByte(ref index) != 0;
                 }
 
-                if (version >= 3) rope.unknown11 = bytes.ReadByte(ref index);
+                if (version >= 3) rope.alwaysShowStartKnob = bytes.ReadByte(ref index) != 0;
             }
         }
     }

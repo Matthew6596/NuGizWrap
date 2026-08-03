@@ -20,9 +20,9 @@ namespace TTModdingKit.Gizmos
             EditorGUILayout.IntSlider(serializedObject.FindProperty("specialObjectVersion"), 1, 3);
             serializedObject.Prop("specialObjects");
 
-            serializedObject.Props("unknown3", "unknown4", "unknown5", "minStuds", "maxStuds", "studsSpawn", "studsSpawnSpeed", "unknown6", "unknown7");
+            serializedObject.Props("animSpeed", "animAdvanceAmount", "blowup", "studsValue", "studsSpawn", "studsSpawnSpeed", "unknownSfx", "numSteps", "unknown7");
 
-            if (version >= 18) serializedObject.Prop("unknown8");
+            if (version >= 18) serializedObject.Prop("tool");
 
             serializedObject.ApplyModifiedProperties();
         }

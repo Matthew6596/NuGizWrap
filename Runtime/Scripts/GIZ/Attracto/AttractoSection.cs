@@ -43,7 +43,7 @@ namespace TTModdingKit.Gizmos
                 bytes.AddShort((short)attracto.transform.eulerAngles.y.ToShortAng());
 
                 bytes.Add(attracto.pieceCount);
-                if (version == 2) bytes.AddString8(attracto.unknown1);
+                if (version == 2) bytes.Add(0); //unused string8 property
             }
 
             return bytes.ToArray();
@@ -62,11 +62,11 @@ namespace TTModdingKit.Gizmos
                 GameObject attractoObj = new(bytes.ReadString(ref index, 16));
                 attractoObj.transform.SetParent(transform);
                 attractoObj.transform.position = bytes.ReadVector3(ref index);
-                attractoObj.transform.eulerAngles = new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
+                attractoObj.transform.eulerAngles = bytes.ReadYEuler(ref index);
                 var attracto = attractoObj.AddComponent<Attracto>();
 
                 attracto.pieceCount = bytes.ReadByte(ref index);
-                if (version == 2) attracto.unknown1 = bytes.ReadString8(ref index);
+                if (version == 2) bytes.ReadString8(ref index); //unused string8 property
             }
         }
     }

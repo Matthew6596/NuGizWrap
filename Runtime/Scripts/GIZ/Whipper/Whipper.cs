@@ -8,8 +8,8 @@ namespace TTModdingKit.Gizmos
     {
         public override string[] GetOutputNames(TTGame game) => new[] { "Done" };
 
-        public float unknown1;
-        public byte unknown2, unknown3;
+        public float platformDistance = 0.2f;
+        public bool vertical, hasSupportBeams;
         public float unknown4;
         public GizObstacleReference gizObstacle;
 

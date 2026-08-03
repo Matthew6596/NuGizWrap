@@ -14,17 +14,30 @@ namespace TTModdingKit.Gizmos
 
             if (!GrappleSection.Instance.CreateVersionEditorGUI(s => s.version, "Grapple", out int version)) return;
 
-            if (version < 2) serializedObject.Prop("unknown1");
-            serializedObject.Prop("unknown2");
+            EditorGUILayout.HelpBox("Y rotation on this transform will affect the Grapple base's Y rotation.", MessageType.None);
+            if (version >= 5) EditorGUILayout.HelpBox("X rotation on this transform will affect the Grapple base's X rotation.", MessageType.None);
+
+            var ropeProp = serializedObject.FindProperty("swingingRope");
             if (version >= 3) serializedObject.Prop("unknown3");
-            if (version >= 4) serializedObject.Props("unknown4", "length");
-            if (version >= 5) serializedObject.Prop("unknown6");
-            if (version >= 6) serializedObject.Prop("unknown7");
+            if (version >= 4)
+            {
+                EditorGUILayout.PropertyField(ropeProp);
+                if (ropeProp.boolValue) serializedObject.Prop("length");
+            }
+            if (version >= 6) serializedObject.Prop("noFreeMovement");
             if (version >= 7) serializedObject.Prop("specialObject");
-            if (version >= 8) serializedObject.Prop("unknown8");
-            if (version >= 9) serializedObject.Prop("unknown9");
+            if (version >= 8) serializedObject.Prop("visible");
+            if (version >= 9)
+            {
+                if (ropeProp.boolValue) serializedObject.Prop("ropeType");
+                else serializedObject.Prop("grappleType");
+            }
             if (version >= 10) serializedObject.Prop("blowup");
-            if (version >= 11) serializedObject.Prop("unknown10");
+            if (version >= 11 && ropeProp.boolValue) 
+            {
+                var shadeProp = serializedObject.FindProperty("ropeBrightness");
+                shadeProp.floatValue = EditorGUILayout.Slider("Rope Brightness",shadeProp.floatValue,0,1);
+            }
 
             serializedObject.ApplyModifiedProperties();
         }

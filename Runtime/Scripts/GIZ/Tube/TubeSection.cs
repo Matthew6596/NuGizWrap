@@ -46,7 +46,7 @@ namespace TTModdingKit.Gizmos
                 bytes.AddFloat(tube.radius);
                 if (version >= 2) bytes.Add((byte)(tube.magnetic ? 1 : 0));
                 if (version >= 3) bytes.AddString8(tube.specialObject.specialObject);
-                if (version >= 4) bytes.Add((byte)(tube.unknown1 ? 1 : 0));
+                if (version >= 4) bytes.Add((byte)(tube.glideOnly ? 1 : 0));
                 if (version >= 5)
                 {
                     bytes.Add((byte)(tube.horizontal ? 1 : 0));
@@ -77,7 +77,7 @@ namespace TTModdingKit.Gizmos
                 tube.radius = bytes.ReadFloat(ref index);
                 if (version >= 2) tube.magnetic = bytes.ReadByte(ref index) != 0;
                 if (version >= 3) tube.specialObject = new() { specialObject = bytes.ReadString8(ref index) };
-                if (version >= 4) tube.unknown1 = bytes.ReadByte(ref index) != 0;
+                if (version >= 4) tube.glideOnly = bytes.ReadByte(ref index) != 0;
                 if (version >= 5)
                 {
                     tube.horizontal = bytes.ReadByte(ref index) != 0;

@@ -1,7 +1,9 @@
 #if UNITY_EDITOR
 using System.IO;
 using TTModdingKit.Helper;
+using UnityEditor;
 using UnityEngine;
+using System.Linq;
 using Giz = UnityEngine.Gizmos;
 
 namespace TTModdingKit.AI
@@ -16,6 +18,15 @@ namespace TTModdingKit.AI
         public Vector3 specialObjPos;
         public short[] unk18;
         public short unk27, unk28;
+
+        private void OnValidate()
+        {
+            if (unk18 != null && unk18.Length > 255)
+            {
+                unk18 = unk18.Take(255).ToArray();
+                EditorUtility.DisplayDialog("Max Unk18", "AIPathPoint can only have a maximum of 255 Unk18.", "OK");
+            }
+        }
 
         public void FromBytes(BinaryReader br, int version)
         {
@@ -49,9 +60,37 @@ namespace TTModdingKit.AI
             }
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
+            bw.WriteString32(name);
+            bw.Write(transform.position);
+            bw.Write(xzSize);
+            if (version >= 8)
+            {
+                bw.Write(minY);
+                bw.Write(maxY);
+            }
 
+            byte unk18Count = (byte)unk18.Length;
+            bw.Write(unk18Count);
+
+            bw.Write(unk19);
+            bw.Write((byte)0); //padding
+            bw.Write(unk21);
+            bw.Write(unk22);
+            bw.Write(unk23);
+
+            bw.WriteString8(specialObj);
+            if (specialObj.Length > 0) bw.Write(specialObjPos);
+
+            for(int i=0; i<unk18Count; i++) bw.Write(unk18[i]);
+            if ((unk18Count & 0b00000001) == 1) bw.Write((short)0); //padding if unk18Count odd
+
+            if (version >= 5)
+            {
+                bw.Write(unk27);
+                bw.Write(unk28);
+            }
         }
 
         private void OnDrawGizmos()

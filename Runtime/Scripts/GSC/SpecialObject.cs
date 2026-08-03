@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace TTModdingKit.GameScene
 {
-    public class SpecialObject : MonoBehaviour 
+    using Gizmos;
+
+    public class SpecialObject : Gizmo
     {
 
     }

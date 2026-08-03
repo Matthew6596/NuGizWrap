@@ -59,33 +59,34 @@ namespace TTModdingKit.Gizmos
                     bytes.AddShort(specObj.unknown3);
                 }
 
-                bytes.AddFloat(dig.unknown3);
-                bytes.AddFloat(dig.unknown4);
+                bytes.AddFloat(dig.animSpeed);
+                bytes.AddFloat(dig.animAdvanceAmount);
 
-                bytes.AddString8(dig.unknown5);
+                bytes.AddString8(dig.blowup.GetBlowup());
 
-                bytes.AddShort((short)dig.minStuds);
-                bytes.AddShort((short)dig.maxStuds);
+                bytes.AddShort((short)dig.studsValue);
 
                 if (dig.studsSpawn == null)
                 {
+                    bytes.AddShort(0);
                     bytes.AddShort(0);
                     bytes.AddVector3(Vector3.zero);
                 }
                 else
                 {
-                    bytes.AddShort((short)dig.studsSpawn.eulerAngles.y.ToShortAng());
+                    Vector3 euler = dig.studsSpawn.eulerAngles;
+                    bytes.AddShort((short)euler.x.ToShortAng());
+                    bytes.AddShort((short)euler.y.ToShortAng());
                     bytes.AddVector3(dig.studsSpawn.position - dig.transform.position);
                 }
 
                 bytes.AddFloat(dig.studsSpawnSpeed);
 
-                //missed unknown?
-                bytes.Add(0);
+                bytes.AddString8(dig.unknownSfx.sample);
 
-                bytes.AddShort(dig.unknown6);
+                bytes.AddShort(dig.numSteps);
                 bytes.AddShort(dig.unknown7);
-                if (version >= 18) bytes.AddShort(dig.unknown8);
+                if (version >= 18) bytes.AddShort((short)dig.tool);
             }
 
             return bytes.ToArray();
@@ -130,29 +131,27 @@ namespace TTModdingKit.Gizmos
                     dig.specialObjects[j] = specObj;
                 }
 
-                dig.unknown3 = bytes.ReadFloat(ref index);
-                dig.unknown4 = bytes.ReadFloat(ref index);
+                dig.animSpeed = bytes.ReadFloat(ref index);
+                dig.animAdvanceAmount = bytes.ReadFloat(ref index);
 
-                dig.unknown5 = bytes.ReadString8(ref index);
+                dig.blowup = new() { blowupName = bytes.ReadString8(ref index) };
 
-                dig.minStuds = (ushort)bytes.ReadShort(ref index);
-                dig.maxStuds = (ushort)bytes.ReadShort(ref index);
+                dig.studsValue = (ushort)bytes.ReadShort(ref index);
 
                 GameObject spawnObj = new("studs_spawn_transform");
                 spawnObj.transform.SetParent(digObj.transform);
                 dig.studsSpawn = spawnObj.transform;
 
-                dig.studsSpawn.eulerAngles = new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
+                dig.studsSpawn.eulerAngles = bytes.ReadXYEuler(ref index);
                 dig.studsSpawn.localPosition = bytes.ReadVector3(ref index);
 
                 dig.studsSpawnSpeed = bytes.ReadFloat(ref index);
 
-                //missed unknown?
-                index++;
+                dig.unknownSfx = new() { sample = bytes.ReadString8(ref index) };
 
-                dig.unknown6 = bytes.ReadShort(ref index);
+                dig.numSteps = bytes.ReadShort(ref index);
                 dig.unknown7 = bytes.ReadShort(ref index);
-                if (version >= 18) dig.unknown8 = bytes.ReadShort(ref index);
+                if (version >= 18) dig.tool = (GizDig.Tool)bytes.ReadShort(ref index);
             }
         }
     }

@@ -23,17 +23,21 @@ namespace TTModdingKit.Gizmos
             Unk20=0x80000, Unk21=0x100000, Unk22=0x200000, Unk23=0x400000, Unk24=0x800000, Unk25=0x1000000
         }
 
+        public enum Tool { Shovel=0, Wrench=1 }
+
         public Vector3 unknown1;
         public float unknown2;
         public InteractionOptions interactionOptions;
         public byte specialObjectVersion;
         public SpecialObject[] specialObjects;
-        public float unknown3, unknown4;
-        public string unknown5;
-        public ushort minStuds, maxStuds;
+        public float animSpeed, animAdvanceAmount;
+        public BlowupReference blowup;
+        public ushort studsValue;
         public Transform studsSpawn;
         public float studsSpawnSpeed;
-        public short unknown6, unknown7, unknown8;
+        public SampleReference unknownSfx;
+        public short numSteps, unknown7;
+        public Tool tool;
 
         private void OnValidate()
         {

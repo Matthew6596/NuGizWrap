@@ -1,4 +1,6 @@
 #if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
 using System.IO;
 using TTModdingKit.Helper;
 using UnityEngine;
@@ -18,9 +20,21 @@ namespace TTModdingKit.AI
             for (int i = 0; i < locatorCount; i++) this.locators[i] = locators[br.ReadByte()];
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, Locator[] locators)
         {
+            bw.WriteString(name, 16);
 
+            List<byte> bytes = new();
+            int locatorCount = this.locators.Length;
+            for (int i = 0; i < locatorCount; i++)
+            {
+                int ind = (byte)Array.IndexOf(locators, this.locators[i]);
+                if (ind == -1 || this.locators[i] == null) locatorCount--;
+                else bytes.Add((byte)ind);
+            }
+
+            bw.Write(locatorCount);
+            bw.Write(bytes.ToArray());
         }
     }
 }

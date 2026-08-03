@@ -28,9 +28,14 @@ namespace TTModdingKit.AI
             br.ReadByte(); //padding
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
-
+            bw.WriteString(name, 16);
+            bw.Write(transform.position);
+            bw.Write(halfSize);
+            bw.Write(transform.eulerAngles.y.ToShortAng());
+            bw.Write(unk49);
+            bw.Write((byte)0); //padding
         }
 
         private void OnDrawGizmos()

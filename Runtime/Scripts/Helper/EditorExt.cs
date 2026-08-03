@@ -9,6 +9,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using TTModdingKit.Gizmos;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace TTModdingKit.Helper
 {
@@ -90,6 +91,13 @@ namespace TTModdingKit.Helper
             return true;
         }
 
+        public static void SetVisible(this VisualElement el, bool visible) => el.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+
+        public static void Add(this VisualElement el, params VisualElement[] children)
+        {
+            foreach(var child in children) el.Add(child);
+        }
+
         public static void SetIcon<T>(this T obj, ref Texture2D icon, string path, string ext=".png") where T : Object
         {
             if (icon == null)
@@ -127,6 +135,10 @@ namespace TTModdingKit.Helper
             return v;
         }
 
+        public static Vector3 ReadXZEuler(this byte[] bytes, ref int index) => new(((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng());
+        public static Vector3 ReadXYEuler(this byte[] bytes, ref int index) => new(((ushort)bytes.ReadShort(ref index)).ToFloatAng(), ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
+        public static Vector3 ReadYEuler(this byte[] bytes, ref int index) => new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
+
         public static byte ReadByte(this byte[] bytes, ref int index)
         {
             byte v = bytes[index];
@@ -153,7 +165,15 @@ namespace TTModdingKit.Helper
         {
             //Get bytes and replace '\0' with space
             byte[] strBytes = bytes.Skip(index).Take(len).ToArray();
-            for (int i = 0; i < len; i++) if (strBytes[i] == 0) strBytes[i] = (byte)' ';
+            bool endOfStr = false;
+            for (int i = 0; i < len; i++)
+            {
+                if (strBytes[i] == 0 || endOfStr)
+                {
+                    strBytes[i] = (byte)' ';
+                    endOfStr = true;
+                }
+            }
 
             //Get string
             string str = Encoding.UTF8.GetString(strBytes, 0, len);
@@ -248,8 +268,90 @@ namespace TTModdingKit.Helper
         public static string ReadString(this BinaryReader reader, int length)
         {
             char[] chars = reader.ReadChars(length);
-            for (int i = 0; i < length; i++) if (chars[i] == '\0') chars[i] = ' ';
+            bool endOfStr = false;
+            for (int i = 0; i < length; i++)
+            {
+                if (chars[i] == '\0' || endOfStr)
+                {
+                    chars[i] = ' ';
+                    endOfStr = true;
+                }
+            }
             return new(chars);
+        }
+
+        public static void WriteString(this BinaryWriter writer, string value, int length)
+        {
+            int strLen = value.Length;
+            if (strLen >= length)
+            {
+                writer.Write(value[..(length - 1)].ToCharArray());
+                writer.Write((byte)0);
+            }
+            else
+            {
+                writer.Write(value.ToCharArray());
+                writer.Write(new byte[length - strLen]);
+            }
+
+            writer.Write(value.ToCharArray());
+        }
+
+        public static void WriteString8(this BinaryWriter writer, string value)
+        {
+            if (value.Length == 0)
+            {
+                writer.Write((byte)0);
+                return;
+            }
+            byte maxLen = byte.MaxValue - 1;
+            if (value.Length > maxLen) value = value[..maxLen];
+            writer.Write((byte)(value.Length+1));
+            writer.Write(value.ToCharArray());
+            writer.Write('\0');
+        }
+
+        public static void WriteString16(this BinaryWriter writer, string value)
+        {
+            if (value.Length == 0)
+            {
+                writer.Write((short)0);
+                return;
+            }
+            short maxLen = short.MaxValue - 1;
+            if (value.Length > maxLen) value = value[..maxLen];
+            writer.Write((short)(value.Length + 1));
+            writer.Write(value.ToCharArray());
+            writer.Write('\0');
+        }
+
+        public static void WriteString32(this BinaryWriter writer, string value)
+        {
+            if (value.Length == 0)
+            {
+                writer.Write((int)0);
+                return;
+            }
+            int maxLen = int.MaxValue - 1;
+            if (value.Length > maxLen) value = value[..maxLen];
+            writer.Write((int)(value.Length + 1));
+            writer.Write(value.ToCharArray());
+            writer.Write('\0');
+        }
+
+        public static void Write(this BinaryWriter writer, Vector3 value)
+        {
+            writer.Write(value.x);
+            writer.Write(value.y);
+            writer.Write(value.z);
+        }
+
+        public static string ParseQuotedString(this string str)
+        {
+            int startInd = str.IndexOf('"');
+            int endInd = str.IndexOf('"', startInd + 1);
+            if (startInd == -1 || endInd == -1) return str[(str.IndexOf(' ')+1)..];
+            return str[(startInd + 1)..endInd];
         }
 
         public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());

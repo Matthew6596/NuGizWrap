@@ -1,7 +1,9 @@
 #if UNITY_EDITOR
 using System;
 using System.IO;
+using System.Linq;
 using TTModdingKit.Helper;
+using UnityEditor;
 using UnityEngine;
 
 namespace TTModdingKit.AI
@@ -15,6 +17,33 @@ namespace TTModdingKit.AI
         public byte unk3;
         public Unk116[] unk116;
         public Unk36[] unk36;
+
+        private void OnValidate()
+        {
+            if (points != null && points.Length > 255)
+            {
+                points = points.Take(255).ToArray();
+                EditorUtility.DisplayDialog("Max Points", "AIPath can only have a maximum of 255 points.", "OK");
+            }
+
+            if (connections != null && connections.Length > short.MaxValue)
+            {
+                connections = connections.Take(short.MaxValue).ToArray();
+                EditorUtility.DisplayDialog("Max Connections", $"AIPath can only have a maximum of {short.MaxValue} connections.", "OK");
+            }
+
+            if (routes != null && routes.Length > 255)
+            {
+                routes = routes.Take(255).ToArray();
+                EditorUtility.DisplayDialog("Max Routes", "AIPath can only have a maximum of 255 routes.", "OK");
+            }
+
+            if (unk36 != null && unk36.Length > 255)
+            {
+                unk36 = unk36.Take(255).ToArray();
+                EditorUtility.DisplayDialog("Max Unk36", "AIPath can only have a maximum of 255 Unk36.", "OK");
+            }
+        }
 
         public void FromBytes(BinaryReader br, int version)
         {
@@ -55,6 +84,7 @@ namespace TTModdingKit.AI
             if (version >= 5)
             {
                 byte routeCount = br.ReadByte();
+                routes = new AIPathRoute[routeCount];
                 for (int j = 0; j < routeCount; j++)
                 {
                     GameObject routeObj = new("ai_path_route");
@@ -79,9 +109,43 @@ namespace TTModdingKit.AI
             }
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
+            bw.WriteString(name, 16);
 
+            byte pointCount = (byte)points.Length;
+            bw.Write(pointCount);
+
+            bw.Write(unk3);
+
+            var connectionsCount = version == 1 ? (byte)connections.Length : (short)connections.Length;
+            if (version == 1) bw.Write((byte)connectionsCount);
+            else bw.Write((short)connectionsCount);
+
+            for(int i=0; i<connectionsCount; i++) connections[i].ToBytes(bw, version);
+
+            if (version == 1) bw.Write((byte)0); //padding
+
+            for (int i = 0; i < pointCount; i++) points[i].ToBytes(bw, version);
+            for (int i = 0; i < pointCount; i++) bw.Write(unk116[i].unk116);
+
+            if (version >= 5)
+            {
+                byte routeCount = (byte)routes.Length;
+                bw.Write(routeCount);
+                for (int i = 0; i < routeCount; i++) routes[i].ToBytes(bw, pointCount);
+            }
+
+            if (version >= 19)
+            {
+                byte unk36Count = (byte)unk36.Length;
+                bw.Write(unk36Count);
+                for (int i = 0; i < unk36Count; i++)
+                {
+                    bw.Write(unk36[i].unk37);
+                    bw.Write(unk36[i].unk38);
+                }
+            }
         }
 
         [Serializable]

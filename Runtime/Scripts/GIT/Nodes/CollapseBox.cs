@@ -80,8 +80,9 @@ namespace TTModdingKit.GizFlow
 
         public override IEnumerable<string> ContentToLines()
         {
-            BasePropsToLines();
-            throw new System.NotImplementedException();
+            var lines = BasePropsToLines().ToList();
+            if (_collapsed) lines.Add($"\tCollapseHead");
+            return lines;
         }
 
         public override void ContentFromLines(IEnumerable<string> linesIen, ref int index)

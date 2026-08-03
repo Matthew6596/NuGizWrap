@@ -24,9 +24,29 @@ namespace TTModdingKit.AI
             unk12 = br.ReadSingle();
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
-
+            bw.Write(unk5);
+            bw.Write(unk6);
+            if (version >= 12)
+            {
+                bw.Write((int)unk7);
+                bw.Write((int)unk8);
+            }
+            else if(version >= 9)
+            {
+                bw.Write((short)unk7);
+                bw.Write((short)unk8);
+            }
+            else
+            {
+                bw.Write((byte)unk7);
+                bw.Write((byte)unk8);
+            }
+            bw.Write(unk9);
+            bw.Write(unk10);
+            bw.Write(unk11);
+            bw.Write(unk12);
         }
     }
 }

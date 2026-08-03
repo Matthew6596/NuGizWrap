@@ -26,7 +26,7 @@ namespace TTModdingKit.AI
             name = br.ReadString(16).Trim(); //character name
             scriptName = br.ReadString(16).Trim();
             characterType = br.ReadString(version >= 14 ? 32 : 16).Trim();
-            if (characterType != string.Empty) characterType = characterType[..characterType.IndexOf(' ')];
+            //if (characterType != string.Empty) characterType = characterType[..characterType.IndexOf(' ')];
             if (version >= 21) itemName = br.ReadString8().Trim();
 
             transform.position = br.ReadVector3(); //start position
@@ -92,9 +92,84 @@ namespace TTModdingKit.AI
             }
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
+            bw.WriteString(name, 16);
+            bw.WriteString(scriptName, 16);
+            bw.WriteString(characterType, version >= 14 ? 32 : 16);
+            if (version >= 21) bw.WriteString8(itemName);
+            bw.Write(transform.position);
+            bw.Write(transform.eulerAngles.y.ToShortAng());
 
+            if (version >= 16) bw.Write(unk72);
+            bw.Write(unk73);
+            bw.Write(unk74);
+            bw.Write(unk75);
+            bw.Write(unk76);
+            bw.Write(unk77);
+            bw.Write(unk78);
+            bw.Write(unk79);
+            bw.Write(unk80);
+            bw.Write(unk81);
+
+            if (version >= 3)
+            {
+                bw.Write(unk82);
+                bw.Write(unk83);
+                bw.Write(unk84);
+                bw.Write(unk85);
+            }
+
+            if (version >= 4)
+            {
+                if (trigger1Ref != string.Empty)
+                {
+                    bw.Write(1);
+                    bw.WriteString(trigger1Ref, 16);
+                }
+                else bw.Write(0);
+            }
+
+            if (version >= 6)
+            {
+                if (locator1Ref != string.Empty)
+                {
+                    bw.Write(1);
+                    bw.WriteString(locator1Ref, 16);
+                }
+                else bw.Write(0);
+            }
+
+            if (version >= 17)
+            {
+                if (locator2Ref != string.Empty)
+                {
+                    bw.Write(1);
+                    bw.WriteString(locator2Ref, 16);
+                }
+                else bw.Write(0);
+            }
+
+            if (version >= 8)
+            {
+                bw.Write(activateDifficulty);
+                bw.Write(minNumRespawns);
+                bw.Write(maxNumRespawns);
+                bool trig2Exists = trigger2Ref != string.Empty;
+                bw.Write((byte)(trig2Exists ? 1 : 0));
+                bw.Write(minRespawnTime);
+                bw.Write(maxRespawnTime);
+                if (version >= 10) bw.Write(staggerStart);
+                if (trig2Exists) bw.WriteString(trigger2Ref, 16);
+                if (version >= 11)
+                {
+                    bw.Write(viewRange);
+                    bw.Write(hearDistance);
+                    bw.Write(maxViewHeight);
+                    bw.Write(unk97);
+                    bw.Write(0); //padding
+                }
+            }
         }
     }
 }

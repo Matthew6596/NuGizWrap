@@ -5,11 +5,11 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TTModdingKit.Gizmos
 {
     using Helper;
-    using System.Linq;
 
     public class WhipperSection : GizmoSection
     {
@@ -41,11 +41,14 @@ namespace TTModdingKit.Gizmos
                 bytes.AddFixedString(whipper.name, 16);
                 bytes.AddVector3(whipper.transform.position);
 
-                bytes.AddFloat(whipper.unknown1);
+                bytes.AddFloat(whipper.vertical ? whipper.platformDistance : 0.2f);
                 bytes.AddShort((short)whipper.transform.eulerAngles.y.ToShortAng());
 
-                bytes.Add(whipper.unknown2);
-                if (version >= 2) bytes.Add(whipper.unknown3);
+                bytes.Add((byte)(whipper.vertical ? 1 : 0));
+
+                //original prop is no beams, so reverse it here
+                if (version >= 2) bytes.Add((byte)(whipper.hasSupportBeams ? 0 : 1)); 
+
                 if (version >= 3) bytes.AddFloat(whipper.unknown4);
                 if (version >= 4) bytes.AddFixedString(whipper.gizObstacle.gizObstacle, 16);
             }
@@ -69,11 +72,14 @@ namespace TTModdingKit.Gizmos
                 whipperObj.transform.position = bytes.ReadVector3(ref index);
                 var whipper = whipperObj.AddComponent<Whipper>();
 
-                whipper.unknown1 = bytes.ReadFloat(ref index);
+                whipper.platformDistance = bytes.ReadFloat(ref index);
                 whipper.transform.eulerAngles = new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
 
-                whipper.unknown2 = bytes.ReadByte(ref index);
-                if (version >= 2) whipper.unknown3 = bytes.ReadByte(ref index);
+                whipper.vertical = bytes.ReadByte(ref index) != 0;
+
+                //original prop is no beams, so reverse it here
+                if (version >= 2) whipper.hasSupportBeams = bytes.ReadByte(ref index) == 0;
+
                 if (version >= 3) whipper.unknown4 = bytes.ReadFloat(ref index);
                 if (version >= 4) whipper.gizObstacle = new() { gizObstacle = bytes.ReadString(ref index, 16) };
             }

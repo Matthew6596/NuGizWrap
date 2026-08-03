@@ -5,6 +5,8 @@ using UnityEditor;
 namespace TTModdingKit.Gizmos
 {
     using Helper;
+    using GameScene;
+
     [CustomEditor(typeof(Ledge))]
     public class LedgeEditor : Editor
     {
@@ -14,15 +16,16 @@ namespace TTModdingKit.Gizmos
 
             if (!LedgeSection.Instance.CreateVersionEditorGUI(s => s.version, "Ledge", out int version)) return;
 
-            serializedObject.Prop("unknown1");
-            if (version >= 2) serializedObject.Props("unknown2", "unknown3");
-            if (version >= 3) serializedObject.Prop("type");
+            serializedObject.Prop("type");
+            if (version >= 2) serializedObject.Props("leftLedge", "rightLedge");
+            if (version >= 3) serializedObject.Prop("interactOptions");
             if (version >= 4)
             {
-                var unk4Prop = serializedObject.FindProperty("unknown4");
+                var unk4Prop = serializedObject.FindProperty("specialObject");
                 EditorGUILayout.PropertyField(unk4Prop);
 
-                if (unk4Prop.stringValue.Length > 0) serializedObject.Props("unknown4Pos", "unknown4Ang");
+                if (((SpecialObjectReference)unk4Prop.boxedValue).specialObject.Length > 0) 
+                    serializedObject.Props("specialObjectPos", "specialObjectAng");
             }
 
             serializedObject.ApplyModifiedProperties();

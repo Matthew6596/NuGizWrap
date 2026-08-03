@@ -42,7 +42,7 @@ namespace TTModdingKit.Gizmos
                 bytes.AddVector3(door.transform.position);
                 bytes.AddShort((short)door.transform.eulerAngles.y.ToShortAng());
                 if (version >= 2) bytes.AddString8(door.type);
-                if (version >= 3) bytes.AddString8(door.unknown1);
+                if (version >= 3) bytes.AddString8(door.specialObject.specialObject);
             }
 
             return bytes.ToArray();
@@ -66,7 +66,7 @@ namespace TTModdingKit.Gizmos
                 var door = doorObj.AddComponent<SecurityDoor>();
 
                 if (version >= 2) door.type = bytes.ReadString8(ref index);
-                if (version >= 3) door.unknown1 = bytes.ReadString8(ref index);
+                if (version >= 3) door.specialObject = new() { specialObject = bytes.ReadString8(ref index) };
             }
         }
     }

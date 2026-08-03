@@ -68,8 +68,8 @@ namespace TTModdingKit.Gizmos
                 if (version >= 12) bytes.AddInt(obs.unknown6);
                 if (version == 6)
                 {
-                    bytes.AddShort(obs.unknown7);
-                    bytes.Add(obs.unknown8);
+                    bytes.AddShort(0); //padding
+                    bytes.Add(0);
                 }
                 bytes.Add(obs.unknown9);
                 bytes.Add(obs.unknown10);
@@ -104,28 +104,34 @@ namespace TTModdingKit.Gizmos
                 if (version >= 4) bytes.AddFloat(obs.unknown12);
                 if (version >= 5) bytes.AddFloat(obs.unknown13);
                 if (version >= 8) bytes.AddFloat(obs.unknown14);
-                if (version == 9) bytes.AddShort(obs.unknown15);
-                if (version >= 10) bytes.AddString8(obs.unknown16);
+                if (version == 9)
+                {
+                    bytes.AddShort(0);
+                    Debug.LogWarning($"Cannot export blowup by nametable ID, blowup on GizObstacle '{name}' will be exported as 0");
+                }
+                if (version >= 10) bytes.AddString8(obs.blowup.GetBlowup());
                 if (version >= 9)
                 {
-                    bytes.AddShort((short)obs.minStuds);
-                    bytes.AddShort((short)obs.maxStuds);
+                    bytes.AddShort((short)obs.studsValue);
 
                     if (obs.studsSpawn == null)
                     {
+                        bytes.AddShort(0);
                         bytes.AddShort(0);
                         bytes.AddVector3(Vector3.zero);
                     }
                     else
                     {
-                        bytes.AddShort((short)obs.studsSpawn.eulerAngles.y.ToShortAng());
+                        Vector3 euler = obs.studsSpawn.eulerAngles;
+                        bytes.AddShort((short)euler.x.ToShortAng());
+                        bytes.AddShort((short)euler.y.ToShortAng());
                         bytes.AddVector3(obs.StudsSpawnPos);
                     }
                 }
                 if (version >= 11) bytes.AddFloat(obs.studsSpawnSpeed);
                 if (version >= 13) bytes.AddString8(obs.unknownSfx1.sample);
                 if (version >= 14) bytes.AddString8(obs.unknownSfx2.sample);
-                if (version >= 16) bytes.AddString8(obs.unknownSfx3.sample);
+                if (version >= 16) bytes.AddString8(obs.unknown23);
 
                 if (version >= 19)
                 {
@@ -168,11 +174,7 @@ namespace TTModdingKit.Gizmos
                 }
                 obs.unknown5 = bytes.ReadInt(ref index);
                 if (version >= 12) obs.unknown6 = bytes.ReadInt(ref index);
-                if (version == 6)
-                {
-                    obs.unknown7 = bytes.ReadShort(ref index);
-                    obs.unknown8 = bytes.ReadByte(ref index);
-                }
+                if (version == 6) index += 2 + 1; //padding
                 obs.unknown9 = bytes.ReadByte(ref index);
                 obs.unknown10 = bytes.ReadByte(ref index);
 
@@ -208,12 +210,15 @@ namespace TTModdingKit.Gizmos
                 if (version >= 4) obs.unknown12 = bytes.ReadFloat(ref index);
                 if (version >= 5) obs.unknown13 = bytes.ReadFloat(ref index);
                 if (version >= 8) obs.unknown14 = bytes.ReadFloat(ref index);
-                if (version == 9) obs.unknown15 = bytes.ReadShort(ref index);
-                if (version >= 10) obs.unknown16 = bytes.ReadString8(ref index);
+                if (version == 9)
+                {
+                    short blowupId = bytes.ReadShort(ref index);
+                    Debug.LogWarning($"Cannot load blowup via nametable ID ({blowupId}), blowup on GizObstacle '{name}' will be null");
+                }
+                if (version >= 10) obs.blowup.SetBlowup(bytes.ReadString8(ref index));
                 if (version >= 9)
                 {
-                    obs.minStuds = (ushort)bytes.ReadShort(ref index);
-                    obs.maxStuds = (ushort)bytes.ReadShort(ref index);
+                    obs.studsValue = (ushort)bytes.ReadShort(ref index);
 
                     if(obs.studsSpawn == null)
                     {
@@ -221,13 +226,13 @@ namespace TTModdingKit.Gizmos
                         spawnObj.transform.SetParent(obsObj.transform);
                         obs.studsSpawn = spawnObj.transform;
                     }
-                    obs.studsSpawn.eulerAngles = new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
+                    obs.studsSpawn.eulerAngles = new(((ushort)bytes.ReadShort(ref index)).ToFloatAng(), ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
                     obs.studsSpawn.localPosition = bytes.ReadVector3(ref index);
                 }
                 if (version >= 11) obs.studsSpawnSpeed = bytes.ReadFloat(ref index);
                 if (version >= 13) obs.unknownSfx1.sample = bytes.ReadString8(ref index);
                 if (version >= 14) obs.unknownSfx2.sample = bytes.ReadString8(ref index);
-                if (version >= 16) obs.unknownSfx3.sample = bytes.ReadString8(ref index);
+                if (version >= 16) obs.unknown23 = bytes.ReadString8(ref index);
 
                 if (version >= 19)
                 {

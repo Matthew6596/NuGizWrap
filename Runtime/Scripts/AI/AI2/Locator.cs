@@ -29,7 +29,7 @@ namespace TTModdingKit.AI
             }
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
 
         }

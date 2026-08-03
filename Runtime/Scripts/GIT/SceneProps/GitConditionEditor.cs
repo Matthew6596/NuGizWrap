@@ -16,14 +16,18 @@ namespace TTModdingKit.GizFlow
             var typeProp = serializedObject.FindProperty("type");
             EditorGUILayout.PropertyField(typeProp);
 
-            string typeNote = ((GitCondition.Type)typeProp.boxedValue) switch
+            var type = (GitCondition.Type)typeProp.boxedValue;
+            string typeNote = (type) switch
             {
                 GitCondition.Type.Any => "This condition will output if any of its inputs are true. (OR gate)",
                 GitCondition.Type.All => "This condition will only output when all of its inputs are true. (AND gate)",
                 GitCondition.Type.None => "This condition will only output when none of its inputs are true. (NOT/NOR gate)",
                 GitCondition.Type.Loop => "This condition will loop to its output. If it has no output, it'll loop to the highest parent node.",
+                GitCondition.Type.Exactly => "This condition will only output when the exact number of inputs specified are outputting.",
                 _ => "unknown gitcondition type"
             };
+
+            if (type == GitCondition.Type.Exactly) serializedObject.Prop("exactlyInputAmount");
 
             EditorGUILayout.HelpBox(typeNote, MessageType.Info);
 

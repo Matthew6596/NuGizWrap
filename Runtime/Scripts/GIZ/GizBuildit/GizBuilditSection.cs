@@ -61,15 +61,19 @@ namespace TTModdingKit.Gizmos
                 }
 
                 bytes.AddFloat(buildit.jumpIntensity);
-                if (version <= 6) bytes.AddFloat(buildit.unknown1);
+                if (version <= 6) bytes.AddFloat(0); //padding
                 bytes.AddShort((short)buildit.minStuds);
                 bytes.AddShort((short)buildit.maxStuds);
                 bytes.Add(buildit.unknown2);
                 bytes.Add(buildit.unknown3);
                 if (version >= 10) bytes.AddFloat(buildit.unknown10);
                 if (version >= 6) bytes.AddFloat(buildit.unknown4);
-                if (version == 7) bytes.AddShort(buildit.unknown5);
-                if (version >= 8) bytes.AddString8(buildit.unknown6);
+                if (version == 7)
+                {
+                    bytes.AddShort(0);
+                    Debug.LogWarning($"Cannot export blowup by nametable ID, blowup on GizBuildit '{name}' will be exported as 0");
+                }
+                if (version >= 8) bytes.AddString8(buildit.blowup.GetBlowup());
                 if (version >= 7)
                 {
                     if (buildit.studsSpawn == null)
@@ -81,7 +85,7 @@ namespace TTModdingKit.Gizmos
                     else
                     {
                         Vector3 euler = buildit.studsSpawn.eulerAngles;
-                        bytes.AddShort((short)euler.z.ToShortAng());
+                        bytes.AddShort((short)euler.x.ToShortAng());
                         bytes.AddShort((short)euler.y.ToShortAng());
                         bytes.AddVector3(buildit.StudsSpawnPos);
                     }
@@ -91,7 +95,8 @@ namespace TTModdingKit.Gizmos
                 if (version >= 5)
                 {
                     bytes.AddShort(buildit.unknown8);
-                    bytes.AddString8(buildit.unknown9);
+                    bytes.Add((byte)((buildit.unknown9.Trim().Length > 0) ? 1 : 0));
+                    bytes.AddFixedString(buildit.unknown9, 16);
                 }
             }
 
@@ -134,15 +139,19 @@ namespace TTModdingKit.Gizmos
                 }
 
                 buildit.jumpIntensity = bytes.ReadFloat(ref index);
-                if (version <= 6) buildit.unknown1 = bytes.ReadFloat(ref index);
+                if (version <= 6) index += 4; //padding
                 buildit.minStuds = (ushort)bytes.ReadShort(ref index);
                 buildit.maxStuds = (ushort)bytes.ReadShort(ref index);
                 buildit.unknown2 = bytes.ReadByte(ref index);
                 buildit.unknown3 = bytes.ReadByte(ref index);
                 if (version >= 10) buildit.unknown10 = bytes.ReadFloat(ref index);
                 if (version >= 6) buildit.unknown4 = bytes.ReadFloat(ref index);
-                if (version == 7) buildit.unknown5 = bytes.ReadShort(ref index);
-                if (version >= 8) buildit.unknown6 = bytes.ReadString8(ref index);
+                if (version == 7)
+                {
+                    short blowupId = bytes.ReadShort(ref index);
+                    Debug.LogWarning($"Cannot load blowup via nametable ID ({blowupId}), blowup on GizBuildit '{name}' will be null");
+                }
+                if (version >= 8) buildit.blowup.SetBlowup(bytes.ReadString8(ref index));
                 if (version >= 7)
                 {
                     if (buildit.studsSpawn == null)
@@ -151,9 +160,7 @@ namespace TTModdingKit.Gizmos
                         studSpawnObj.transform.SetParent(buildit.transform);
                         buildit.studsSpawn = studSpawnObj.transform;
                     }
-                    ushort pitch = (ushort)bytes.ReadShort(ref index);
-                    ushort yaw = (ushort)bytes.ReadShort(ref index);
-                    buildit.studsSpawn.eulerAngles = new(0, yaw.ToFloatAng(), pitch.ToFloatAng());
+                    buildit.studsSpawn.eulerAngles = new(((ushort)bytes.ReadShort(ref index)).ToFloatAng(), ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
                     buildit.studsSpawn.localPosition = bytes.ReadVector3(ref index);
                 }
                 if (version >= 9) buildit.studsSpawnSpeed = bytes.ReadFloat(ref index);
@@ -161,7 +168,7 @@ namespace TTModdingKit.Gizmos
                 if (version >= 5)
                 {
                     buildit.unknown8 = bytes.ReadShort(ref index);
-                    buildit.unknown9 = bytes.ReadString8(ref index);
+                    if (bytes.ReadByte(ref index) != 0) buildit.unknown9 = bytes.ReadString(ref index, 16);
                 }
             }
         }

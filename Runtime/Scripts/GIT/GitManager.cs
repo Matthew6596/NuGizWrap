@@ -78,14 +78,18 @@ namespace TTModdingKit.GizFlow
         {
             List<string> lines = new() { "GitOptions {" };
             lines.AddRange(gitOptions.ContentToLines());
-            lines.Add("}\n");
+            lines.Add("}");
+            lines.Add("");
 
-            boxes.Sort(new Comparison<GitBox>((b1, b2) => b1.boxID - b2.boxID));
+            //Order by descending when negative and ascending when positive (-1, -2, -3, 0, 1, 2, 3)
+            boxes.OrderBy(b => b.boxID < 0 ? 1 : b.boxID == 0 ? 2 : 3).ThenBy(b => b.boxID < 0 ? -b.boxID : b.boxID);
+
             foreach(var box in boxes)
             {
                 lines.Add($"{box.ID} {{");
                 lines.AddRange(box.ContentToLines());
-                lines.Add("}\n");
+                lines.Add("}");
+                lines.Add("");
             }
 
             return lines.ToArray();

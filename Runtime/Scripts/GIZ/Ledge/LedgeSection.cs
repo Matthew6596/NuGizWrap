@@ -43,22 +43,25 @@ namespace TTModdingKit.Gizmos
                 bytes.AddVector3(ledge.transform.position);
                 bytes.AddShort((short)ledge.transform.eulerAngles.y.ToShortAng());
 
-                bytes.Add(ledge.unknown1);
+                bytes.Add((byte)ledge.type);
 
                 if (version >= 2)
                 {
-                    bytes.AddShort(ledge.unknown2);
-                    bytes.AddShort(ledge.unknown3);
+                    bytes.AddShort((short)Array.IndexOf(ledges, ledge.leftLedge));
+                    bytes.AddShort((short)Array.IndexOf(ledges, ledge.rightLedge));
                 }
 
-                if (version >= 3) bytes.Add((byte)ledge.type);
+                if (version >= 3) bytes.Add(ledge.interactOptions);
 
-                string unk4 = ledge.unknown4;
-                if (version >= 4) bytes.AddString8(unk4);
-                if (unk4.Length > 0)
+                string specObj = ledge.specialObject.specialObject;
+                if (version >= 4)
                 {
-                    bytes.AddVector3(ledge.unknown4Pos);
-                    bytes.AddShort(ledge.unknown4Ang);
+                    bytes.AddString8(specObj);
+                    if (specObj.Length > 0)
+                    {
+                        bytes.AddVector3(ledge.specialObjectPos);
+                        bytes.AddShort(ledge.specialObjectAng);
+                    }
                 }
             }
 
@@ -73,7 +76,9 @@ namespace TTModdingKit.Gizmos
             //Clear existing ledges before creating new ones
             foreach (var ledge in FindObjectsByType<Ledge>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)) ledge.gameObject.DelayDestroy();
 
-            for(int i=0; i<ledgeCount; i++)
+            List<(Ledge, short, short)> ledgeConnections = new();
+
+            for (int i = 0; i < ledgeCount; i++)
             {
                 GameObject ledgeObj = new(bytes.ReadString(ref index, 8));
                 ledgeObj.transform.SetParent(transform);
@@ -82,27 +87,38 @@ namespace TTModdingKit.Gizmos
 
                 var ledge = ledgeObj.AddComponent<Ledge>();
 
-                ledge.unknown1 = bytes.ReadByte(ref index);
+                byte typeByte = bytes.ReadByte(ref index);
+                ledge.type = Enum.IsDefined(typeof(Ledge.Type), (int)typeByte) ? (Ledge.Type)typeByte : Ledge.Type.Two;
 
-                if (version >= 2)
+                //Add connection indicies to list to connect after all ledges are created.
+                if (version >= 2) ledgeConnections.Add((ledge, bytes.ReadShort(ref index), bytes.ReadShort(ref index)));
+
+                if (version >= 3) ledge.interactOptions = bytes.ReadByte(ref index);
+
+                string specObj = "";
+                if (version >= 4)
                 {
-                    ledge.unknown2 = bytes.ReadShort(ref index);
-                    ledge.unknown3 = bytes.ReadShort(ref index);
+                    specObj = bytes.ReadString8(ref index);
+                    ledge.specialObject = new() { specialObject = specObj };
                 }
-
-                if (version >= 3)
+                if (specObj.Length > 0)
                 {
-                    byte type = bytes.ReadByte(ref index);
-                    //if (!Enum.IsDefined(typeof(Ledge.Type), (int)type)) Debug.Log($"Loading Unknown Ledge Type!: {type}, {(char)type}");
-                    //ledge.type = (Ledge.Type)type;
-                    ledge.type = type;
+                    ledge.specialObjectPos = bytes.ReadVector3(ref index);
+                    ledge.specialObjectAng = bytes.ReadShort(ref index);
                 }
+            }
 
-                if (version >= 4) ledge.unknown4 = bytes.ReadString8(ref index);
-                if (ledge.unknown4.Length > 0)
+            if (version >= 2) 
+            {
+                Ledge GetLedge(short ind) => ind >= 0 && ind < ledgeCount ? ledgeConnections[ind].Item1 : null;
+
+                //Connect ledges based on read left/right index
+                for (int i = 0; i < ledgeCount; i++)
                 {
-                    ledge.unknown4Pos = bytes.ReadVector3(ref index);
-                    ledge.unknown4Ang = bytes.ReadShort(ref index);
+                    var ledgeItems = ledgeConnections[i];
+                    var ledge = ledgeItems.Item1;
+                    ledge.leftLedge = GetLedge(ledgeItems.Item2);
+                    ledge.rightLedge = GetLedge(ledgeItems.Item3);
                 }
             }
         }

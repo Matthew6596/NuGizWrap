@@ -37,7 +37,7 @@ namespace TTModdingKit.Terrain
     {
         public List<Face> faces = new();
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             //Color tempTerCol = new(1, 1, 0, 0.5f);
             //Color tempTerOutlineCol = new(0.33f, 0.33f, 0, 0.05f);

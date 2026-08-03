@@ -37,9 +37,26 @@ namespace TTModdingKit.AI
             }
         }
 
-        public void ToBytes(BinaryWriter bw)
+        public void ToBytes(BinaryWriter bw, int version)
         {
-
+            bw.Write(transform.position);
+            bw.Write(unk102);
+            if (version >= 15)
+            {
+                bw.Write(unk105);
+                bw.Write(unk106);
+                bw.Write(unk107);
+                bw.Write(unk108);
+            }
+            else bw.Write((byte)0); //padding
+            bw.Write((short)0); //padding
+            bw.Write(unk109);
+            bw.WriteString8(specialObj);
+            if (specialObj.Length != 0)
+            {
+                bw.Write(specialObjPos);
+                if (version >= 15) bw.Write(unk113);
+            }
         }
     }
 }

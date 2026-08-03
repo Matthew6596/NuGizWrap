@@ -19,16 +19,14 @@ namespace TTModdingKit.Gizmos
         public byte specialObjectVersion = 3;
         public SpecialObject[] specialObjects;
         public float jumpIntensity = 1.5f;
-        public float unknown1;
         public ushort minStuds, maxStuds;
         public byte unknown2, unknown3;
-        public float unknown10;
+        public float unknown10 = 1;
         public float unknown4;
-        public short unknown5;
-        public string unknown6;
+        public BlowupReference blowup;
         [Tooltip("Transform of the stud spawn. Uses the position and yaw.")]
         public Transform studsSpawn;
-        public float studsSpawnSpeed;
+        public float studsSpawnSpeed = 1.75f;
         public short unknown7, unknown8;
         public string unknown9;
 

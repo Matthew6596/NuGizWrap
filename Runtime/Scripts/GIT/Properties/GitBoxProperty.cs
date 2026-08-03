@@ -22,6 +22,7 @@ namespace TTModdingKit.GizFlow
         public abstract T GetValue<T>();
         public abstract void SetValue(object value);
         public virtual void LoadValue(string valueStr) { }
+        public virtual string ToLine() => name;
 
         public abstract object Clone();
     }

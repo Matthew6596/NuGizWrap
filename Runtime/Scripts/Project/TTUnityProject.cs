@@ -195,6 +195,14 @@ namespace TTModdingKit
             }
             public Gizmo gizmo;
 
+            //GizFlow
+            [Serializable]
+            public struct GizFlow
+            {
+                public bool expandBoxPositionsIfColliding;
+            }
+            public GizFlow gizFlow;
+
             //Terrain
             [Serializable]
             public struct Terrain
@@ -218,7 +226,7 @@ namespace TTModdingKit
             {
                 general = new() 
                 { 
-                    defaultFileDirectoryToCurrentGame = true 
+                    defaultFileDirectoryToCurrentGame = true,
                 },
 
                 gizmo = new()
@@ -226,6 +234,11 @@ namespace TTModdingKit
                     generateEmptyGizmoSections = false,
                     onlyGenerateCompatibleGizmoSections = true,
                     allowAllRegisteredGizmos = false,
+                },
+
+                gizFlow = new()
+                {
+                    expandBoxPositionsIfColliding = true,
                 },
 
                 terrain = new()

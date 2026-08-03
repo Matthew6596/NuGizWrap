@@ -23,8 +23,8 @@ namespace TTModdingKit.Gizmos
 
             if (version >= 10) serializedObject.Prop("unknown10");
             if (version >= 6) serializedObject.Prop("unknown4");
-            if (version == 7) serializedObject.Prop("unknown5");
-            if (version >= 8) serializedObject.Prop("unknown6");
+            if (version == 7) EditorGUILayout.HelpBox("Connecting blowup via nametable ID is not supported.", MessageType.None);
+            if (version >= 8) serializedObject.Prop("blowup");
             if (version >= 7) serializedObject.Prop("studsSpawn");
             if (version >= 9) serializedObject.Prop("studsSpawnSpeed");
             if (version >= 4) serializedObject.Prop("unknown7");

@@ -8,18 +8,21 @@ namespace TTModdingKit.Gizmos
 
     public class Grapple : Gizmo
     {
+        public enum RopeGrappleType { TanRope=0, WhiteRope=1, GreenRope=2, Vines=3 }
+        public enum ZipGrappleType { Default=0, Fast=3 }
+
         public override string[] GetOutputNames(TTGame game) => new[] { "Active", "Occupied", "Occupied By 2" };
 
-        public short unknown1, unknown2;
         public float unknown3;
-        public bool unknown4;
+        public bool swingingRope;
         public float length;
-        public short unknown6;
-        public bool unknown7;
+        public bool noFreeMovement;
         public SpecialObjectReference specialObject;
-        public bool unknown8, unknown9;
+        public bool visible;
+        public RopeGrappleType ropeType;
+        public ZipGrappleType grappleType;
         public BlowupReference blowup;
-        public bool unknown10;
+        public float ropeBrightness;
 
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
         public static Color GizmoColor = Color.white;

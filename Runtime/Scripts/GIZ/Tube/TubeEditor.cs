@@ -17,7 +17,7 @@ namespace TTModdingKit.Gizmos
             serializedObject.Props("height", "radius");
             if (version >= 2) serializedObject.Prop("magnetic");
             if (version >= 3) serializedObject.Prop("specialObject");
-            if (version >= 4) serializedObject.Prop("unknown1");
+            if (version >= 4) serializedObject.Prop("glideOnly");
             if (version >= 5)
             {
                 serializedObject.Prop("horizontal");

@@ -14,10 +14,9 @@ namespace TTModdingKit.Gizmos
 
             if (!TightRopeSection.Instance.CreateVersionEditorGUI(s => s.version, "TightRope", out int version)) return;
 
-            serializedObject.Props("unknown1", "unknown2");
+            serializedObject.Props("startKnob", "endKnob");
             if (version >= 4) serializedObject.Props("unknown3", "unknown4");
-            if (version >= 2) serializedObject.Props("unknown5", "unknown6", "unknown7", "unknown8", "unknown9", "unknown10");
-            if (version >= 3) serializedObject.Prop("unknown11");
+            if (version >= 3) serializedObject.Prop("alwaysShowStartKnob");
 
             serializedObject.ApplyModifiedProperties();
         }

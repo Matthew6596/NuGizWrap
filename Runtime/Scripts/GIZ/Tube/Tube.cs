@@ -14,7 +14,7 @@ namespace TTModdingKit.Gizmos
         public float height, radius;
         public bool magnetic;
         public SpecialObjectReference specialObject;
-        public bool unknown1, horizontal;
+        public bool glideOnly, horizontal;
 
         public bool canBeHorizontal;
 

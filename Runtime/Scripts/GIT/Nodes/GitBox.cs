@@ -162,15 +162,16 @@ namespace TTModdingKit.GizFlow
 
         protected IEnumerable<string> BasePropsToLines()
         {
-            throw new NotImplementedException();
+            List<string> lines = new() { $"\tBoxID {boxID}" };
+            foreach(var p in parents) lines.Add($"\tParent {p.Item1.boxID} {p.Item2}");
+            foreach(var c in children) lines.Add($"\tChild {c.boxID}");
+            lines.Add($"\tx {x}");
+            lines.Add($"\ty {y}");
+            lines.Add($"\tName \"{this.name}\"");
+            return lines;
         }
 
-        public VisualElement GetRootVisualElement()
-        {
-            Debug.Log("Parents: " + parents.Count + ", " + (parents.Count > 0 ? parents[0] : "no parents"));
-            Debug.Log("Children: " + children.Count + ", " + (children.Count > 0 ? children[0] : "no children"));
-            return rootVisualElement;
-        }
+        public VisualElement GetRootVisualElement() => rootVisualElement;
     }
 }
 #endif

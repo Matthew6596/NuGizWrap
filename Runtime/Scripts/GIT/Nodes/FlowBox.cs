@@ -9,6 +9,7 @@ using System.Linq;
 namespace TTModdingKit.GizFlow
 {
     using Gizmos;
+    using Helper;
 
     public class FlowBox : GitBox
     {
@@ -52,13 +53,20 @@ namespace TTModdingKit.GizFlow
                 { text = "Remove Condition" };
                 conditionBox.Add(delConditionBtn);
 
-                var conditionType = new DropdownField("Condition Type", new List<string>() { "None", "All", "Any", "Loop" }, (int)condition.type);
-                conditionType.RegisterValueChangedCallback((e) => { condition.type = System.Enum.Parse<GitCondition.Type>(e.newValue); });
+                var conditionType = new DropdownField("Condition Type", new List<string>() { "None", "All", "Any", "Loop", "Exactly" }, (int)condition.type);
+
+                var exactlyInpAmt = new IntegerField("'Exactly' Input Amount") { value = condition.exactlyInputAmount };
+                exactlyInpAmt.SetVisible(condition.type == GitCondition.Type.Exactly);
+
+                conditionType.RegisterValueChangedCallback((e) => { 
+                    condition.type = Enum.Parse<GitCondition.Type>(e.newValue);
+                    exactlyInpAmt.SetVisible(condition.type == GitCondition.Type.Exactly);
+                });
+
                 var monitorInps = new Toggle("Monitor Inputs") { value = condition.monitorInputs };
                 monitorInps.RegisterValueChangedCallback((e) => { condition.monitorInputs = e.newValue; });
 
-                conditionBox.Add(conditionType);
-                conditionBox.Add(monitorInps);
+                conditionBox.Add(conditionType, exactlyInpAmt, monitorInps);
                 rootVisualElement.Add(conditionBox);
             }
 
@@ -208,8 +216,37 @@ namespace TTModdingKit.GizFlow
 
         public override IEnumerable<string> ContentToLines()
         {
-            BasePropsToLines();
-            throw new System.NotImplementedException();
+            var lines = BasePropsToLines().ToList();
+            if (gizmos.Count > 0)
+            {
+                lines.Add($"\tNum_Gizmos {gizmos.Count}");
+                foreach (var giz in gizmos)
+                {
+                    lines.Add("\tGizmo {");
+                    lines.Add($"\t\tType \"{giz.connectedGizmoType}\"");
+                    lines.Add($"\t\tName \"{(giz.connectedGizmo is PushBlocks p ? p.specialObject.specialObject : giz.connectedGizmoName)}\"");
+                    lines.Add("\t}");
+                }
+
+                if (condition != null)
+                {
+                    lines.Add("\tCondition {");
+                    lines.Add($"\t\tType {condition.type}");
+                    if (condition.monitorInputs) lines.Add("\t\tMonitorInputs");
+                    lines.Add("\t}");
+                }
+
+                if (action != null)
+                {
+                    lines.Add("\tAction {");
+                    foreach (var act in action.properties) lines.Add($"\t\t{act.ToLine()}");
+                    lines.Add("\t}");
+                }
+
+                if (AiAssistID != -1) lines.Add($"\tAiAssistID {AiAssistID}");
+            }
+
+            return lines;
         }
 
         public override void ContentFromLines(IEnumerable<string> linesIen, ref int index)
@@ -236,21 +273,27 @@ namespace TTModdingKit.GizFlow
                     case "condition":
                         index++;
                         condition = new();
-                        if (lines[index].ToLower().Contains("monitorinputs"))
+                        bool conContainsMonitorInps = lines[index].ToLower().Contains("monitorinputs");
+                        if (conContainsMonitorInps)
                         {
                             condition.monitorInputs = true;
                             index++;
-                            string conTypeLine = lines[index].Trim();
-                            int conTypeSpaceInd = conTypeLine.IndexOf(' ')+1;
-                            condition.type = Enum.Parse<GitCondition.Type>(conTypeLine[conTypeSpaceInd..]);
-                            index++;
                         }
-                        else
+                        //Parse Condition Type
+                        string conTypeLine = lines[index].Trim();
+                        int conTypeSpaceInd = conTypeLine.IndexOf(' ') + 1;
+                        string conTypeStr = conTypeLine[conTypeSpaceInd..];
+                        if (conTypeStr.Contains("Exactly"))
                         {
-                            string conTypeLine = lines[index].Trim();
-                            int conTypeSpaceInd = conTypeLine.IndexOf(' ') + 1;
-                            condition.type = Enum.Parse<GitCondition.Type>(conTypeLine[conTypeSpaceInd..]);
-                            index++;
+                            int conTypeSpaceInd2 = conTypeStr.IndexOf(' ') + 1;
+                            condition.type = GitCondition.Type.Exactly;
+                            condition.exactlyInputAmount = int.Parse(conTypeStr[conTypeSpaceInd2..]);
+                        }
+                        else condition.type = Enum.Parse<GitCondition.Type>(conTypeLine[conTypeSpaceInd..]);
+                        index++;
+                        //
+                        if (!conContainsMonitorInps)
+                        {
                             if (lines[index].Contains('}')) condition.monitorInputs = false;
                             else { condition.monitorInputs = true; index++; }
                         }

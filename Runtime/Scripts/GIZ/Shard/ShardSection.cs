@@ -43,8 +43,9 @@ namespace TTModdingKit.Gizmos
 
                 if (version >= 2)
                 {
-                    bytes.AddShort(shard.unknown1);
-                    bytes.AddShort(shard.unknown2);
+                    Vector3 euler = shard.transform.eulerAngles;
+                    bytes.AddShort((short)euler.x.ToShortAng());
+                    bytes.AddShort((short)euler.z.ToShortAng());
                 }
             }
 
@@ -66,11 +67,7 @@ namespace TTModdingKit.Gizmos
                 shardObj.transform.position = bytes.ReadVector3(ref index);
                 var shard = shardObj.AddComponent<Shard>();
 
-                if (version >= 2)
-                {
-                    shard.unknown1 = bytes.ReadShort(ref index);
-                    shard.unknown2 = bytes.ReadShort(ref index);
-                }
+                if (version >= 2) shard.transform.eulerAngles = bytes.ReadXZEuler(ref index);
             }
         }
     }

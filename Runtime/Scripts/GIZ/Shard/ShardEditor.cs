@@ -14,7 +14,11 @@ namespace TTModdingKit.Gizmos
 
             if (!ShardSection.Instance.CreateVersionEditorGUI(s => s.version, "Shard", out int version)) return;
 
-            if (version >= 2) serializedObject.Props("unknown1", "unknown2");
+            EditorGUILayout.HelpBox("The shard's Y rotation will be randomized as it is loaded in game.", MessageType.None);
+            if (version >= 2)
+            {
+                EditorGUILayout.HelpBox("X and Z rotation on this transform will affect the shard's X and Z rotation.", MessageType.None);
+            }
 
             serializedObject.ApplyModifiedProperties();
         }

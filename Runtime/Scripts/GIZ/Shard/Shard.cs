@@ -8,8 +8,6 @@ namespace TTModdingKit.Gizmos
     {
         public override string[] GetOutputNames(TTGame game) => new[] { "Got" };
 
-        public short unknown1, unknown2;
-
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
         public static Color GizmoColor = Color.white;
         private void OnDrawGizmos()

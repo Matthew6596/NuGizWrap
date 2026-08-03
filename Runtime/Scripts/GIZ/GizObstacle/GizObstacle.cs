@@ -22,29 +22,30 @@ namespace TTModdingKit.Gizmos
 
         public Transform triggerTransform;
         public float unknown1;
-        public Vector3 unknown3;
+        public Vector3 unknown3 = new(0.00390625f, 0.00390625f, 0.00390625f);
         public short unknown4;
         public int unknown5, unknown6;
-        public short unknown7;
-        public byte unknown8, unknown9, unknown10;
+        public byte unknown9, unknown10;
 
-        public float unknown17, unknown18, unknown19, unknown20;
+        public float unknown17, unknown18, unknown19, unknown20 = 1;
 
-        public byte unknown11;
+        public byte unknown11 = 0xff;
 
         public byte specialObjectVersion = 3;
         public SpecialObject[] specialObjects;
 
-        public float unknown12, unknown13, unknown14;
-        public short unknown15;
-        public string unknown16;
-        public ushort minStuds, maxStuds;
+        public float unknown12 = 1, unknown13, unknown14;
+        public BlowupReference blowup;
+
+        public ushort studsValue;
         [Tooltip("Transform of the stud spawn. Uses the position and yaw.")]
         public Transform studsSpawn;
-        public float studsSpawnSpeed;
-        public SampleReference unknownSfx1, unknownSfx2, unknownSfx3;
+        public float studsSpawnSpeed = 1.5f;
 
-        public int unknown21, unknown22;
+        public SampleReference unknownSfx1, unknownSfx2;
+        public string unknown23;
+
+        public int unknown21 = 1, unknown22 = 1;
 
         public Vector3 StudsSpawnPos => studsSpawn.position - transform.position;
 

@@ -5,23 +5,24 @@ using Giz = UnityEngine.Gizmos;
 
 namespace TTModdingKit.Gizmos
 {
+    using GameScene;
+
     public class Ledge : Gizmo
     {
         public override string[] GetOutputNames(TTGame game) => new[] { "CanUse", "Occupied" };
 
-        //public enum Type { None = '\0', Empty = 'e', Four = '4', Eight = '8' }
+        public enum Type { One = '1', Two = '2', Three = '3', Four = '4', Eight = '8', Inner = 'i', Outer = 'o', End = 'e' }
 
-        public byte unknown1;
-        public short unknown2, unknown3;
-        //public Type type;
-        public byte type;
-        public string unknown4;
-        public Vector3 unknown4Pos;
-        public short unknown4Ang;
+        public Type type;
+        public Ledge leftLedge, rightLedge;
+        public byte interactOptions;
+        public SpecialObjectReference specialObject;
+        public Vector3 specialObjectPos;
+        public short specialObjectAng;
 
         private void OnValidate()
         {
-            //if (!Enum.IsDefined(typeof(Type), type)) type = Type.None;
+            if (!Enum.IsDefined(typeof(Type), type)) type = Type.Two;
         }
 
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;

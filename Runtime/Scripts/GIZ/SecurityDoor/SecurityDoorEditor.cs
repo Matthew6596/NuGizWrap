@@ -15,7 +15,7 @@ namespace TTModdingKit.Gizmos
             if (!SecurityDoorSection.Instance.CreateVersionEditorGUI(s => s.version, "SecurityDoor", out int version)) return;
 
             if (version >= 2) serializedObject.Prop("type");
-            if (version >= 3) serializedObject.Prop("unknown1");
+            if (version >= 3) serializedObject.Prop("specialObject");
 
             serializedObject.ApplyModifiedProperties();
         }
