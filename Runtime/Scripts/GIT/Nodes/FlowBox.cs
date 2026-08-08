@@ -53,14 +53,14 @@ namespace TTModdingKit.GizFlow
                 { text = "Remove Condition" };
                 conditionBox.Add(delConditionBtn);
 
-                var conditionType = new DropdownField("Condition Type", new List<string>() { "None", "All", "Any", "Loop", "Exactly" }, (int)condition.type);
+                var conditionType = new DropdownField("Condition Type", new List<string>() { "None", "All", "Any", "Loop", "Exactly", "Sum" }, (int)condition.type);
 
-                var exactlyInpAmt = new IntegerField("'Exactly' Input Amount") { value = condition.exactlyInputAmount };
-                exactlyInpAmt.SetVisible(condition.type == GitCondition.Type.Exactly);
+                var exactlyInpAmt = new IntegerField("Input Amount") { value = condition.inputAmount };
+                exactlyInpAmt.SetVisible(condition.type == GitCondition.Type.Exactly || condition.type == GitCondition.Type.Sum);
 
                 conditionType.RegisterValueChangedCallback((e) => { 
                     condition.type = Enum.Parse<GitCondition.Type>(e.newValue);
-                    exactlyInpAmt.SetVisible(condition.type == GitCondition.Type.Exactly);
+                    exactlyInpAmt.SetVisible(condition.type == GitCondition.Type.Exactly || condition.type == GitCondition.Type.Sum);
                 });
 
                 var monitorInps = new Toggle("Monitor Inputs") { value = condition.monitorInputs };
@@ -231,7 +231,8 @@ namespace TTModdingKit.GizFlow
                 if (condition != null)
                 {
                     lines.Add("\tCondition {");
-                    lines.Add($"\t\tType {condition.type}");
+                    bool hasInputAmount = condition.type == GitCondition.Type.Exactly || condition.type == GitCondition.Type.Sum;
+                    lines.Add($"\t\tType {condition.type}{(hasInputAmount ? " " + condition.inputAmount : "")}");
                     if (condition.monitorInputs) lines.Add("\t\tMonitorInputs");
                     lines.Add("\t}");
                 }
@@ -283,11 +284,12 @@ namespace TTModdingKit.GizFlow
                         string conTypeLine = lines[index].Trim();
                         int conTypeSpaceInd = conTypeLine.IndexOf(' ') + 1;
                         string conTypeStr = conTypeLine[conTypeSpaceInd..];
-                        if (conTypeStr.Contains("Exactly"))
+                        bool isExactlyCon = conTypeStr.Contains("Exactly");
+                        if (isExactlyCon || conTypeStr.Contains("Sum"))
                         {
                             int conTypeSpaceInd2 = conTypeStr.IndexOf(' ') + 1;
-                            condition.type = GitCondition.Type.Exactly;
-                            condition.exactlyInputAmount = int.Parse(conTypeStr[conTypeSpaceInd2..]);
+                            condition.type = isExactlyCon ? GitCondition.Type.Exactly : GitCondition.Type.Sum;
+                            condition.inputAmount = int.Parse(conTypeStr[conTypeSpaceInd2..]);
                         }
                         else condition.type = Enum.Parse<GitCondition.Type>(conTypeLine[conTypeSpaceInd..]);
                         index++;

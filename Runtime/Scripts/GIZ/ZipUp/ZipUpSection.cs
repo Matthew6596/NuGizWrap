@@ -43,23 +43,24 @@ namespace TTModdingKit.Gizmos
 
                 bytes.AddFixedString(zip.name, 16);
                 bytes.AddVector3(zip.start == null ? Vector3.zero : zip.start.position);
-                bytes.AddVector3(zip.axis == null ? Vector3.zero : zip.axis.position);
-                bytes.AddVector3(zip.end == null ? (zip.axis != null ? zip.axis.position : Vector3.zero) : zip.end.position);
+                bytes.AddVector3(zip.hook == null ? Vector3.zero : zip.hook.position);
+                bytes.AddVector3(zip.end == null ? (zip.hook != null ? zip.hook.position : Vector3.zero) : zip.end.position);
 
-                bytes.AddShort(zip.unknown1);
-                bytes.AddShort(zip.unknown2);
+                Vector3 hookEuler = zip.hook.eulerAngles;
+                bytes.AddShort((short)hookEuler.x.ToShortAng());
+                bytes.AddShort((short)hookEuler.y.ToShortAng());
 
                 bytes.Add((byte)(zip.swing ? 1 : 0));
-                bytes.Add((byte)(zip.unknown3 ? 1 : 0));
+                bytes.Add((byte)(zip.activeForPlayer ? 1 : 0));
                 bytes.Add((byte)(zip.twoWay ? 1 : 0));
-                if (version >= 2) bytes.Add((byte)(zip.invisible ? 1 : 0));
-                if (version >= 3) bytes.Add((byte)(zip.unknown4 ? 1 : 0));
-                if (version >= 4) bytes.Add((byte)(zip.targetsInvisible ? 1 : 0));
+                if (version >= 2) bytes.Add((byte)(zip.hookVisible ? 1 : 0));
+                if (version >= 3) bytes.Add((byte)(zip.inactive ? 1 : 0));
+                if (version >= 4) bytes.Add((byte)(zip.targetsVisible ? 1 : 0));
                 if (version >= 5) bytes.Add((byte)(zip.unknown5 ? 1 : 0));
                 if (version >= 6)
                 {
-                    bytes.Add(zip.unknown6);
-                    bytes.Add(zip.unknown7);
+                    bytes.Add((byte)zip.startPlatformStyle);
+                    bytes.Add((byte)zip.endPlatformStyle);
                 }
             }
 
@@ -87,7 +88,7 @@ namespace TTModdingKit.Gizmos
 
                 var axis = new GameObject("axis_transform").transform;
                 axis.position = bytes.ReadVector3(ref index);
-                zip.axis = axis;
+                zip.hook = axis;
 
                 var end = new GameObject("end_transform").transform;
                 end.position = bytes.ReadVector3(ref index);
@@ -98,20 +99,19 @@ namespace TTModdingKit.Gizmos
                 axis.SetParent(zipObjTrans);
                 end.SetParent(zipObjTrans);
 
-                zip.unknown1 = bytes.ReadShort(ref index);
-                zip.unknown2 = bytes.ReadShort(ref index);
+                zip.hook.eulerAngles = bytes.ReadXYEuler(ref index);
 
                 zip.swing = bytes.ReadByte(ref index) != 0;
-                zip.unknown3 = bytes.ReadByte(ref index) != 0;
+                zip.activeForPlayer = bytes.ReadByte(ref index) != 0;
                 zip.twoWay = bytes.ReadByte(ref index) != 0;
-                if (version >= 2) zip.invisible = bytes.ReadByte(ref index) != 0;
-                if (version >= 3) zip.unknown4 = bytes.ReadByte(ref index) != 0;
-                if (version >= 4) zip.targetsInvisible = bytes.ReadByte(ref index) != 0;
+                if (version >= 2) zip.hookVisible = bytes.ReadByte(ref index) != 0;
+                if (version >= 3) zip.inactive = bytes.ReadByte(ref index) != 0;
+                if (version >= 4) zip.targetsVisible = bytes.ReadByte(ref index) != 0;
                 if (version >= 5) zip.unknown5 = bytes.ReadByte(ref index) != 0;
                 if (version >= 6)
                 {
-                    zip.unknown6 = bytes.ReadByte(ref index);
-                    zip.unknown7 = bytes.ReadByte(ref index);
+                    zip.startPlatformStyle = (ZipUp.PlatformStyle)bytes.ReadByte(ref index);
+                    zip.endPlatformStyle = (ZipUp.PlatformStyle)bytes.ReadByte(ref index);
                 }
             }
         }

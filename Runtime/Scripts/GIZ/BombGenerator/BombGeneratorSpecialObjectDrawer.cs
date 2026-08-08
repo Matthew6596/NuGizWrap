@@ -28,7 +28,7 @@ namespace TTModdingKit.Gizmos
             EditorGUI.BeginProperty(position, label, property);
 
             int specObjVers = property.serializedObject.FindProperty("specialObjectVersion").intValue;
-            int version = GizForceSection.Instance.version;
+            int version = BombGeneratorSection.Instance.version;
 
             float height = EditorGUIUtility.singleLineHeight;
 

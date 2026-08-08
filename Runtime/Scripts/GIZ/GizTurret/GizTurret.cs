@@ -8,21 +8,23 @@ using Giz = UnityEngine.Gizmos;
 namespace TTModdingKit.Gizmos
 {
     using GameScene;
+    using Audio;
 
     public class GizTurret : Gizmo
     {
         public byte specialObjectVersion;
         public SpecialObject[] specialObjects;
-        public Vector3 unknown1, unknown2, unknown3, unknown4;
+        public Vector3 unknown2, unknown3, unknown4;
         public int unknown5, unknown6, unknown7, unknown8, unknown9, unknown10, unknown11;
         public Vector3[] unknown12;
-        public float unknown13, unknown14, unknown15, unknown16, unknown17, unknown18;
-        public ushort minStuds, maxStuds;
+        public float unknown13, shootRange, unknown15, fireRate, yRotationSpeed, xRotationSpeed;
+        public ushort studsValue;
         public Transform studsSpawn;
         public float studsSpawnSpeed;
         public byte unknown19, unknown20;
         public short unknown21;
-        public string blasterMaterial, part1, part2, part3;
+        public string boltType;
+        public SampleReference unknownSfx1, unknownSfx2, unknownSfx3;
         public BlowupReference blowup;
         public short unknown22;
 

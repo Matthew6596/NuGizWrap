@@ -38,8 +38,8 @@ namespace TTModdingKit.Gizmos
             for(int i=0; i<shadowEditCount; i++)
             {
                 var shadowEdit = shadowEdits[i];
-                bytes.AddVector3(shadowEdit.transform.position);
-                bytes.AddFloat(shadowEdit.unknown1);
+                bytes.AddVector3(shadowEdit.transform.forward);
+                bytes.AddFloat(shadowEdit.opacity);
                 if (version >= 2)
                 {
                     bytes.AddFloat(shadowEdit.unknown2);
@@ -50,20 +50,20 @@ namespace TTModdingKit.Gizmos
                     bytes.AddFloat(shadowEdit.unknown4);
                     bytes.AddFloat(shadowEdit.unknown5);
                 }
-                if (version >= 4) bytes.AddFloat(shadowEdit.unknown6);
+                if (version >= 4) bytes.AddFloat(shadowEdit.renderDistance);
                 if (version >= 5)
                 {
-                    bytes.AddFloat(shadowEdit.unknown7);
-                    bytes.AddFloat(shadowEdit.unknown8);
+                    bytes.AddFloat(0); //padding
+                    bytes.AddFloat(0);
                 }
                 if (version >= 6)
                 {
-                    bytes.AddFloat(shadowEdit.unknown9);
+                    bytes.AddFloat(shadowEdit.blur);
                     bytes.AddFloat(shadowEdit.unknown10);
                     bytes.AddFloat(shadowEdit.unknown11);
                 }
-                if (version >= 7) bytes.AddFloat(shadowEdit.unknown12);
-                if (version >= 8) bytes.AddInt(shadowEdit.unknown13);
+                if (version >= 7) bytes.AddFloat(shadowEdit.quality);
+                if (version >= 8) bytes.AddInt((int)shadowEdit.preset);
                 if (version >= 9) bytes.AddFloat(shadowEdit.unknown14);
             }
 
@@ -83,10 +83,11 @@ namespace TTModdingKit.Gizmos
             {
                 GameObject shadowObj = new("shadow_editor");
                 shadowObj.transform.SetParent(transform);
-                shadowObj.transform.position = bytes.ReadVector3(ref index);
+                //shadowObj.transform.rotation = Quaternion.LookRotation();
+                shadowObj.transform.forward = bytes.ReadVector3(ref index);
                 var shadowEdit = shadowObj.AddComponent<ShadowEditor>();
 
-                shadowEdit.unknown1 = bytes.ReadFloat(ref index);
+                shadowEdit.opacity = bytes.ReadFloat(ref index);
                 if (version >= 2)
                 {
                     shadowEdit.unknown2 = bytes.ReadFloat(ref index);
@@ -97,21 +98,23 @@ namespace TTModdingKit.Gizmos
                     shadowEdit.unknown4 = bytes.ReadFloat(ref index);
                     shadowEdit.unknown5 = bytes.ReadFloat(ref index);
                 }
-                if (version >= 4) shadowEdit.unknown6 = bytes.ReadFloat(ref index);
+                if (version >= 4) shadowEdit.renderDistance = bytes.ReadFloat(ref index);
                 if (version >= 5)
                 {
-                    shadowEdit.unknown7 = bytes.ReadFloat(ref index);
-                    shadowEdit.unknown8 = bytes.ReadFloat(ref index);
+                    bytes.ReadFloat(ref index); //padding
+                    bytes.ReadFloat(ref index);
                 }
                 if (version >= 6)
                 {
-                    shadowEdit.unknown9 = bytes.ReadFloat(ref index);
+                    shadowEdit.blur = bytes.ReadFloat(ref index);
                     shadowEdit.unknown10 = bytes.ReadFloat(ref index);
                     shadowEdit.unknown11 = bytes.ReadFloat(ref index);
                 }
-                if (version >= 7) shadowEdit.unknown12 = bytes.ReadFloat(ref index);
-                if (version >= 8) shadowEdit.unknown13 = bytes.ReadInt(ref index);
+                if (version >= 7) shadowEdit.quality = bytes.ReadFloat(ref index);
+                if (version >= 8) shadowEdit.preset = (ShadowEditor.Preset)bytes.ReadInt(ref index);
                 if (version >= 9) shadowEdit.unknown14 = bytes.ReadFloat(ref index);
+
+                if (version >= 8) shadowEdit.RefreshPreset();
             }
         }
     }

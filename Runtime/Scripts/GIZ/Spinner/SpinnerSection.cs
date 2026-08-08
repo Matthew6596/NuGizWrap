@@ -52,19 +52,19 @@ namespace TTModdingKit.Gizmos
                 bytes.AddVector3(spinner.transform.position);
                 bytes.AddShort((short)spinner.transform.eulerAngles.y.ToShortAng());
                 bytes.AddString8(spinner.specialObject.specialObject);
-                byte unk5Count = (byte)spinner.unknown5.Length;
-                bytes.Add(unk5Count);
+                byte outputCount = (byte)spinner.outputStates.Length;
+                bytes.Add(outputCount);
 
                 byte flapCount = spinner.flapCount;
                 if (version >= 2) bytes.Add(flapCount);
 
-                int unk1 = spinner.unknown1;
+                int unk1 = spinner.interactionOptions;
                 if (version >= 3)
                 {
                     bytes.AddInt(unk1);
-                    bytes.AddFloat(spinner.unknown2);
+                    bytes.AddFloat(spinner.outputStickTime);
                 }
-                if (version >= 4) bytes.AddFloat(spinner.unknown3);
+                if (version >= 4) bytes.AddFloat(spinner.animSpeed);
                 if (unk1 != 0)
                 {
                     if (version >= 11) bytes.AddShort(spinner.unknown4);
@@ -90,13 +90,13 @@ namespace TTModdingKit.Gizmos
 
                 if (version >= 7)
                 {
-                    for (int j = 0; j < unk5Count; j++) bytes.AddFloat(spinner.unknown5[j]);
+                    for (int j = 0; j < outputCount; j++) bytes.AddFloat(spinner.outputStates[j]);
                 }
 
                 if(version >= 8) bytes.AddFloat(spinner.unknown6);
                 if(version >= 9) bytes.AddFloat(spinner.unknown7);
 
-                if(version >= 10) bytes.AddString8(spinner.unknown8);
+                if(version >= 10) bytes.AddString8(spinner.unknownSpecialObject.specialObject);
                 if(version >= 12) bytes.AddFloat(spinner.unknown9);
                 if(version >= 13) bytes.AddInt(spinner.unknown10);
             }
@@ -121,7 +121,7 @@ namespace TTModdingKit.Gizmos
                 var spinner = spinnerObj.AddComponent<Spinner>();
 
                 spinner.specialObject = new() { specialObject = bytes.ReadString8(ref index) };
-                byte unk5Count = bytes.ReadByte(ref index);
+                byte outputCount = bytes.ReadByte(ref index);
                 byte flapCount = bytes.ReadByte(ref index);
                 spinner.flapCount = flapCount;
 
@@ -129,11 +129,11 @@ namespace TTModdingKit.Gizmos
                 if(version >= 3)
                 {
                     unk1 = bytes.ReadInt(ref index);
-                    spinner.unknown2 = bytes.ReadFloat(ref index);
+                    spinner.outputStickTime = bytes.ReadFloat(ref index);
                 }
-                spinner.unknown1 = unk1;
+                spinner.interactionOptions = unk1;
 
-                if(version >= 4) spinner.unknown3 = bytes.ReadFloat(ref index);
+                if(version >= 4) spinner.animSpeed = bytes.ReadFloat(ref index);
                 if (unk1 != 0)
                 {
                     if (version >= 11) spinner.unknown4 = bytes.ReadShort(ref index);
@@ -163,16 +163,16 @@ namespace TTModdingKit.Gizmos
 
                 //Support for versions <7 excluded here
 
-                spinner.unknown5 = new float[unk5Count];
+                spinner.outputStates = new float[outputCount];
                 if (version >= 7)
                 {
-                    for(int j=0; j<unk5Count; j++) spinner.unknown5[j] = bytes.ReadFloat(ref index);
+                    for(int j=0; j<outputCount; j++) spinner.outputStates[j] = bytes.ReadFloat(ref index);
                 }
 
                 if (version >= 8) spinner.unknown6 = bytes.ReadFloat(ref index);
                 if (version >= 9) spinner.unknown7 = bytes.ReadFloat(ref index);
 
-                if (version >= 10) spinner.unknown8 = bytes.ReadString8(ref index);
+                if (version >= 10) spinner.unknownSpecialObject = new() { specialObject = bytes.ReadString8(ref index) };
                 if (version >= 12) spinner.unknown9 = bytes.ReadFloat(ref index);
                 if (version >= 13) spinner.unknown10 = bytes.ReadInt(ref index);
 

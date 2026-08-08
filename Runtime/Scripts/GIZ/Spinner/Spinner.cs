@@ -11,17 +11,28 @@ namespace TTModdingKit.Gizmos
 
     public class Spinner : Gizmo
     {
+        public override string[] GetOutputNames(TTGame game)
+        {
+            if(outputStates == null || outputStates.Length == 0) return new string[0];
+            string[] outputNames = new string[outputStates.Length];
+            for(int i=0; i<outputStates.Length; i++) outputNames[i] = $"{(int)outputStates[i]} Anim Frames";
+            return outputNames;
+        }
+
+        [Flags]
+        public enum InteractionOptions { }
+
         public SpecialObjectReference specialObject;
         public byte flapCount;
-        public int unknown1;
-        public float unknown2, unknown3;
+        public int interactionOptions;
+        public float outputStickTime, animSpeed;
         public short unknown4;
         public byte specialObjectVersion;
         public SpecialObject[] animObjects;
-        public float[] unknown5;
+        public float[] outputStates;
         public float unknown6, unknown7;
 
-        public string unknown8;
+        public SpecialObjectReference unknownSpecialObject;
         public float unknown9;
         public int unknown10;
 
@@ -34,11 +45,11 @@ namespace TTModdingKit.Gizmos
                 animObjects = animObjects.Take(255).ToArray();
             }
 
-            unknown5 ??= new float[0];
-            if (unknown5.Length > 255)
+            outputStates ??= new float[0];
+            if (outputStates.Length > 255)
             {
-                EditorUtility.DisplayDialog("Maxed Array", "Maximum of 255 floats allowed in this array.", "OK");
-                unknown5 = unknown5.Take(255).ToArray();
+                EditorUtility.DisplayDialog("Too many Output States", "Maximum of 255 outputs allowed on a single Spinner.", "OK");
+                outputStates = outputStates.Take(255).ToArray();
             }
         }
 

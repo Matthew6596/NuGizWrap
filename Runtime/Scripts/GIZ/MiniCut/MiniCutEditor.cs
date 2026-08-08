@@ -14,7 +14,7 @@ namespace TTModdingKit.Gizmos
 
             if (!MiniCutSection.Instance.CreateVersionEditorGUI(s => s.version, "MiniCut", out int version)) return;
 
-            serializedObject.Props("unknown1", "unknown2", "unknown3", "unknown4", "unknown5", "miniCutParts");
+            serializedObject.Props("unknown1", "duration", "blendInTime", "blendOutTime", "maxTotalDuration", "miniCutParts");
 
             serializedObject.ApplyModifiedProperties();
         }

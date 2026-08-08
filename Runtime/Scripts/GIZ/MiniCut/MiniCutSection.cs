@@ -42,10 +42,10 @@ namespace TTModdingKit.Gizmos
 
                 bytes.AddString8(minicut.name);
                 bytes.AddFloat(minicut.unknown1);
-                bytes.AddFloat(minicut.unknown2);
-                bytes.AddFloat(minicut.unknown3);
-                bytes.AddFloat(minicut.unknown4);
-                bytes.AddFloat(minicut.unknown5);
+                bytes.AddFloat(minicut.duration);
+                bytes.AddFloat(minicut.blendInTime);
+                bytes.AddFloat(minicut.blendOutTime);
+                bytes.AddFloat(minicut.maxTotalDuration);
 
                 byte partsCount = (byte)minicut.miniCutParts.Length;
                 bytes.Add(partsCount);
@@ -62,8 +62,8 @@ namespace TTModdingKit.Gizmos
                     bytes.AddShort(pitch);
                     bytes.AddShort(yaw);
                     bytes.AddShort(roll);
-                    bytes.AddFloat(part.unknown8);
-                    bytes.AddFloat(part.unknown9);
+                    bytes.AddFloat(part.easeIn);
+                    bytes.AddFloat(part.easeOut);
                 }
             }
 
@@ -85,10 +85,10 @@ namespace TTModdingKit.Gizmos
                 var minicut = minicutObj.AddComponent<MiniCut>();
 
                 minicut.unknown1 = bytes.ReadFloat(ref index);
-                minicut.unknown2 = bytes.ReadFloat(ref index);
-                minicut.unknown3 = bytes.ReadFloat(ref index);
-                minicut.unknown4 = bytes.ReadFloat(ref index);
-                minicut.unknown5 = bytes.ReadFloat(ref index);
+                minicut.duration = bytes.ReadFloat(ref index);
+                minicut.blendInTime = bytes.ReadFloat(ref index);
+                minicut.blendOutTime = bytes.ReadFloat(ref index);
+                minicut.maxTotalDuration = bytes.ReadFloat(ref index);
 
                 byte partsCount = bytes.ReadByte(ref index);
                 minicut.miniCutParts = new MiniCut.MiniCutPart[partsCount];
@@ -105,8 +105,8 @@ namespace TTModdingKit.Gizmos
                             ((ushort)bytes.ReadShort(ref index)).ToFloatAng(),
                             ((ushort)bytes.ReadShort(ref index)).ToFloatAng()
                             ),
-                        unknown8 = bytes.ReadFloat(ref index),
-                        unknown9 = bytes.ReadFloat(ref index),
+                        easeIn = bytes.ReadFloat(ref index),
+                        easeOut = bytes.ReadFloat(ref index),
                     };
                     minicut.miniCutParts[j] = part;
                 }

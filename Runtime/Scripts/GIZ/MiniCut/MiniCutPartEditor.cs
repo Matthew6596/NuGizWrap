@@ -12,7 +12,7 @@ namespace TTModdingKit.Gizmos
         {
             serializedObject.Update();
 
-            serializedObject.Props("name", "targetPosition", "cameraDistance", "cameraOrbitEuler", "unknown8", "unknown9");
+            serializedObject.Props("name", "targetPosition", "cameraDistance", "cameraOrbitEuler", "easeIn", "easeOut");
 
             serializedObject.ApplyModifiedProperties();
         }

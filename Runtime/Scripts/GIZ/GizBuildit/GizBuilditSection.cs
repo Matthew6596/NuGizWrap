@@ -95,8 +95,9 @@ namespace TTModdingKit.Gizmos
                 if (version >= 5)
                 {
                     bytes.AddShort(buildit.unknown8);
-                    bytes.Add((byte)((buildit.unknown9.Trim().Length > 0) ? 1 : 0));
-                    bytes.AddFixedString(buildit.unknown9, 16);
+                    bool hasBuildit = buildit.unknown9 != null && buildit.unknown9.Trim().Length > 0;
+                    bytes.Add((byte)(hasBuildit ? 1 : 0));
+                    if(hasBuildit) bytes.AddFixedString(buildit.unknown9, 16);
                 }
             }
 

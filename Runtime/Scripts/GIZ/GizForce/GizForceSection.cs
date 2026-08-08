@@ -54,7 +54,7 @@ namespace TTModdingKit.Gizmos
                     bytes.AddShort(force.unknown3);
                 }
                 bytes.AddInt((int)force.interactionOptions);
-                bytes.Add((byte)(force.togglable ? 1 : 0));
+                bytes.Add((byte)(force.togglable ? 0xff : 0)); //probably supposed to be index value not bool idk
                 if (version >= 11) bytes.Add(force.unknown4);
                 bytes.Add(force.unknown5);
                 if (version == 1) bytes.Add(force.unknown6);

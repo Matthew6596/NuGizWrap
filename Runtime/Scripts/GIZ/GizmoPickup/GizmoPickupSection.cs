@@ -59,7 +59,7 @@ namespace TTModdingKit.Gizmos
 
             foreach (var pup in pickups)
             {
-                bytes.AddFixedString(pup.name, 8);
+                bytes.AddFixedString(pup.name == "unnamed_pickup" ? "" : pup.name, 8);
                 bytes.AddVector3(pup.transform.position);
                 bytes.Add((byte)pup.type);
 

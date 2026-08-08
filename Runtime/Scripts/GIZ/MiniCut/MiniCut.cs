@@ -11,7 +11,7 @@ namespace TTModdingKit.Gizmos
     {
         public override string[] GetOutputNames(TTGame game) => new[] { "Played", "Playing" };
 
-        public float unknown1, unknown2, unknown3, unknown4, unknown5;
+        public float unknown1, duration, blendInTime, blendOutTime, maxTotalDuration;
         public MiniCutPart[] miniCutParts;
 
         private void OnValidate()
@@ -31,7 +31,7 @@ namespace TTModdingKit.Gizmos
             public Vector3 targetPosition;
             public float cameraDistance;
             public Vector3 cameraOrbitEuler;
-            public float unknown8, unknown9;
+            public float easeIn, easeOut;
         }
 
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;

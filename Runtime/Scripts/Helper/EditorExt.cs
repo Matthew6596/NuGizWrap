@@ -212,11 +212,12 @@ namespace TTModdingKit.Helper
             AddFloat(bytes, value.z);
         }
         //public static void AddString(this List<byte> bytes, string value) => bytes.AddRange(Encoding.UTF8.GetBytes(value.Replace(' ', '\0')));
-        public static void AddString(this List<byte> bytes, string value) => bytes.AddRange(Encoding.UTF8.GetBytes(value));
+        public static void AddString(this List<byte> bytes, string value) => bytes.AddRange(Encoding.UTF8.GetBytes(value.TrimEnd()));
         //public static void AddFixedString(this List<byte> bytes, string value, int len) => bytes.AddRange(Encoding.UTF8.GetBytes(value.FixLength(len).Replace(' ', '\0')));
-        public static void AddFixedString(this List<byte> bytes, string value, int len) => bytes.AddRange(Encoding.UTF8.GetBytes(value.FixLength(len)));
+        public static void AddFixedString(this List<byte> bytes, string value, int len) => bytes.AddRange(Encoding.UTF8.GetBytes(value.TrimEnd().FixLength(len)));
         public static void AddString8(this List<byte> bytes, string value)
         {
+            value = value.TrimEnd();
             if (string.IsNullOrEmpty(value) || value.Length == 0)
             {
                 bytes.Add(0);
@@ -232,6 +233,7 @@ namespace TTModdingKit.Helper
 
         public static void AddString16(this List<byte> bytes, string value)
         {
+            value = value.TrimEnd();
             if (string.IsNullOrEmpty(value) || value.Length == 0)
             {
                 bytes.AddShort(0);
@@ -247,14 +249,15 @@ namespace TTModdingKit.Helper
 
         public static void AddString32(this List<byte> bytes, string value)
         {
+            value = value.TrimEnd();
             if (string.IsNullOrEmpty(value) || value.Length == 0)
             {
                 bytes.AddInt(0);
                 return;
             }
 
-            if (value.Length > int.MaxValue-1) value = value[..(int.MaxValue-1)] + '\0';
-            else if (value[^1] != '\0') value += '\0';
+            /*if (value.Length > int.MaxValue-1) value = value[..(int.MaxValue-1)] + '\0';
+            else if (value[^1] != '\0') value += '\0';*/
 
             bytes.AddInt(value.Length);
             bytes.AddString(value);

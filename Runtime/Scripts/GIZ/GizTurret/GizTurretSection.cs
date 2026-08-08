@@ -56,7 +56,7 @@ namespace TTModdingKit.Gizmos
                     if (version >= 3) bytes.AddShort(specObj.unknown3);
                 }
 
-                bytes.AddVector3(turret.unknown1);
+                bytes.AddVector3(turret.transform.position);
                 bytes.AddVector3(turret.unknown2);
                 bytes.AddVector3(turret.unknown3);
                 bytes.AddVector3(turret.unknown4);
@@ -74,23 +74,25 @@ namespace TTModdingKit.Gizmos
                 for (int j = 0; j < unk12Count; j++) bytes.AddVector3(turret.unknown12[j]);
 
                 bytes.AddFloat(turret.unknown13);
-                bytes.AddFloat(turret.unknown14);
+                bytes.AddFloat(turret.shootRange);
                 bytes.AddFloat(turret.unknown15);
-                bytes.AddFloat(turret.unknown16);
-                bytes.AddFloat(turret.unknown17);
-                bytes.AddFloat(turret.unknown18);
+                bytes.AddFloat(turret.fireRate);
+                bytes.AddFloat(turret.yRotationSpeed);
+                bytes.AddFloat(turret.xRotationSpeed);
 
-                bytes.AddShort((short)turret.minStuds);
-                bytes.AddShort((short)turret.maxStuds);
+                bytes.AddShort((short)turret.studsValue);
 
                 if (turret.studsSpawn == null)
                 {
+                    bytes.AddShort(0);
                     bytes.AddShort(0);
                     bytes.AddVector3(Vector3.zero);
                 }
                 else
                 {
-                    bytes.AddShort((short)turret.studsSpawn.eulerAngles.y.ToShortAng());
+                    Vector3 studsEuler = turret.studsSpawn.eulerAngles;
+                    bytes.AddShort((short)studsEuler.x.ToShortAng());
+                    bytes.AddShort((short)studsEuler.y.ToShortAng());
                     bytes.AddVector3(turret.studsSpawn.position - turret.transform.position);
                 }
 
@@ -104,10 +106,10 @@ namespace TTModdingKit.Gizmos
                     bytes.AddShort(turret.unknown21);
                 }
 
-                bytes.AddString8(turret.blasterMaterial);
-                bytes.AddString8(turret.part1);
-                bytes.AddString8(turret.part2);
-                if (version >= 7) bytes.AddString8(turret.part3);
+                bytes.AddString8(turret.boltType);
+                bytes.AddString8(turret.unknownSfx1.sample);
+                bytes.AddString8(turret.unknownSfx2.sample);
+                if (version >= 7) bytes.AddString8(turret.unknownSfx3.sample);
                 bytes.AddString8(turret.blowup.GetBlowup());
 
                 bytes.AddShort(turret.unknown22);
@@ -149,7 +151,7 @@ namespace TTModdingKit.Gizmos
                     turret.specialObjects[j] = specObj;
                 }
 
-                turret.unknown1 = bytes.ReadVector3(ref index);
+                turret.transform.position = bytes.ReadVector3(ref index);
                 turret.unknown2 = bytes.ReadVector3(ref index);
                 turret.unknown3 = bytes.ReadVector3(ref index);
                 turret.unknown4 = bytes.ReadVector3(ref index);
@@ -167,18 +169,17 @@ namespace TTModdingKit.Gizmos
                 for (int j = 0; j < unk12Count; j++) turret.unknown12[j] = bytes.ReadVector3(ref index);
 
                 turret.unknown13 = bytes.ReadFloat(ref index);
-                turret.unknown14 = bytes.ReadFloat(ref index);
+                turret.shootRange = bytes.ReadFloat(ref index);
                 turret.unknown15 = bytes.ReadFloat(ref index);
-                turret.unknown16 = bytes.ReadFloat(ref index);
-                turret.unknown17 = bytes.ReadFloat(ref index);
-                turret.unknown18 = bytes.ReadFloat(ref index);
+                turret.fireRate = bytes.ReadFloat(ref index);
+                turret.yRotationSpeed = bytes.ReadFloat(ref index);
+                turret.xRotationSpeed = bytes.ReadFloat(ref index);
 
-                turret.minStuds = (ushort)bytes.ReadShort(ref index);
-                turret.maxStuds = (ushort)bytes.ReadShort(ref index);
+                turret.studsValue = (ushort)bytes.ReadShort(ref index);
 
                 GameObject studsSpawn = new("studs_spawn_transform");
                 studsSpawn.transform.SetParent(turret.transform);
-                studsSpawn.transform.eulerAngles = new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
+                studsSpawn.transform.eulerAngles = bytes.ReadXYEuler(ref index);
                 studsSpawn.transform.localPosition = bytes.ReadVector3(ref index);
                 turret.studsSpawn = studsSpawn.transform;
 
@@ -192,10 +193,10 @@ namespace TTModdingKit.Gizmos
                     turret.unknown21 = bytes.ReadShort(ref index);
                 }
 
-                turret.blasterMaterial = bytes.ReadString8(ref index);
-                turret.part1 = bytes.ReadString8(ref index);
-                turret.part2 = bytes.ReadString8(ref index);
-                if (version >= 7) turret.part3 = bytes.ReadString8(ref index);
+                turret.boltType = bytes.ReadString8(ref index);
+                turret.unknownSfx1 = new() { sample = bytes.ReadString8(ref index) };
+                turret.unknownSfx2 = new() { sample = bytes.ReadString8(ref index) };
+                if (version >= 7) turret.unknownSfx3 = new() { sample = bytes.ReadString8(ref index) };
                 turret.blowup = new() { blowupName =  bytes.ReadString8(ref index) };
 
                 turret.unknown22 = bytes.ReadShort(ref index);
