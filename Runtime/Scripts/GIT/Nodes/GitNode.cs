@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     public interface IGitNode
     {

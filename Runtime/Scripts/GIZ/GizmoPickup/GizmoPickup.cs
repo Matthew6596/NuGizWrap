@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     public class GizmoPickup : Gizmo
     {
@@ -33,7 +33,7 @@ namespace TTModdingKit.Gizmos
             prevType = type;
         }
 
-        [MenuItem("TT Modding/Gizmos/Pickups/Refresh Models")]
+        [MenuItem("Nu Giz Wrap/Gizmos/Pickups/Refresh Models")]
         private static void RefreshAllPickupModels()
         {
             foreach (var pup in FindObjectsByType<GizmoPickup>(FindObjectsInactive.Include, FindObjectsSortMode.None)) 

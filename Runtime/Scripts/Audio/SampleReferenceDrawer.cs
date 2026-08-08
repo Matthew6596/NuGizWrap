@@ -5,7 +5,7 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 
-namespace TTModdingKit.Audio
+namespace NuGizWrap.Audio
 {
     [CustomPropertyDrawer(typeof(SampleReference))]
     [InitializeOnLoad]

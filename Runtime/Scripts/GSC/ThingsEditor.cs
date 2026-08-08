@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TTModdingKit.GameScene
+namespace NuGizWrap.GameScene
 {
     [CustomEditor(typeof(Things))]
     public class ThingsEditor : Editor

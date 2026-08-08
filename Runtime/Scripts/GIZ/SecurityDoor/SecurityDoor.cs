@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     public class SecurityDoor : Gizmo
     {

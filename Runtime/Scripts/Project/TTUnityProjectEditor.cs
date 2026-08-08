@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Diagnostics;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     using Helper;
     [CustomEditor(typeof(TTUnityProject))]

@@ -7,11 +7,11 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using System.IO;
 using UnityEngine.SceneManagement;
-using TTModdingKit.Gizmos;
+using NuGizWrap.Gizmos;
 using System.Linq;
 using UnityEngine.UIElements;
 
-namespace TTModdingKit.Helper
+namespace NuGizWrap.Helper
 {
     public static class EditorExt
     {

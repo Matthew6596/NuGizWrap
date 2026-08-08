@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     using Gizmos;
     public class AIMessage : Gizmo

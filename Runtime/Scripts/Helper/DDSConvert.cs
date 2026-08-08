@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
-namespace TTModdingKit.Helper
+namespace NuGizWrap.Helper
 {
     /// <summary>
     /// Utility class for converting between Unity Texture2D and DDS file format.

@@ -7,7 +7,7 @@ using UnityEngine;
 using Giz = UnityEngine.Gizmos;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     using Helper;
 
@@ -54,7 +54,7 @@ namespace TTModdingKit.GizFlow
             }*/
         }
 
-        [MenuItem("TT Modding/Analysis/Log Git Boxes")]
+        [MenuItem("Nu Giz Wrap/Analysis/Log Git Boxes")]
         private static void LogBoxes()
         {
             Debug.Log($"Total Boxes: {Instance.boxes.Count}");

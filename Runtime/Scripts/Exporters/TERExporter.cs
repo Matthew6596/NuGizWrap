@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     public static class TERExporter
     {
-        [MenuItem("TT Modding/Export/File/TER")]
+        [MenuItem("Nu Giz Wrap/Export/File/TER")]
         static void Export() 
         {
             string path = EditorUtility.SaveFilePanel("Export TER File", "", "levelter", "ter");

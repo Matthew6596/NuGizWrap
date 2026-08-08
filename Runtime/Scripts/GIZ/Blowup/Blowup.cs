@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
 using System;
-using TTModdingKit.Helper;
+using NuGizWrap.Helper;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     public class Blowup : Gizmo
     {

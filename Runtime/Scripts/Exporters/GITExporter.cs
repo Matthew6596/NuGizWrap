@@ -5,13 +5,13 @@ using System.IO;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     using Helper;
 
     public static class GITExporter
     {
-        [MenuItem("TT Modding/Export/File/GIT")]
+        [MenuItem("Nu Giz Wrap/Export/File/GIT")]
         static void Export()
         {
             string path = EditorUtility.SaveFilePanel("Export GIT File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgit", "git");

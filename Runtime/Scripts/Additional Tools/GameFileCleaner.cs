@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace TTModdingKit.Tools 
+namespace NuGizWrap.Tools 
 {
     public static class GameFileCleaner
     {
@@ -34,11 +34,11 @@ namespace TTModdingKit.Tools
             Debug.Log($"Successfully deleted {pakDelCount}/{pakCount} PAK files in {game}.");
         }
 
-        [MenuItem("TT Modding/Tools/Remove PAKs/TCS")]
+        [MenuItem("Nu Giz Wrap/Tools/Remove PAKs/TCS")]
         public static void RemovePAKsTCS() => RemovePAKs(TTGame.TCS);
-        [MenuItem("TT Modding/Tools/Remove PAKs/LIJ1")]
+        [MenuItem("Nu Giz Wrap/Tools/Remove PAKs/LIJ1")]
         public static void RemovePAKsLIJ1() => RemovePAKs(TTGame.LIJ1);
-        [MenuItem("TT Modding/Tools/Remove PAKs/LB1")]
+        [MenuItem("Nu Giz Wrap/Tools/Remove PAKs/LB1")]
         public static void RemovePAKsLB1() => RemovePAKs(TTGame.LB1);
     }
 }

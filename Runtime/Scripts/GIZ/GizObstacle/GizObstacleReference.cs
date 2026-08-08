@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     [Serializable]
     public struct GizObstacleReference

@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using Helper;
     public abstract class GizmoSection : MonoBehaviour, IGameCompatible

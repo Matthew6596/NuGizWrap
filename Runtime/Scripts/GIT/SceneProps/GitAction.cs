@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Linq;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     public class GitAction
     {

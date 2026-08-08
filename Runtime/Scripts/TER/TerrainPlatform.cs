@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace TTModdingKit.Terrain
+namespace NuGizWrap.Terrain
 {
     public class TerrainPlatform : MonoBehaviour
     {

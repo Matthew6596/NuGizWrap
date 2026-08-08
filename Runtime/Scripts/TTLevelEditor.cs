@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneTemplate;
 using System;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     using Gizmos;
     using Terrain;
@@ -39,7 +39,7 @@ namespace TTModdingKit
         }
 
 
-        [MenuItem("TT Modding/Export/Level", priority = 22)]
+        [MenuItem("Nu Giz Wrap/Export/Level", priority = 22)]
         static void ExportModLevel() 
         {
             string path = EditorUtility.SaveFolderPanel("Export Level", TTUnityProject.GetDefaultFileExplorerPath(), "");
@@ -51,7 +51,7 @@ namespace TTModdingKit
             EditorUtility.DisplayDialog("Level Exported!", $"Level '{Path.GetFileName(path)}' successfully exported to '{path}' in {exportTime} seconds", "OK");
         }
 
-        [MenuItem("TT Modding/Import/Level", priority = 23)]
+        [MenuItem("Nu Giz Wrap/Import/Level", priority = 23)]
         static void ImportModLevel()
         {
             string dir = EditorUtility.OpenFolderPanel("Import Level", TTUnityProject.GetDefaultFileExplorerPath(), "");
@@ -102,7 +102,7 @@ namespace TTModdingKit
             return EditorApplication.timeSinceStartup - startTime;
         }
 
-        [MenuItem("TT Modding/New/Level",priority = 20)]
+        [MenuItem("Nu Giz Wrap/New/Level",priority = 20)]
         public static void NewLevel()
         {
             string scenesPath = TTUnityProject.ProjectAssetPath + "/" + TTUnityProject.Instance.scenesPath+"/NewLevel";

@@ -6,7 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using Helper;
 
@@ -47,7 +47,7 @@ namespace TTModdingKit.Gizmos
             typeof(GizFlockSection), //LIJ1/LB1
         };
 
-        [MenuItem("TT Modding/Export/File/GIZ")]
+        [MenuItem("Nu Giz Wrap/Export/File/GIZ")]
         static void Export() 
         {
             string path = EditorUtility.SaveFilePanel("Export GIZ File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgiz", "giz");

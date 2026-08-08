@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     
     public class GitWindow : EditorWindow
@@ -13,7 +13,7 @@ namespace TTModdingKit.GizFlow
         private static GitGraphView gitGraph;
         private VisualElement boxPropertiesView;
 
-        [MenuItem("TT Modding/Giz Flow/Open Editor Window")]
+        [MenuItem("Nu Giz Wrap/Giz Flow/Open Editor Window")]
         public static void OpenGitEditor()
         {
             // This method is called when the user selects the menu item in the Editor

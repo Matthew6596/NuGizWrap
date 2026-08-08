@@ -1,12 +1,12 @@
 #if UNITY_EDITOR
 using System.IO;
-using TTModdingKit.Helper;
+using NuGizWrap.Helper;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     public class AIPathPoint : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     [InitializeOnLoad]
     public static class EditorGIZIconManager

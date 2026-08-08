@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using System.Linq;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     public class CollapseBox : GitBox
     {

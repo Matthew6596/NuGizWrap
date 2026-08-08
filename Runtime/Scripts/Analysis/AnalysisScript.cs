@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace TTModdingKit.Analysis
+namespace NuGizWrap.Analysis
 {
     [CreateAssetMenu(fileName = "AnalysisScript", menuName = "TT Modding/Analysis Script")]
     public class AnalysisScript : ScriptableObject

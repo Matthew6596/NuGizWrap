@@ -6,7 +6,7 @@ using UnityEditor.UIElements;
 using System;
 using System.Linq;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     using Gizmos;
     using Helper;

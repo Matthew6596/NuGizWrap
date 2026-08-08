@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace TTModdingKit.GameScene
+namespace NuGizWrap.GameScene
 {
     using Gizmos;
 

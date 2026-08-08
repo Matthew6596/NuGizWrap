@@ -1,8 +1,8 @@
 #if UNITY_EDITOR
-using TTModdingKit.Helper;
+using NuGizWrap.Helper;
 using UnityEditor;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     [CustomEditor(typeof(GizDigSection))]
     public class GizDigSectionEditor : Editor

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TTModdingKit.Tools
+namespace NuGizWrap.Tools
 {
     public static class GameValidation
     {

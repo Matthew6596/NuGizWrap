@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace TTModdingKit.AI.Scripting
+namespace NuGizWrap.AI.Scripting
 {
     public abstract class AIScript : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace TTModdingKit.Emulation
+namespace NuGizWrap.Emulation
 {
     public class Character : MonoBehaviour
     {

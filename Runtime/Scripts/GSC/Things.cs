@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TTModdingKit.GameScene
+namespace NuGizWrap.GameScene
 {
     [CreateAssetMenu(fileName = "Things", menuName = "TT Modding/Things")]
     public class Things : ScriptableObject

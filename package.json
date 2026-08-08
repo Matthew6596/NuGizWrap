@@ -1,8 +1,8 @@
 {
-  "name": "com.mattonmat.ttmoddingkit",
+  "name": "com.mattonmat.nugizwrap",
   "version": "0.0.1",
   "description": "A package of editor scripts that support level modding in classic TT games (TCS, LIJ1, LB1).\n\nSupported Files:\n\u2022 GIZ",
-  "displayName": "TT Modding Kit",
+  "displayName": "Nu Giz Wrap",
   "author": {
     "name": "Matthew Satterfield (MattonMat)",
     "email": "satterfieldfour@gmail.com"

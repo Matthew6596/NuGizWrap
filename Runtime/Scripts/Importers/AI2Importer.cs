@@ -7,13 +7,13 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     using Helper;
 
     public static class AI2Importer
     {
-        [MenuItem("TT Modding/Import/File/AI2")]
+        [MenuItem("Nu Giz Wrap/Import/File/AI2")]
         static void Import()
         {
             string path = EditorUtility.OpenFilePanel("Import AI2 File", TTUnityProject.GetDefaultFileExplorerPath(), "ai2");

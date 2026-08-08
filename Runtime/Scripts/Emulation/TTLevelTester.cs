@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TTModdingKit.Emulation
+namespace NuGizWrap.Emulation
 {
     public enum TTInputAction { Up, Left, Right, Down, Jump, Special, Attack, Swap, Pause }
 

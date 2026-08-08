@@ -3,12 +3,12 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     //[InitializeOnLoad]
     public static class TTResourceManager
     {
-        public static string PackagePath => "Packages/com.mattonmat.ttmoddingkit";
+        public static string PackagePath => "Packages/com.mattonmat.nugizwrap";
         public static TTGame LoadedGame {get; private set;}
 
         /*static TTResourceManager()

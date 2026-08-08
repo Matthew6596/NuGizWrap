@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace TTModdingKit.Audio
+namespace NuGizWrap.Audio
 {
     [Serializable]
     public struct SampleReference

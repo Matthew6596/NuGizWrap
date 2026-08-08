@@ -7,13 +7,13 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.Terrain
+namespace NuGizWrap.Terrain
 {
     using Helper;
 
     public static class TERImporter
     {
-        [MenuItem("TT Modding/Import/File/TER")]
+        [MenuItem("Nu Giz Wrap/Import/File/TER")]
         static void Import()
         {
             string path = EditorUtility.OpenFilePanel("Import TER File", TTUnityProject.GetDefaultFileExplorerPath(), "ter");

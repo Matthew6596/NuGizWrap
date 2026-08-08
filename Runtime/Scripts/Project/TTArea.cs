@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     [CreateAssetMenu(fileName = "TTArea", menuName = "TT Modding/Area (Chapter)")]
     public class TTArea : ScriptableObject

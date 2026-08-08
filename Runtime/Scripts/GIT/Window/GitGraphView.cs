@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     public class GitGraphView : GraphView
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     using Helper;
     public enum TTGame { Unspecified, TCS=1, LIJ1=2, LB1=3 }
@@ -20,7 +20,7 @@ namespace TTModdingKit
 
         private static string targetModPath;
 
-        [MenuItem("TT Modding/Package/Existing Mod")]
+        [MenuItem("Nu Giz Wrap/Package/Existing Mod")]
         public static void ExportPackage()
         {
             //Select a built mod to package

@@ -3,7 +3,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     [CreateAssetMenu(fileName = "TTLevel", menuName = "TT Modding/Level")]
     public class TTLevel : ScriptableObject

@@ -2,7 +2,7 @@
 using System;
 using UnityEditor;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using Helper;
     [CustomEditor(typeof(Teleport))]

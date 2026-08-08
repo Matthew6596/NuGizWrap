@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     public class GitOptions : IGitNode
     {

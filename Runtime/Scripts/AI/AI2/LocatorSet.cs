@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TTModdingKit.Helper;
+using NuGizWrap.Helper;
 using UnityEngine;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     public class LocatorSet : MonoBehaviour
     {

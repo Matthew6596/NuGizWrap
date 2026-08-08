@@ -7,7 +7,7 @@ using System;
 using System.Text;
 using System.Linq;
 
-namespace TTModdingKit.Terrain
+namespace NuGizWrap.Terrain
 {
     public enum SurfaceType
     {
@@ -116,7 +116,7 @@ namespace TTModdingKit.Terrain
             }
         }
 
-        [MenuItem("TT Modding/Analysis/Log Loaded Terrain Types")]
+        [MenuItem("Nu Giz Wrap/Analysis/Log Loaded Terrain Types")]
         public static void LogAllLoadedSurfaceTypes()
         {
             List<(int, int)> norm2Types = new();

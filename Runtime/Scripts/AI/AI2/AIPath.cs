@@ -2,11 +2,11 @@
 using System;
 using System.IO;
 using System.Linq;
-using TTModdingKit.Helper;
+using NuGizWrap.Helper;
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     public class AIPath : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using UnityEditor;
 using System.IO;
 using System.Text;
 
-namespace TTModdingKit.Analysis
+namespace NuGizWrap.Analysis
 {
     using Helper;
     using System;
@@ -13,7 +13,7 @@ namespace TTModdingKit.Analysis
     {
         private enum Game { TCS, LIJ1LB1 }
 
-        [MenuItem("TT Modding/Analysis/Validate GSC")]
+        [MenuItem("Nu Giz Wrap/Analysis/Validate GSC")]
         public static void ValidateGSC()
         {
             string path = EditorUtility.OpenFilePanel("Select a GSC File", "", "gsc");

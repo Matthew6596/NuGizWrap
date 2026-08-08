@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
-namespace TTModdingKit.GameScene
+namespace NuGizWrap.GameScene
 {
     [CustomPropertyDrawer(typeof(SpecialObjectReference))]
     public class SpecialObjectReferenceDrawer : PropertyDrawer

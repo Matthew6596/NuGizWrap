@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.Terrain
+namespace NuGizWrap.Terrain
 {
     public class InfiniteWall : MonoBehaviour
     {

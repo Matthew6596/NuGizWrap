@@ -7,14 +7,14 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     using Audio;
     using Helper;
 
     public static class AudioExporter
     {
-        [MenuItem("TT Modding/Export/Audio")]
+        [MenuItem("Nu Giz Wrap/Export/Audio")]
         public static void Export()
         {
             string path = EditorUtility.SaveFolderPanel("Export Audio Files", "", "");

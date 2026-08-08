@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     public abstract class Gizmo : MonoBehaviour
     {

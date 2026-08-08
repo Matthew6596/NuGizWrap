@@ -6,7 +6,7 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 
-namespace TTModdingKit.Audio
+namespace NuGizWrap.Audio
 {
     using Helper;
 

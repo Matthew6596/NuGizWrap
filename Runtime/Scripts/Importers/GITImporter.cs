@@ -7,13 +7,13 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     using Helper;
 
     public static class GITImporter
     {
-        [MenuItem("TT Modding/Import/File/GIT")]
+        [MenuItem("Nu Giz Wrap/Import/File/GIT")]
         static void Import()
         {
             string path = EditorUtility.OpenFilePanel("Import GIT File", TTUnityProject.GetDefaultFileExplorerPath(), "git");

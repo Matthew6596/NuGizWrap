@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace TTModdingKit.Helper.Splines 
+namespace NuGizWrap.Helper.Splines 
 {
     [ExecuteInEditMode]
     public class SplinePlacer : MonoBehaviour

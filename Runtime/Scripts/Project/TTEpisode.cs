@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     [CreateAssetMenu(fileName = "TTEpisode", menuName = "TT Modding/Episode")]
     public class TTEpisode : ScriptableObject

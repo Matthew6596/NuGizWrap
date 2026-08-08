@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     [CustomPropertyDrawer(typeof(GizObstacleReference))]
     public class GizObstacleReferenceDrawer : PropertyDrawer

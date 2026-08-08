@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.IO;
 
-namespace TTModdingKit.Analysis
+namespace NuGizWrap.Analysis
 {
     using Gizmos;
     using System.Linq;
@@ -25,7 +25,7 @@ namespace TTModdingKit.Analysis
         private static bool tempSceneLoaded;
         private static int loopCount = 0;
 
-        [MenuItem("TT Modding/Analysis/Run Script")]
+        [MenuItem("Nu Giz Wrap/Analysis/Run Script")]
         public static void RunAnalysisScript()
         {
             if (Running) EditorUtility.DisplayDialog("Already Running", "A script is already running so another cannot be run.", "Ok");
@@ -221,13 +221,13 @@ namespace TTModdingKit.Analysis
 
         private static int ParseStr(string str, int defaultVal = 0) => int.TryParse(str, out var val) ? val : defaultVal;
 
-        [MenuItem("TT Modding/Analysis/Validate Read TCS")]
+        [MenuItem("Nu Giz Wrap/Analysis/Validate Read TCS")]
         public static void ValidateReadTCS() => ValidateRead(TTGame.TCS);
 
-        [MenuItem("TT Modding/Analysis/Validate Read LIJ1")]
+        [MenuItem("Nu Giz Wrap/Analysis/Validate Read LIJ1")]
         public static void ValidateReadLIJ1() => ValidateRead(TTGame.LIJ1);
 
-        [MenuItem("TT Modding/Analysis/Validate Read LB1")]
+        [MenuItem("Nu Giz Wrap/Analysis/Validate Read LB1")]
         public static void ValidateReadLB1() => ValidateRead(TTGame.LB1);
 
         private static void ValidateRead(TTGame game)

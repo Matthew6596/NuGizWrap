@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     public interface IGameCompatible
     {

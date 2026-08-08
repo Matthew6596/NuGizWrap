@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using GameScene;
     using Helper;

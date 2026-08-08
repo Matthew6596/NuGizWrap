@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TTModdingKit.Audio
+namespace NuGizWrap.Audio
 {
     [CustomEditor(typeof(AudioImporter))]
     public class AudioClipMetaInspector : Editor

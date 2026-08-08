@@ -8,13 +8,13 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit.Analysis
+namespace NuGizWrap.Analysis
 {
     using Helper;
 
     public static class HardcodedAnalysis
     {
-        [MenuItem("TT Modding/Analysis/Hardcoded/General Analysis")]
+        [MenuItem("Nu Giz Wrap/Analysis/Hardcoded/General Analysis")]
         public static void General()
         {
             string[] rootPaths = new[]
@@ -31,14 +31,14 @@ namespace TTModdingKit.Analysis
             GizmosAnalysis(rootPaths, GizAnalysisMode.One, GetGizOneCode("Lever", 15));
         }
 
-        [MenuItem("TT Modding/Analysis/Hardcoded/TCS Analysis")]
+        [MenuItem("Nu Giz Wrap/Analysis/Hardcoded/TCS Analysis")]
         public static void AnalyseTCS()
         {
             string[] rootPaths = new[] { Path.Combine(Path.GetDirectoryName(TTUnityProject.GetGamePath(TTGame.TCS)), "LEVELS") };
             //GizmosAnalysis(rootPaths, GizAnalysisMode.One, GetGizOneCode("Tube", 4));
         }
 
-        [MenuItem("TT Modding/Analysis/Hardcoded/LIJ1 Analysis")]
+        [MenuItem("Nu Giz Wrap/Analysis/Hardcoded/LIJ1 Analysis")]
         public static void AnalyseLIJ1()
         {
             string[] rootPaths = new[] { Path.Combine(Path.GetDirectoryName(TTUnityProject.GetGamePath(TTGame.LIJ1)), "LEVELS") };
@@ -46,7 +46,7 @@ namespace TTModdingKit.Analysis
             GizmosAnalysis(rootPaths, GizAnalysisMode.One, GetGizOneCode("Grapple", 12));
         }
 
-        [MenuItem("TT Modding/Analysis/Hardcoded/LB1 Analysis")]
+        [MenuItem("Nu Giz Wrap/Analysis/Hardcoded/LB1 Analysis")]
         public static void AnalyseLB1()
         {
             string[] rootPaths = new[] { Path.Combine(Path.GetDirectoryName(TTUnityProject.GetGamePath(TTGame.LB1)), "LEVELS") };

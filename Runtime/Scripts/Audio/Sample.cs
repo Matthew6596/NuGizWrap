@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit.Audio
+namespace NuGizWrap.Audio
 {
     public class Sample : MonoBehaviour
     {

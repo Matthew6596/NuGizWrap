@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using Helper;
     using System.Linq;

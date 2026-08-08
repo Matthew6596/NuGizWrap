@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
 using System.IO;
-using TTModdingKit.Helper;
+using NuGizWrap.Helper;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     public class Locator : MonoBehaviour
     {

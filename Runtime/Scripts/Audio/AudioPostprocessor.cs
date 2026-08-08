@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TTModdingKit.Audio
+namespace NuGizWrap.Audio
 {
     public class AudioPostprocessor : AssetPostprocessor
     {

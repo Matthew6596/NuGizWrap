@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace TTModdingKit.GameScene
+namespace NuGizWrap.GameScene
 {
     [Serializable]
     public struct SpecialObjectReference

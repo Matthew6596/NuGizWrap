@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     using Helper;
 
@@ -13,7 +13,7 @@ namespace TTModdingKit.AI
     {
         const int MaxAI2Version = 21;
 
-        [MenuItem("TT Modding/Export/File/AI2")]
+        [MenuItem("Nu Giz Wrap/Export/File/AI2")]
         static void Export()
         {
             string path = EditorUtility.SaveFilePanel("Export AI2 File", TTUnityProject.GetDefaultFileExplorerPath(), "levelai2", "ai2");

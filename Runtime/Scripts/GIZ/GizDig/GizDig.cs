@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using Giz = UnityEngine.Gizmos;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using Audio;
     using GameScene;

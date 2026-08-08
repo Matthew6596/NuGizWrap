@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TTModdingKit.GizFlow
+namespace NuGizWrap.GizFlow
 {
     using Helper;
 

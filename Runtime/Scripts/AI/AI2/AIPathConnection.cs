@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace TTModdingKit.AI
+namespace NuGizWrap.AI
 {
     public class AIPathConnection : MonoBehaviour
     {

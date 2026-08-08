@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TTModdingKit.GameScene
+namespace NuGizWrap.GameScene
 {
     public class SplinePoint : MonoBehaviour
     {

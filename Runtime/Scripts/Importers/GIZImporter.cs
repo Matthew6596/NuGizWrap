@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TTModdingKit.Gizmos
+namespace NuGizWrap.Gizmos
 {
     using Helper;
 
@@ -15,7 +15,7 @@ namespace TTModdingKit.Gizmos
     {
         public static Type[] SectionTypes => GIZExporter.SectionTypes;
 
-        [MenuItem("TT Modding/Import/File/GIZ")]
+        [MenuItem("Nu Giz Wrap/Import/File/GIZ")]
         static void Import()
         {
             string path = EditorUtility.OpenFilePanel("Import GIZ File", TTUnityProject.GetDefaultFileExplorerPath(), "giz");

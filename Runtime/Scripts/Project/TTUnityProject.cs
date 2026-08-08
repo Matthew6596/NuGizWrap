@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine.Events;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     using Terrain;
 

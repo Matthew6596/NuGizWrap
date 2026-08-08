@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace TTModdingKit
+namespace NuGizWrap
 {
     public static class GSCExporter
     {
-        [MenuItem("TT Modding/Export/File/GSC")]
+        [MenuItem("Nu Giz Wrap/Export/File/GSC")]
         static void Export() 
         {
             string path = EditorUtility.SaveFilePanel("Export GSC File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgsc", "gsc");
