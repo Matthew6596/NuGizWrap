@@ -7,4 +7,4 @@ It has only been tested with Unity 6000.2.8f1, but may be compatible with other 
 
 Nu Giz Wrap is primarily focused on modding gizmos and allows importing and exporting.
 
-GitHub Page: <https://github.com/Matthew6596/TTModdingKit>
+GitHub Page: <https://github.com/Matthew6596/NuGizWrap>
