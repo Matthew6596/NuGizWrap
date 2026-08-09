@@ -41,7 +41,7 @@ namespace NuGizWrap.Gizmos
                 var minicut = minicuts[i];
 
                 bytes.AddString8(minicut.name);
-                bytes.AddFloat(minicut.unknown1);
+                bytes.AddFloat(minicut.startDelay);
                 bytes.AddFloat(minicut.duration);
                 bytes.AddFloat(minicut.blendInTime);
                 bytes.AddFloat(minicut.blendOutTime);
@@ -62,8 +62,8 @@ namespace NuGizWrap.Gizmos
                     bytes.AddShort(pitch);
                     bytes.AddShort(yaw);
                     bytes.AddShort(roll);
-                    bytes.AddFloat(part.easeIn);
-                    bytes.AddFloat(part.easeOut);
+                    bytes.AddFloat(part.easeInTime);
+                    bytes.AddFloat(part.duration);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace NuGizWrap.Gizmos
                 minicutObj.transform.SetParent(transform);
                 var minicut = minicutObj.AddComponent<MiniCut>();
 
-                minicut.unknown1 = bytes.ReadFloat(ref index);
+                minicut.startDelay = bytes.ReadFloat(ref index);
                 minicut.duration = bytes.ReadFloat(ref index);
                 minicut.blendInTime = bytes.ReadFloat(ref index);
                 minicut.blendOutTime = bytes.ReadFloat(ref index);
@@ -105,8 +105,8 @@ namespace NuGizWrap.Gizmos
                             ((ushort)bytes.ReadShort(ref index)).ToFloatAng(),
                             ((ushort)bytes.ReadShort(ref index)).ToFloatAng()
                             ),
-                        easeIn = bytes.ReadFloat(ref index),
-                        easeOut = bytes.ReadFloat(ref index),
+                        easeInTime = bytes.ReadFloat(ref index),
+                        duration = bytes.ReadFloat(ref index),
                     };
                     minicut.miniCutParts[j] = part;
                 }

@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            serializedObject.Props("name", "targetPosition", "cameraDistance", "cameraOrbitEuler", "easeIn", "easeOut");
+            serializedObject.Props("name", "targetPosition", "cameraDistance", "cameraOrbitEuler", "easeInTime", "duration");
 
             serializedObject.ApplyModifiedProperties();
         }

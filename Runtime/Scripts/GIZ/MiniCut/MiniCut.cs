@@ -11,7 +11,7 @@ namespace NuGizWrap.Gizmos
     {
         public override string[] GetOutputNames(TTGame game) => new[] { "Played", "Playing" };
 
-        public float unknown1, duration, blendInTime, blendOutTime, maxTotalDuration;
+        public float startDelay, duration, blendInTime, blendOutTime, maxTotalDuration;
         public MiniCutPart[] miniCutParts;
 
         private void OnValidate()
@@ -31,7 +31,7 @@ namespace NuGizWrap.Gizmos
             public Vector3 targetPosition;
             public float cameraDistance;
             public Vector3 cameraOrbitEuler;
-            public float easeIn, easeOut;
+            public float easeInTime, duration;
         }
 
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;
