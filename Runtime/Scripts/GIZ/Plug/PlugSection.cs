@@ -44,12 +44,12 @@ namespace NuGizWrap.Gizmos
                 bytes.AddShort((short)euler.x.ToShortAng());
                 bytes.AddShort((short)euler.y.ToShortAng());
 
-                if (version < 3) bytes.Add((byte)plug.unknown1);
-                else bytes.AddShort(plug.unknown1);
+                if (version < 3) bytes.Add((byte)plug.validBlowups);
+                else bytes.AddShort(plug.validBlowups);
 
                 if (version >= 5) bytes.AddShort(plug.unknown2);
-                if (version >= 2) bytes.AddShort(plug.unknown3);
-                if (version >= 4) bytes.Add(plug.unknown4);
+                if (version >= 2) bytes.AddShort((short)euler.z.ToShortAng());
+                if (version >= 4) bytes.Add((byte)(plug.blowupObjectVisible ? 1 : 0));
                 if (version >= 6) bytes.AddFloat(plug.unknown5);
             }
 
@@ -71,14 +71,17 @@ namespace NuGizWrap.Gizmos
                 plugObj.transform.position = bytes.ReadVector3(ref index);
                 float pitch = ((ushort)bytes.ReadShort(ref index)).ToFloatAng();
                 float yaw = ((ushort)bytes.ReadShort(ref index)).ToFloatAng();
-                plugObj.transform.eulerAngles = new(pitch, yaw, 0);
                 var plug = plugObj.AddComponent<Plug>();
 
-                plug.unknown1 = (version < 3) ? bytes.ReadByte(ref index) : bytes.ReadShort(ref index);
+                plug.validBlowups = (version < 3) ? bytes.ReadByte(ref index) : bytes.ReadShort(ref index);
 
                 if (version >= 5) plug.unknown2 = bytes.ReadShort(ref index);
-                if (version >= 2) plug.unknown3 = bytes.ReadShort(ref index);
-                if (version >= 4) plug.unknown4 = bytes.ReadByte(ref index);
+
+                float zAng = 0;
+                if (version >= 2) zAng = ((ushort)bytes.ReadShort(ref index)).ToFloatAng();
+                plugObj.transform.eulerAngles = new(pitch, yaw, zAng);
+
+                if (version >= 4) plug.blowupObjectVisible = bytes.ReadByte(ref index) != 0;
                 if (version >= 6) plug.unknown5 = bytes.ReadFloat(ref index);
             }
         }

@@ -68,6 +68,7 @@ namespace NuGizWrap.GizFlow
                 "TightRope" => typeof(TightRope),
                 "Attracto" => typeof(Attracto),
                 "GizTimer" => typeof(GizTimer),
+                "GizRandom" => typeof(GizRandom),
                 "Message" => typeof(AI.AIMessage),
                 "AIProcessor" => typeof(AI.AIProcessor),
                 _ => typeof(Gizmo)

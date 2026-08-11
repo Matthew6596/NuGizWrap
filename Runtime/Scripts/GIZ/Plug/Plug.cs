@@ -8,8 +8,8 @@ namespace NuGizWrap.Gizmos
     {
         public override string[] GetOutputNames(TTGame game) => new[] { "Plugged", "ID1", "ID2", "ID3", "ID4", "ID5", "NotPlugged" };
 
-        public short unknown1, unknown2, unknown3;
-        public byte unknown4;
+        public short validBlowups, unknown2;
+        public bool blowupObjectVisible;
         public float unknown5;
 
         public static float GizmoScale = 0.25f, GizmoAlpha = 0.5f;

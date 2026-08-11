@@ -11,7 +11,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TeleportSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            if (!TeleportSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject, editable:false)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

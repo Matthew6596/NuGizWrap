@@ -161,7 +161,7 @@ namespace NuGizWrap.Helper
                 z = ReadFloat(bytes, ref index)
             };
 
-        public static string ReadString(this byte[] bytes, ref int index, int len, bool trim=false)
+        public static string ReadString(this byte[] bytes, ref int index, int len)
         {
             //Get bytes and replace '\0' with space
             byte[] strBytes = bytes.Skip(index).Take(len).ToArray();
@@ -180,7 +180,7 @@ namespace NuGizWrap.Helper
             index += len;
 
             //Trim and return
-            return trim ? str.Trim() : str;
+            return str.Trim();
         }
 
         public static string ReadString8(this byte[] bytes, ref int index)

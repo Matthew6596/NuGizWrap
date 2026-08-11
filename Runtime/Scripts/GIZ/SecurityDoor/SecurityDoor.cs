@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
         public static string[] LIJ1Types => new string[] { "Enemy", "Thuggee", "PostBox" };
         public static string[] LB1Types => new string[] { "NoDoor", "LoveHearts" };
 
+        public static string[] GetTypes(TTGame game) => (game) switch { TTGame.LIJ1 => LIJ1Types, TTGame.LB1 => LB1Types, _ => new string[0] };
+
         public string type;
         public GameScene.SpecialObjectReference specialObject;
 
