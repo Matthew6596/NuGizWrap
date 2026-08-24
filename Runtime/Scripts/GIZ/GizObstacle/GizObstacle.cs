@@ -13,6 +13,9 @@ namespace NuGizWrap.Gizmos
 
     public class GizObstacle : Gizmo
     {
+        public enum AnimBehaviour { OneShot=0, AutoReverse=1, IndefiniteLoop=2, HeldLoop=3, InstantReverse=4 }
+        public enum Type { AutoStart=0, Proximity1=1, Proximity2=2, NoTrigger=3, TechnoOnly=4, Proximity3=5, Proximity4=6, PushOnly=7 }
+
         public override string[] GetOutputNames(TTGame game) => (game) switch { 
             TTGame.TCS => new[] { "AtEnd", "NotAtStart", "Proximity", "AtStart", "PlayingForward" },
             _ => new[] { "AtEnd", "NotAtStart", "Proximity", "AtStart", "PlayingForward", "Destroyed", "WithinActiveFrames" }
@@ -25,7 +28,8 @@ namespace NuGizWrap.Gizmos
         public Vector3 unknown3 = new(0.00390625f, 0.00390625f, 0.00390625f);
         public short unknown4;
         public int unknown5, unknown6;
-        public byte unknown9, unknown10;
+        public AnimBehaviour animBehaviour;
+        public Type type;
 
         public float unknown17, unknown18, unknown19, unknown20 = 1;
 
@@ -35,7 +39,7 @@ namespace NuGizWrap.Gizmos
         public SpecialObject[] specialObjects;
 
         public float unknown12 = 1, unknown13, unknown14;
-        public BlowupReference blowup;
+        public BlowupTypeReference blowupType;
 
         public ushort studsValue;
         [Tooltip("Transform of the stud spawn. Uses the position and yaw.")]

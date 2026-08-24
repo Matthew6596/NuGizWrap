@@ -32,7 +32,7 @@ namespace NuGizWrap.Gizmos
             if (version >= 7) serializedObject.Prop("effectScale");
             if (version >= 3) serializedObject.Prop("unknown7");
             if (version == 4) serializedObject.Prop("unknown8");
-            if (version >= 5) serializedObject.Prop("blowup");
+            if (version >= 5) serializedObject.Prop("blowupType");
 
             if (version >= 4) serializedObject.Props("minStuds", "maxStuds", "studsSpawn");
             if (version >= 10) serializedObject.Prop("studsSpawnSpeed");

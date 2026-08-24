@@ -222,6 +222,14 @@ namespace NuGizWrap
             }
             public AI2 ai2;
 
+            //RT Lighting
+            [Serializable]
+            public struct RealtimeLighting
+            {
+                public bool autoManageVersioning, deleteInvalidLights;
+            }
+            public RealtimeLighting lighting;
+
             public static Preferences Default => new()
             {
                 general = new() 
@@ -275,6 +283,12 @@ namespace NuGizWrap
                     alwaysExportMaxVersion = true,
                     locatorColor = Color.purple,
                     triggerColor = new(1f,.647f,1f,0.1f),
+                },
+
+                lighting = new()
+                {
+                    autoManageVersioning = true,
+                    deleteInvalidLights = false,
                 },
             };
         }

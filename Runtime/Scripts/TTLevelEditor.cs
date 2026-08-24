@@ -12,6 +12,7 @@ namespace NuGizWrap
     using Terrain;
     using GizFlow;
     using AI;
+    using Lighting;
 
     public static class TTLevelEditor
     {
@@ -78,6 +79,8 @@ namespace NuGizWrap
             AI2Importer.Import(Path.Combine(directory, $"AI/{levelName}.ai2"), notify: false);
             if (Errored) return -1;
             GITImporter.Import(Path.Combine(directory, $"{levelName}.git"), notify: false);
+            if (Errored) return -1;
+            RTLImporter.Import(Path.Combine(directory, $"{levelName}.rtl"), notify: false);
             if (Errored) return -1;
             EditorUtility.ClearProgressBar();
 

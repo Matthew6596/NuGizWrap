@@ -135,6 +135,11 @@ namespace NuGizWrap.Helper
             return v;
         }
 
+        public static Vector3 ReadXYZEuler(this byte[] bytes, ref int index) => new(
+            ((ushort)bytes.ReadShort(ref index)).ToFloatAng(),
+            ((ushort)bytes.ReadShort(ref index)).ToFloatAng(),
+            ((ushort)bytes.ReadShort(ref index)).ToFloatAng()
+            );
         public static Vector3 ReadXZEuler(this byte[] bytes, ref int index) => new(((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng());
         public static Vector3 ReadXYEuler(this byte[] bytes, ref int index) => new(((ushort)bytes.ReadShort(ref index)).ToFloatAng(), ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
         public static Vector3 ReadYEuler(this byte[] bytes, ref int index) => new(0, ((ushort)bytes.ReadShort(ref index)).ToFloatAng(), 0);
@@ -358,6 +363,7 @@ namespace NuGizWrap.Helper
         }
 
         public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        public static Color ReadColor(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
         public static float ToFloatAng(this ushort ang) => (ang / 65536f) * 360;
         public static ushort ToShortAng(this float ang) => (ushort)((ang / 360f) * 65536f);

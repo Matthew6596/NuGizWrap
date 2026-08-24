@@ -15,10 +15,10 @@ namespace NuGizWrap.Gizmos
             if (!BlowupSection.Instance.CreateVersionEditorGUI(s => s.version, "Blowup", out int version)) return;
 
             serializedObject.Prop("specialObject");
-            if (version >= 17) serializedObject.Props("parRef1", "parRef2");
-            if (version >= 4) serializedObject.Props("ptlRef1", "ptlRef2", "ptlRef3");
-            if (version >= 26) serializedObject.Props("unkRef1", "unkRef2");
-            if (version >= 27) serializedObject.Props("unkRef3", "unkRef4");
+            if (version >= 17) serializedObject.Props("partType1", "partType2");
+            if (version >= 4) serializedObject.Props("debrisEffect1", "debrisEffect2", "debrisEffect3");
+            if (version >= 26) serializedObject.Props("debrisEffect4", "debrisEffect5");
+            if (version >= 27) serializedObject.Props("debrisEffect6", "debrisEffect7");
 
             serializedObject.Prop("unknown1");
             if (version >= 7) serializedObject.Props("unknown2", "unknown3");

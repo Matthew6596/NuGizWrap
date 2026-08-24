@@ -71,8 +71,8 @@ namespace NuGizWrap.Gizmos
                     bytes.AddShort(0); //padding
                     bytes.Add(0);
                 }
-                bytes.Add(obs.unknown9);
-                bytes.Add(obs.unknown10);
+                bytes.Add((byte)obs.animBehaviour);
+                bytes.Add((byte)obs.type);
 
                 if (version >= 15)
                 {
@@ -109,7 +109,7 @@ namespace NuGizWrap.Gizmos
                     bytes.AddShort(0);
                     Debug.LogWarning($"Cannot export blowup by nametable ID, blowup on GizObstacle '{name}' will be exported as 0");
                 }
-                if (version >= 10) bytes.AddString8(obs.blowup.GetBlowup());
+                if (version >= 10) bytes.AddString8(obs.blowupType.GetBlowupType());
                 if (version >= 9)
                 {
                     bytes.AddShort((short)obs.studsValue);
@@ -175,8 +175,8 @@ namespace NuGizWrap.Gizmos
                 obs.unknown5 = bytes.ReadInt(ref index);
                 if (version >= 12) obs.unknown6 = bytes.ReadInt(ref index);
                 if (version == 6) index += 2 + 1; //padding
-                obs.unknown9 = bytes.ReadByte(ref index);
-                obs.unknown10 = bytes.ReadByte(ref index);
+                obs.animBehaviour = (GizObstacle.AnimBehaviour)bytes.ReadByte(ref index);
+                obs.type = (GizObstacle.Type)bytes.ReadByte(ref index);
 
                 if (version >= 15)
                 {
@@ -215,7 +215,7 @@ namespace NuGizWrap.Gizmos
                     short blowupId = bytes.ReadShort(ref index);
                     Debug.LogWarning($"Cannot load blowup via nametable ID ({blowupId}), blowup on GizObstacle '{name}' will be null");
                 }
-                if (version >= 10) obs.blowup.SetBlowup(bytes.ReadString8(ref index));
+                if (version >= 10) obs.blowupType.SetBlowupType(bytes.ReadString8(ref index));
                 if (version >= 9)
                 {
                     obs.studsValue = (ushort)bytes.ReadShort(ref index);

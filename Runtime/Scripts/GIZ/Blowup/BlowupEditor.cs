@@ -14,16 +14,15 @@ namespace NuGizWrap.Gizmos
 
             if (!BlowupSection.Instance.CreateVersionEditorGUI(s => s.version, "Blowup", out int version)) return;
 
-            serializedObject.Props("type", "unknown1", "unknown2", "unknown3");
-            if (version >= 2 && version <= 19) serializedObject.Prop("unknown4a");
-            if (version >= 20) serializedObject.Prop("interactionOptions");
+            serializedObject.Prop("type");
+            if (version >= 2) serializedObject.Prop("interactionOptions");
             if (version == 28) serializedObject.Prop("unknown4b");
             if (version >= 30 && version < 34) serializedObject.Prop("unknown5");
 
-            if (version >= 34) serializedObject.Props("unknown33", "unknown34");
+            if (version >= 34) serializedObject.Props("plugType", "validPlugs");
             if (version >= 41) serializedObject.Props("unknown35", "unknown36", "unknown37");
 
-            if (version >= 2) serializedObject.Props("studsValue", "unknown6", "unknown7");
+            if (version >= 2) serializedObject.Props("studsValue", "studsValueMultiplier", "unknown7");
             if (version >= 4) serializedObject.Prop("damage");
             if (version >= 6) serializedObject.Prop("range");
             if (version >= 8) serializedObject.Props("unknown8", "unknown9");

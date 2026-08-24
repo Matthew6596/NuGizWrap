@@ -10,10 +10,10 @@ namespace NuGizWrap.Gizmos
     public class BlowupType : Gizmo
     {
         public SpecialObjectReference specialObject;
-        public string parRef1, parRef2;
-        public string ptlRef1, ptlRef2, ptlRef3;
-        public string unkRef1, unkRef2;
-        public string unkRef3, unkRef4;
+        public string partType1, partType2;
+        public string debrisEffect1, debrisEffect2, debrisEffect3;
+        public string debrisEffect4, debrisEffect5;
+        public string debrisEffect6, debrisEffect7;
         public int unknown1, unknown2;
         public byte unknown3;
         public float unknown4;

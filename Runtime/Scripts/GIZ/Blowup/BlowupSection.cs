@@ -58,24 +58,24 @@ namespace NuGizWrap.Gizmos
 
                     if (version >= 17)
                     {
-                        bytes.AddString8(bt.parRef1);
-                        bytes.AddString8(bt.parRef2);
+                        bytes.AddString8(bt.partType1);
+                        bytes.AddString8(bt.partType2);
                     }
                     if (version >= 4)
                     {
-                        bytes.AddString8(bt.ptlRef1);
-                        bytes.AddString8(bt.ptlRef2);
-                        bytes.AddString8(bt.ptlRef3);
+                        bytes.AddString8(bt.debrisEffect1);
+                        bytes.AddString8(bt.debrisEffect2);
+                        bytes.AddString8(bt.debrisEffect3);
                     }
                     if (version >= 26)
                     {
-                        bytes.AddString8(bt.unkRef1);
-                        bytes.AddString8(bt.unkRef2);
+                        bytes.AddString8(bt.debrisEffect4);
+                        bytes.AddString8(bt.debrisEffect5);
                     }
                     if (version >= 27)
                     {
-                        bytes.AddString8(bt.unkRef3);
-                        bytes.AddString8(bt.unkRef4);
+                        bytes.AddString8(bt.debrisEffect6);
+                        bytes.AddString8(bt.debrisEffect7);
                     }
 
                     bytes.AddInt(bt.unknown1);
@@ -146,9 +146,10 @@ namespace NuGizWrap.Gizmos
                 bytes.AddString8(blowup.type.GetBlowupType());
                 if (version >= 2) bytes.AddString8(blowup.name);
                 bytes.AddVector3(blowup.transform.position);
-                bytes.AddShort(blowup.unknown1);
-                bytes.AddShort(blowup.unknown2);
-                bytes.AddShort(blowup.unknown3);
+                Vector3 euler = blowup.transform.eulerAngles;
+                bytes.AddShort((short)euler.x.ToShortAng());
+                bytes.AddShort((short)euler.y.ToShortAng());
+                bytes.AddShort((short)euler.z.ToShortAng());
 
                 if (version >= 2 && version <= 19) bytes.AddShort((short)blowup.interactionOptions);
                 if (version >= 20) bytes.AddInt((int)blowup.interactionOptions);
@@ -157,8 +158,8 @@ namespace NuGizWrap.Gizmos
                 if (version >= 30 && version < 34) bytes.AddInt(blowup.unknown5);
                 if (version >= 34)
                 {
-                    bytes.AddShort(blowup.unknown33);
-                    bytes.AddShort(blowup.unknown34);
+                    bytes.AddShort(blowup.plugType);
+                    bytes.AddShort(blowup.validPlugs);
                 }
                 if (version >= 41)
                 {
@@ -170,7 +171,7 @@ namespace NuGizWrap.Gizmos
                 if (version >= 2)
                 {
                     bytes.AddInt(blowup.studsValue);
-                    bytes.Add(blowup.unknown6);
+                    bytes.Add((byte)blowup.studsValueMultiplier);
                     bytes.Add(blowup.unknown7);
                 }
                 if (version >= 4) bytes.Add(blowup.damage);
@@ -259,24 +260,24 @@ namespace NuGizWrap.Gizmos
 
                     if (version >= 17)
                     {
-                        bt.parRef1 = bytes.ReadString8(ref index);
-                        bt.parRef2 = bytes.ReadString8(ref index);
+                        bt.partType1 = bytes.ReadString8(ref index);
+                        bt.partType2 = bytes.ReadString8(ref index);
                     }
                     if (version >= 4)
                     {
-                        bt.ptlRef1 = bytes.ReadString8(ref index);
-                        bt.ptlRef2 = bytes.ReadString8(ref index);
-                        bt.ptlRef3 = bytes.ReadString8(ref index);
+                        bt.debrisEffect1 = bytes.ReadString8(ref index);
+                        bt.debrisEffect2 = bytes.ReadString8(ref index);
+                        bt.debrisEffect3 = bytes.ReadString8(ref index);
                     }
                     if (version >= 26)
                     {
-                        bt.unkRef1 = bytes.ReadString8(ref index);
-                        bt.unkRef2 = bytes.ReadString8(ref index);
+                        bt.debrisEffect4 = bytes.ReadString8(ref index);
+                        bt.debrisEffect5 = bytes.ReadString8(ref index);
                     }
                     if (version >= 27)
                     {
-                        bt.unkRef3 = bytes.ReadString8(ref index);
-                        bt.unkRef4 = bytes.ReadString8(ref index);
+                        bt.debrisEffect6 = bytes.ReadString8(ref index);
+                        bt.debrisEffect7 = bytes.ReadString8(ref index);
                     }
 
                     bt.unknown1 = bytes.ReadInt(ref index);
@@ -352,9 +353,7 @@ namespace NuGizWrap.Gizmos
                 var blowup = blowupObj.AddComponent<Blowup>();
                 blowup.type.SetBlowupType(blowupType);
 
-                blowup.unknown1 = bytes.ReadShort(ref index);
-                blowup.unknown2 = bytes.ReadShort(ref index);
-                blowup.unknown3 = bytes.ReadShort(ref index);
+                blowup.transform.eulerAngles = bytes.ReadXYZEuler(ref index);
 
                 if (version >= 2 && version <= 19) blowup.interactionOptions = (Blowup.InteractionOptions)bytes.ReadShort(ref index);
                 if (version >= 20) blowup.interactionOptions = (Blowup.InteractionOptions)bytes.ReadInt(ref index);
@@ -364,8 +363,8 @@ namespace NuGizWrap.Gizmos
 
                 if (version >= 34)
                 {
-                    blowup.unknown33 = bytes.ReadShort(ref index);
-                    blowup.unknown34 = bytes.ReadShort(ref index);
+                    blowup.plugType = bytes.ReadShort(ref index);
+                    blowup.validPlugs = bytes.ReadShort(ref index);
                 }
                 if (version >= 41)
                 {
@@ -377,7 +376,7 @@ namespace NuGizWrap.Gizmos
                 if (version >= 2)
                 {
                     blowup.studsValue = bytes.ReadInt(ref index);
-                    blowup.unknown6 = bytes.ReadByte(ref index);
+                    blowup.studsValueMultiplier = (sbyte)bytes.ReadByte(ref index);
                     blowup.unknown7 = bytes.ReadByte(ref index);
                 }
                 if (version >= 4) blowup.damage = bytes.ReadByte(ref index);

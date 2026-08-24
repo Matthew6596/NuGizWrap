@@ -82,7 +82,7 @@ namespace NuGizWrap.Gizmos
                 if (version >= 3) bytes.AddFloat(force.unknown7);
                 if (version == 4) bytes.AddShort(force.unknown8);
 
-                if (version >= 5) bytes.AddString8(force.blowup.GetBlowup());
+                if (version >= 5) bytes.AddString8(force.blowupType.GetBlowupType());
 
                 if (version >= 4)
                 {
@@ -172,7 +172,7 @@ namespace NuGizWrap.Gizmos
                 if (version >= 3) force.unknown7 = bytes.ReadFloat(ref index);
                 if (version == 4) force.unknown8 = bytes.ReadShort(ref index);
 
-                if (version >= 5) force.blowup.SetBlowup(bytes.ReadString8(ref index));
+                if (version >= 5) force.blowupType.SetBlowupType(bytes.ReadString8(ref index));
 
                 if (version >= 4)
                 {

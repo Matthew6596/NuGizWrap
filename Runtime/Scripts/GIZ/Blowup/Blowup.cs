@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using NuGizWrap.Helper;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
 
@@ -28,15 +29,15 @@ namespace NuGizWrap.Gizmos
         }
 
         public BlowupTypeReference type;
-        public short unknown1, unknown2, unknown3, unknown4a;
         public InteractionOptions interactionOptions;
         public int unknown4b, unknown5;
 
-        public short unknown33, unknown34;
+        public short plugType, validPlugs;
         public byte unknown35, unknown36, unknown37;
 
         public int studsValue;
-        public byte unknown6, unknown7, damage;
+        public sbyte studsValueMultiplier;
+        public byte unknown7, damage;
         public float range, unknown8, unknown9;
         public short unknown10, unknown11, unknown12;
         public float unknown13, unknown14, unknown15, unknown16, unknown17, unknown18, unknown19;
@@ -55,6 +56,8 @@ namespace NuGizWrap.Gizmos
         private void OnValidate()
         {
             this.SetIcon(ref icon, "Textures/GizmoIcons/BlowupIcon");
+            studsValue -= studsValue % 10;
+            studsValueMultiplier = Math.Max(studsValueMultiplier, (sbyte)0);
         }
 
         private void OnDrawGizmos()

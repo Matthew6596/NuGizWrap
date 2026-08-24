@@ -73,7 +73,7 @@ namespace NuGizWrap.Gizmos
                     bytes.AddShort(0);
                     Debug.LogWarning($"Cannot export blowup by nametable ID, blowup on GizBuildit '{name}' will be exported as 0");
                 }
-                if (version >= 8) bytes.AddString8(buildit.blowup.GetBlowup());
+                if (version >= 8) bytes.AddString8(buildit.blowupType.GetBlowupType());
                 if (version >= 7)
                 {
                     if (buildit.studsSpawn == null)
@@ -152,7 +152,7 @@ namespace NuGizWrap.Gizmos
                     short blowupId = bytes.ReadShort(ref index);
                     Debug.LogWarning($"Cannot load blowup via nametable ID ({blowupId}), blowup on GizBuildit '{name}' will be null");
                 }
-                if (version >= 8) buildit.blowup.SetBlowup(bytes.ReadString8(ref index));
+                if (version >= 8) buildit.blowupType.SetBlowupType(bytes.ReadString8(ref index));
                 if (version >= 7)
                 {
                     if (buildit.studsSpawn == null)

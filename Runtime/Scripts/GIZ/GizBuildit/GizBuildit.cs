@@ -23,7 +23,7 @@ namespace NuGizWrap.Gizmos
         public byte unknown2, unknown3;
         public float unknown10 = 1;
         public float unknown4;
-        public BlowupReference blowup;
+        public BlowupTypeReference blowupType;
         [Tooltip("Transform of the stud spawn. Uses the position and yaw.")]
         public Transform studsSpawn;
         public float studsSpawnSpeed = 1.75f;

@@ -20,8 +20,8 @@ namespace NuGizWrap.Gizmos
         [Flags]
         public enum InteractionOptions
         {
-            None = 0, Unk1 = 1, Returns=2, CanReturnLater=4, Unk2=8, DarkSide=16, Unk3=32,
-            Unk4_TurnOnLight=64, Unk5=128, Unk6=256, Unk7=512, Unk8_CannotUndo=1024, Unk9_TwoPlayer=2048,
+            None = 0, Unk1 = 1, Returns=2, HasReflection=4, Unk2=8, DarkSide=16, Unk3=32,
+            Unk4=64, Unk5=128, Shootable=256, Unk7=512, Unk8=1024, Unk9=2048,
             Unk10=4096, Unk11=8192, Unk12=16384, Unk13=32768, Unk14=0x10000, Unk15=0x20000, Unk16=0x40000,
             Unk17=0x80000, Unk18=0x100000, Unk19=0x200000, Unk20=0x400000, Unk21=0x800000, Unk22=0x1000000
         }
@@ -39,7 +39,7 @@ namespace NuGizWrap.Gizmos
         public float autoForce, effectScale;
         public float unknown7;
         public short unknown8;
-        public BlowupReference blowup;
+        public BlowupTypeReference blowupType;
         public ushort minStuds, maxStuds;
         public Transform studsSpawn;
         public float studsSpawnSpeed;

@@ -20,7 +20,7 @@ namespace NuGizWrap.Gizmos
             serializedObject.Prop("unknown5");
             if (version >= 12) serializedObject.Prop("unknown6");
             //if (version == 6) serializedObject.Props("unknown7", "unknown8");
-            serializedObject.Props("unknown9", "unknown10");
+            serializedObject.Props("animBehaviour", "type");
 
             if (version >= 15) serializedObject.Props("unknown17", "unknown18");
             if (version >= 17) serializedObject.Prop("unknown19");
@@ -35,7 +35,7 @@ namespace NuGizWrap.Gizmos
             if (version >= 5) serializedObject.Prop("unknown13");
             if (version >= 8) serializedObject.Prop("unknown14");
             if (version == 9) EditorGUILayout.HelpBox("Connecting blowup via nametable ID is not supported.", MessageType.None);
-            if (version >= 10) serializedObject.Prop("blowup");
+            if (version >= 10) serializedObject.Prop("blowupType");
             if (version >= 9) serializedObject.Props("studsValue", "studsSpawn");
             if (version >= 11) serializedObject.Prop("studsSpawnSpeed");
             if (version >= 13) serializedObject.Prop("unknownSfx1");

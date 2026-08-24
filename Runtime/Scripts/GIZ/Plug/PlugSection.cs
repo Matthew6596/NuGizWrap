@@ -14,7 +14,7 @@ namespace NuGizWrap.Gizmos
     public class PlugSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => TTUnityProject.Prefs.gizmo.allowAllRegisteredGizmos ? game.CompareGames(TTGame.TCS, TTGame.LIJ1, TTGame.LB1) : game.CompareGames(TTGame.LIJ1,TTGame.LB1);
-        public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LIJ1 => 5, TTGame.LB1 => 6, _ => 1 };
+        public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS=>2, TTGame.LIJ1 => 5, TTGame.LB1 => 6, _ => 1 };
 
         public override string ID => "Plug";
         public static PlugSection Instance { get; private set; }
