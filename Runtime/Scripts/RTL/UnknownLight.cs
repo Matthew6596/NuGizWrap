@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace NuGizWrap.Lighting
@@ -22,3 +23,4 @@ namespace NuGizWrap.Lighting
         }
     }
 }
+#endif

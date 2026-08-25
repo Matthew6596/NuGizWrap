@@ -13,6 +13,7 @@ namespace NuGizWrap
     using GizFlow;
     using AI;
     using Lighting;
+    using Animations;
 
     public static class TTLevelEditor
     {
@@ -70,21 +71,40 @@ namespace NuGizWrap
             double startTime = EditorApplication.timeSinceStartup;
 
             Errored = false;
+
             //GSCExporter.Export($"{filepath}_pc.gsc"); //future matt don't forget _pc
             //if (Errored) return -1;
-            TERImporter.Import(Path.Combine(directory,$"{levelName}.ter"), notify: false);
+
+            if (GetFilePath(directory, $"{levelName}.ter", out var terPath)) TERImporter.Import(terPath, notify: false);
             if (Errored) return -1;
-            GIZImporter.Import(Path.Combine(directory, $"{levelName}.giz"), notify: false);
+
+            if (GetFilePath(directory, $"{levelName}.giz", out var gizPath)) GIZImporter.Import(gizPath, notify: false);
             if (Errored) return -1;
-            AI2Importer.Import(Path.Combine(directory, $"AI/{levelName}.ai2"), notify: false);
+
+            if (GetFilePath(directory, $"AI/{levelName}.ai2", out var ai2Path)) AI2Importer.Import(ai2Path, notify: false);
             if (Errored) return -1;
-            GITImporter.Import(Path.Combine(directory, $"{levelName}.git"), notify: false);
+
+            //GITImporter.Import(Path.Combine(directory, $"{levelName}.git"), notify: false); //CURRENTLY ERRORS WHEN GIT WINDOW NOT OPEN
+            //if (Errored) return -1;
+
+            if (GetFilePath(directory, $"{levelName}.rtl", out var rtlPath)) RTLImporter.Import(rtlPath, notify: false);
             if (Errored) return -1;
-            RTLImporter.Import(Path.Combine(directory, $"{levelName}.rtl"), notify: false);
+
+            if (GetFilePath(directory, $"{levelName}.bur", out var burPath)) BURImporter.Import(burPath, notify: false);
             if (Errored) return -1;
+
+            if (GetFilePath(directory, $"{levelName}.anm", out var anmPath)) ANMImporter.Import(anmPath, notify: false);
+            if (Errored) return -1;
+
             EditorUtility.ClearProgressBar();
 
             return EditorApplication.timeSinceStartup - startTime;
+        }
+
+        private static bool GetFilePath(string directory, string levelFileName, out string path)
+        {
+            path = Path.Combine(directory, levelFileName);
+            return File.Exists(path);
         }
 
         public static double ExportLevel(string path)

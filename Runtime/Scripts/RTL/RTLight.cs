@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
 using Giz = UnityEngine.Gizmos;
@@ -58,3 +59,4 @@ namespace NuGizWrap.Lighting
         }
     }
 }
+#endif

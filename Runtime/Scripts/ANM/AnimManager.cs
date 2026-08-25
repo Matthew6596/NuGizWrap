@@ -1,9 +1,9 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace NuGizWrap.Lighting 
+namespace NuGizWrap.Animations
 {
-    public class LightManager : MonoBehaviour
+    public class AnimManager : MonoBehaviour
     {
         public int version;
 
