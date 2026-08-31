@@ -362,8 +362,34 @@ namespace NuGizWrap.Helper
             return str[(startInd + 1)..endInd];
         }
 
+        ///// <summary>
+        ///// Reads an int relative offset pointer.
+        ///// </summary>
+        ///// <returns>The absolute address of where the pointer points.</returns>
+        //public static long ReadPtr(this BinaryReader br) { }
         public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         public static Color ReadColor(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        public static Matrix4x4 ReadM4x4(this BinaryReader br)
+        {
+            Vector4 col1, col2, col3, col4;
+            col1.x = br.ReadSingle();
+            col2.x = br.ReadSingle();
+            col3.x = br.ReadSingle();
+            col4.x = br.ReadSingle();
+            col1.y = br.ReadSingle();
+            col2.y = br.ReadSingle();
+            col3.y = br.ReadSingle();
+            col4.y = br.ReadSingle();
+            col1.z = br.ReadSingle();
+            col2.z = br.ReadSingle();
+            col3.z = br.ReadSingle();
+            col4.z = br.ReadSingle();
+            col1.w = br.ReadSingle();
+            col2.w = br.ReadSingle();
+            col3.w = br.ReadSingle();
+            col4.w = br.ReadSingle();
+            return new Matrix4x4(col1, col2, col3, col4);
+        }
 
         public static float ToFloatAng(this ushort ang) => (ang / 65536f) * 360;
         public static ushort ToShortAng(this float ang) => (ushort)((ang / 360f) * 65536f);
