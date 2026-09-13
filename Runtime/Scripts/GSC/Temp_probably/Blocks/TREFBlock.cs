@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace NuGizWrap.GameScene
 {
+    using Helper;
+
     public class TREFBlock : GscBlock
     {
         public override void Load(BinaryReader br)
@@ -13,7 +15,7 @@ namespace NuGizWrap.GameScene
 
         public override void Save(BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            GSCExporter.TREFAddress = bw.Pos();
         }
     }
 }

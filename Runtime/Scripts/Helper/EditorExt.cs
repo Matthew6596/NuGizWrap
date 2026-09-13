@@ -362,37 +362,115 @@ namespace NuGizWrap.Helper
             return str[(startInd + 1)..endInd];
         }
 
-        ///// <summary>
-        ///// Reads an int relative offset pointer.
-        ///// </summary>
-        ///// <returns>The absolute address of where the pointer points.</returns>
-        //public static long ReadPtr(this BinaryReader br) { }
+        /// <summary>
+        /// Reads an int relative offset pointer.
+        /// </summary>
+        /// <returns>The absolute address of where the pointer points.</returns>
+        public static long ReadPtr(this BinaryReader br)
+        {
+            long pos = br.BaseStream.Position;
+            int offset = br.ReadInt32();
+            return pos + offset;
+        }
+
+        /// <summary>
+        /// Sets the reader's position to the given address and returns the original reader position.
+        /// </summary>
+        /// <param name="address">The address to set the reader's location to.</param>
+        /// <returns>The address of the reader before being changed.</returns>
+        public static long GoToAddr(this BinaryReader br, long address)
+        {
+            long prevPos = br.BaseStream.Position;
+            br.BaseStream.Position = address;
+            return prevPos;
+        }
+
+        public static void WritePtr(this BinaryWriter bw, long address)
+        {
+            bw.Write(address == -1 ? 0 : address - bw.BaseStream.Position);
+        }
+
+        public static long Pos(this BinaryReader br) => br.BaseStream.Position;
+        public static long Pos(this BinaryWriter bw) => bw.BaseStream.Position;
+
         public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         public static Color ReadColor(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        public static Color ReadColorA(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        public static void WriteColorA(this BinaryWriter bw, Color color)
+        {
+            bw.Write(color.r);
+            bw.Write(color.g);
+            bw.Write(color.b);
+            bw.Write(color.a);
+        }
         public static Matrix4x4 ReadM4x4(this BinaryReader br)
         {
-            Vector4 col1, col2, col3, col4;
-            col1.x = br.ReadSingle();
-            col2.x = br.ReadSingle();
-            col3.x = br.ReadSingle();
-            col4.x = br.ReadSingle();
-            col1.y = br.ReadSingle();
-            col2.y = br.ReadSingle();
-            col3.y = br.ReadSingle();
-            col4.y = br.ReadSingle();
-            col1.z = br.ReadSingle();
-            col2.z = br.ReadSingle();
-            col3.z = br.ReadSingle();
-            col4.z = br.ReadSingle();
-            col1.w = br.ReadSingle();
-            col2.w = br.ReadSingle();
-            col3.w = br.ReadSingle();
-            col4.w = br.ReadSingle();
-            return new Matrix4x4(col1, col2, col3, col4);
+            Vector4 readCol()
+            {
+                return new(br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+            }
+
+            return new Matrix4x4(readCol(), readCol(), readCol(), readCol());
+        }
+        public static void Write(this BinaryWriter bw, Matrix4x4 matrix)
+        {
+            Vector4 col0 = matrix.GetColumn(0), col1 = matrix.GetColumn(1), col2 = matrix.GetColumn(2), col3 = matrix.GetColumn(3);
+            void writeCol(Vector4 col)
+            {
+                bw.Write(col.x);
+                bw.Write(col.y);
+                bw.Write(col.z);
+                bw.Write(col.w);
+            }
+            writeCol(col0);
+            writeCol(col1);
+            writeCol(col2);
+            writeCol(col3);
+        }
+
+        public static float ReadHalf(this BinaryReader br) => Mathf.HalfToFloat(br.ReadUInt16());
+        public static void WriteHalf(this BinaryWriter bw, float value) => bw.Write(Mathf.FloatToHalf(value));
+
+        //https://discussions.unity.com/t/how-to-assign-matrix4x4-to-transform/467216/2
+        public static Quaternion ExtractRotation(this Matrix4x4 matrix)
+        {
+            Vector3 forward;
+            forward.x = matrix.m02;
+            forward.y = matrix.m12;
+            forward.z = matrix.m22;
+
+            Vector3 upwards;
+            upwards.x = matrix.m01;
+            upwards.y = matrix.m11;
+            upwards.z = matrix.m21;
+
+            return Quaternion.LookRotation(forward, upwards);
+        }
+
+        public static Vector3 ExtractPosition(this Matrix4x4 matrix)
+        {
+            Vector3 position;
+            position.x = matrix.m03;
+            position.y = matrix.m13;
+            position.z = matrix.m23;
+            return position;
+        }
+
+        public static Vector3 ExtractScale(this Matrix4x4 matrix)
+        {
+            Vector3 scale;
+            scale.x = new Vector4(matrix.m00, matrix.m10, matrix.m20, matrix.m30).magnitude;
+            scale.y = new Vector4(matrix.m01, matrix.m11, matrix.m21, matrix.m31).magnitude;
+            scale.z = new Vector4(matrix.m02, matrix.m12, matrix.m22, matrix.m32).magnitude;
+            return scale;
         }
 
         public static float ToFloatAng(this ushort ang) => (ang / 65536f) * 360;
         public static ushort ToShortAng(this float ang) => (ushort)((ang / 360f) * 65536f);
+
+        public static bool IsBitSet(this int n, int i) => ((n >> (i - 1)) & 1) == 1;
+        public static int GetBit(this int n, int i) => ((n >> (i - 1)) & 1);
+        public static int GetBits(this int n, int start, int mask) => ((n) >> (start - 1) & mask);
 
         public static T FindInScene<T>(this Scene scene) where T : Component
         {

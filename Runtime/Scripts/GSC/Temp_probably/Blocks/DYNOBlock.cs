@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace NuGizWrap.GameScene
 {
+    using Helper;
+
     public class DYNOBlock : GscBlock
     {
         public override void Load(BinaryReader br)
@@ -13,7 +15,22 @@ namespace NuGizWrap.GameScene
 
         public override void Save(BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            GSCExporter.DYNOAddress = bw.Pos();
+
+            //Writing a default DYNO Block (taken from negotations_a_pc.gsc in TCS)
+            bw.Write(0);
+            bw.Write(0);
+            bw.Write(11);
+            bw.Write(0);
+            bw.Write(0);
+            bw.Write(0xfefefefe);
+            for(int i=0; i<6; i++)
+            {
+                bw.Write(0);
+                bw.Write(0);
+                bw.Write(0xfefefefe);
+                bw.Write(0xfefefefe);
+            }
         }
     }
 }

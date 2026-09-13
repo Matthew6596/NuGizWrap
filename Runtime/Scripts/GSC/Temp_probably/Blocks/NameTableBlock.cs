@@ -7,66 +7,86 @@ using System.Linq;
 
 namespace NuGizWrap.GameScene
 {
+    using Helper;
+
     public class NameTableBlock : GscBlock
     {
         public static NameTableBlock Instance { get; private set; }
 
-        public string[] nametable;
-        private readonly List<int> nameOffsets = new();
+        public readonly Dictionary<long, string> nametable = new();
+        private readonly Dictionary<string, int> nameOffsets = new();
+        private int nametableByteSize = 0;
 
         public override void Load(BinaryReader br)
         {
             Instance = this;
-            int sectionSize = br.ReadInt32();
+            long endAddr = br.ReadInt32() + br.Pos();
 
-            List<string> names = new();
-            string str;
-            while ((str = LoadStr(br)) != string.Empty) names.Add(str);
-            nametable = names.ToArray();
+            nametable.Clear();
+            nameOffsets.Clear();
+            while (br.Pos() < endAddr) nametable.Add(br.Pos(), LoadStr(br, endAddr));
         }
 
-        public static string LoadStr(BinaryReader br)
+        public string LoadStr(BinaryReader br, long endAddr)
         {
             string str = string.Empty;
-            char c;
-            while ((c = br.ReadChar()) != '\0') str += c;
+            byte c;
+            while ((c = br.ReadByte()) != 0 && br.Pos() < endAddr)
+            {
+                str += (char)c;
+            }
             return str;
         }
 
         public override void Save(BinaryWriter bw)
         {
+            GSCExporter.NTBLAddress = bw.BaseStream.Position;
+
             nameOffsets.Clear();
             int offset = 4;
 
-            bw.Write(nametable.Length);
+            bw.Write(0); //write entire size in bytes (later)
 
-            for(int i=0; i<nametable.Length; i++)
+            foreach(var pair in nametable)
             {
-                var chars = nametable[i].ToCharArray().Append('\0').ToArray();
+                string name = pair.Value;
+                var chars = name.ToCharArray().Append('\0').ToArray();
                 bw.Write(chars);
 
-                nameOffsets.Add(offset);
+                nameOffsets.Add(name,offset);
                 offset += chars.Length;
             }
 
+            nametableByteSize = offset - 4;
             bw.Write((int)0); //padding?
+        }
+
+        public override void PostSave(BinaryWriter bw)
+        {
+            bw.Write(nametableByteSize); //not a pointer, but still writing it in post
         }
 
         public override long GetPtrAddress(object key)
         {
             if(key is string n)
             {
-                int nameInd = Array.IndexOf(nametable, n);
-                if (nameInd == -1) return -1;
-                return GSCExporter.NTBLAddress + nameOffsets[nameInd];
+                if (!nametable.ContainsValue(n)) return -1;
+                return GSCExporter.NTBLAddress + nameOffsets[n];
             }
             else if(key is int ind)
             {
                 if (ind == -1) return -1;
-                return GSCExporter.NTBLAddress + nameOffsets[ind];
+                return GSCExporter.NTBLAddress + nameOffsets.ElementAt(ind).Value;
             }
 
             return -1;
+        }
+
+        public static string GetName(long address)
+        {
+            var nametable = Instance.nametable;
+            if (nametable.TryGetValue(address, out string n)) return n;
+            else return string.Empty;
         }
     }
 }

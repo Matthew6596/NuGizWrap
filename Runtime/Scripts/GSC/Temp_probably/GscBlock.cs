@@ -11,9 +11,10 @@ namespace NuGizWrap.GameScene
         public abstract void Save(BinaryWriter bw);
 
         /// <summary>
-        /// Calculates and writes all pointer offsets in this block, using the GetPtrAddress() function in the blocks the values reside.
+        /// A second pass save method for calculating and writing all pointer offsets in this block.
+        /// You can use the GetPtrAddress() function in the blocks where the pointers' values reside.
         /// </summary>
-        public virtual void CalculatePointers(BinaryWriter bw) { }
+        public virtual void PostSave(BinaryWriter bw) { }
 
         /// <summary>
         /// Get the absolute address of a value to be pointed at given the key.

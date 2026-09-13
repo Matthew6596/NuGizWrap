@@ -51,7 +51,35 @@ namespace NuGizWrap.GameScene
 
         public override void Save(BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            GSCExporter.BNDSAddress = bw.Pos();
+
+            bw.Write(boundsFlags);
+            bw.Write(bounds.Length);
+            if (!boundsFlags.IsBitSet(32))
+            {
+                if(unkBounds.Length != bounds.Length)
+                {
+                    throw new DataMisalignedException("unkBounds and bounds must be the same size. Alternatively, avoid exporting unkBounds by setting bit 32 in boundsFlags.");
+                }
+
+                bw.Write(unknown1);
+                bw.Write(unknown2);
+                foreach(var unkBound in unkBounds)
+                {
+                    bw.Write(unkBound.unk1);
+                    bw.Write(unkBound.unk2);
+                    bw.Write(unkBound.unk3);
+                    bw.Write(unkBound.unk4);
+                }
+            }
+
+            foreach(var bound in bounds)
+            {
+                bw.Write(bound.position);
+                bw.Write(bound.unk1);
+                bw.Write(bound.size);
+                bw.Write(bound.unk2);
+            }
         }
 
         [Serializable]

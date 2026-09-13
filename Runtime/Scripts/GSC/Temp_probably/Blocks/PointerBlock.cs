@@ -6,13 +6,20 @@ using UnityEngine;
 
 namespace NuGizWrap.GameScene
 {
+    using Helper;
+
     public class PointerBlock : GscBlock
     {
-        public Dictionary<int, int> pointers;
+        public static PointerBlock Instance { get; private set; }
+
+        //public Dictionary<int, int> pointers;
+        public readonly List<long> pointerAddresses = new();
 
         //Based off of: https://github.com/Gatoradius95/RusTT/blob/main/src/map.rs
         public override void Load(BinaryReader br)
         {
+            Instance = this;
+
             //Reading Ptr block may be unnecessary
 
             /*var bs = br.BaseStream;
@@ -47,7 +54,17 @@ namespace NuGizWrap.GameScene
 
         public override void Save(BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            bw.Write(pointerAddresses.Count);
+            foreach(long ptr in pointerAddresses) bw.WritePtr(ptr);
+            bw.Write(0); //unk1
+            bw.Write(0); //unk2
+            bw.Write(0); //padding size to next block
+        }
+
+        public static void WritePlaceholdPtr(BinaryWriter bw)
+        {
+            Instance.pointerAddresses.Add(bw.BaseStream.Position);
+            bw.Write(0); //write placehold
         }
     }
 }

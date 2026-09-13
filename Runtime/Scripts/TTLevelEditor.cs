@@ -14,6 +14,7 @@ namespace NuGizWrap
     using AI;
     using Lighting;
     using Animations;
+    using GameScene;
 
     public static class TTLevelEditor
     {
@@ -72,8 +73,8 @@ namespace NuGizWrap
 
             Errored = false;
 
-            //GSCExporter.Export($"{filepath}_pc.gsc"); //future matt don't forget _pc
-            //if (Errored) return -1;
+            if (GetFilePath(directory, $"{levelName}_pc.gsc", out var gscPath)) GSCImporter.Import(gscPath, notify: false);
+            if (Errored) return -1;
 
             if (GetFilePath(directory, $"{levelName}.ter", out var terPath)) TERImporter.Import(terPath, notify: false);
             if (Errored) return -1;

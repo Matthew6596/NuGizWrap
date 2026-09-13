@@ -11,49 +11,47 @@ namespace NuGizWrap.GameScene
     {
         public Spline[] splines;
 
+        private int splineDataSize;
+
         public override void Load(BinaryReader br)
         {
             int splineCount = br.ReadInt32();
             splines = new Spline[splineCount];
-            int splineDataSize = br.ReadInt32();
+            splineDataSize = br.ReadInt32();
 
             for(int i=0; i<splineCount; i++)
             {
-                int pointCount = br.ReadInt16();
-                Vector3[] points = new Vector3[pointCount];
-
-                Spline spline = new()
-                {
-                    unk = br.ReadInt16(),
-                };
-
-                if(TTUnityProject.Game == TTGame.TCS)
-                {
-                    int namePtr = (int)(br.ReadUInt32() - 0xED5BFFDC) + 4;
-                    long pos = br.BaseStream.Position;
-                    br.BaseStream.Seek(namePtr, SeekOrigin.Current);
-                    spline.name = NameTableBlock.LoadStr(br);
-                    br.BaseStream.Position = pos;
-                }
-
-                for(int j=0; j<pointCount; j++)
-                {
-                    points[j] = br.ReadVector3();
-                }
-                spline.points = points;
-
-                splines[i] = spline;
+                splines[i] = Spline.FromBytes(br);
             }
         }
 
         public override void Save(BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            GSCExporter.SST0Address = bw.Pos();
+
+            bw.Write(splines.Length);
+            bw.Write(0); //write spline data size later
+
+            splineDataSize = 0;
+            foreach(var spline in splines)
+            {
+                int pointCount = spline.points.Length;
+                bw.Write((short)pointCount);
+                bw.Write(spline.unk);
+
+                PointerBlock.WritePlaceholdPtr(bw);
+                bw.Write(0); //resolve name ptr later
+
+                foreach(var p in spline.points) bw.Write(p);
+
+                splineDataSize = 8 + pointCount * 12;
+            }
         }
 
-        public override void CalculatePointers(BinaryWriter bw)
+        public override void PostSave(BinaryWriter bw)
         {
-            bw.BaseStream.Seek(8, SeekOrigin.Current); //skip spline count / spline data size
+            bw.BaseStream.Seek(4, SeekOrigin.Current); //skip spline count
+            bw.Write(splineDataSize);
             for(int i=0; i<splines.Length; i++)
             {
                 var spline = splines[i];
@@ -71,6 +69,32 @@ namespace NuGizWrap.GameScene
             public short unk;
             public string name;
             public Vector3[] points;
+
+            public static Spline FromBytes(BinaryReader br)
+            {
+                int pointCount = br.ReadInt16();
+                Vector3[] points = new Vector3[pointCount];
+
+                Spline spline = new()
+                {
+                    unk = br.ReadInt16(),
+                };
+
+                if (TTUnityProject.Game == TTGame.TCS)
+                {
+                    int namePtr = (int)(br.ReadUInt32() - 0xED5BFFDC) + 4;
+                    long pos = br.BaseStream.Position + namePtr;
+                    spline.name = NameTableBlock.GetName(pos);
+                }
+
+                for (int j = 0; j < pointCount; j++)
+                {
+                    points[j] = br.ReadVector3();
+                }
+                spline.points = points;
+
+                return spline;
+            }
         }
     }
 }
