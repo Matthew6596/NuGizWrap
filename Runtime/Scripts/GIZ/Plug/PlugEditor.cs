@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!PlugSection.Instance.CreateVersionEditorGUI(s => s.version, "Plug", out int version)) return;
+            if (!GizmoConfig.Instance.plug.CreateVersionEditorGUI(s => s.version, "Plug", out int version)) return;
 
             var visProp = serializedObject.FindProperty("blowupObjectVisible");
             if (version < 4 || visProp.boolValue)

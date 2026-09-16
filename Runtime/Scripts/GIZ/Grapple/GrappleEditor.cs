@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GrappleSection.Instance.CreateVersionEditorGUI(s => s.version, "Grapple", out int version)) return;
+            if (!GizmoConfig.Instance.grapple.CreateVersionEditorGUI(s => s.version, "Grapple", out int version)) return;
 
             EditorGUILayout.HelpBox("Y rotation on this transform will affect the Grapple base's Y rotation.", MessageType.None);
             if (version >= 5) EditorGUILayout.HelpBox("X rotation on this transform will affect the Grapple base's X rotation.", MessageType.None);

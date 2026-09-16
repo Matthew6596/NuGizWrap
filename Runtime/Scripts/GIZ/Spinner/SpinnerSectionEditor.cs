@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(SpinnerSection))]
+    [CustomEditor(typeof(SpinnerConfig))]
     public class SpinnerSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!SpinnerSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as SpinnerConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

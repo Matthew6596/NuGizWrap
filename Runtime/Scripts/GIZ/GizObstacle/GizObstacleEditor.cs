@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GizObstacleSection.Instance.CreateVersionEditorGUI(s => s.version, "GizObstacle", out int version)) return;
+            if (!GizmoConfig.Instance.gizObstacle.CreateVersionEditorGUI(s => s.version, "GizObstacle", out int version)) return;
 
             if (version >= 2) serializedObject.Prop("triggerTransform");
             serializedObject.Props("unknown1");

@@ -5,14 +5,15 @@ namespace NuGizWrap.Gizmos
 {
     using Helper;
 
-    [CustomEditor(typeof(TubeSection))]
+    [CustomEditor(typeof(TubeConfig))]
     public class TubeSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!TubeSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as TubeConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

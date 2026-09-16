@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(AttractoSection))]
+    [CustomEditor(typeof(AttractoConfig))]
     public class AttractoSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!AttractoSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as AttractoConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

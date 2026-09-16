@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GizFlockSection.Instance.CreateVersionEditorGUI(s => s.version, "GizFlock", out int version)) return;
+            if (!GizmoConfig.Instance.gizFlock.CreateVersionEditorGUI(s => s.version, "GizFlock", out int version)) return;
 
             serializedObject.Props("creature", "creatureCount", "interactionOptions", "unknown3", "unknown4", "unknown5", "unknown6", "unknown7", "unknown8", "unknown9", "unknown10", "unknown11", "unknown12", "unknown13", "unknown14", "unknown15", "unknown16", "unknown17", "unknown18", "unknown19", "unknown20", "unknown21", "unknown22", "unknown23", "unknown24", "unknown25");
 

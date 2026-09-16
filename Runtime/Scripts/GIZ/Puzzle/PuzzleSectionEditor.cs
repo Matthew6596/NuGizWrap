@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(PuzzleSection))]
+    [CustomEditor(typeof(PuzzleConfig))]
     public class PuzzleSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!PuzzleSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as PuzzleConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

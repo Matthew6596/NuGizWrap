@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!SignalSection.Instance.CreateVersionEditorGUI(s => s.version, "Signal", out int version)) return;
+            if (!GizmoConfig.Instance.signal.CreateVersionEditorGUI(s => s.version, "Signal", out int version)) return;
 
             serializedObject.Prop("character");
             if (version >= 2) serializedObject.Prop("suit");

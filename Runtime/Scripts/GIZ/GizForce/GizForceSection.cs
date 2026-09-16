@@ -10,8 +10,10 @@ using System.Collections.Generic;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("GizForceSection is being replaced by GizForceConfig")]
     public class GizForceSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS);

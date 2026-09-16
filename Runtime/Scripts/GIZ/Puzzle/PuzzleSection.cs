@@ -9,8 +9,10 @@ using System.Collections.Generic;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("PuzzleSection is being replaced by PuzzleConfig")]
     public class PuzzleSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LIJ1);

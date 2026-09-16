@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!ZipUpSection.Instance.CreateVersionEditorGUI(s => s.version, "ZipUp", out int version)) return;
+            if (!GizmoConfig.Instance.zipUp.CreateVersionEditorGUI(s => s.version, "ZipUp", out int version)) return;
 
             EditorGUILayout.HelpBox("Position on the Start, Hook, and End transforms will affect their positions.", MessageType.None);
             EditorGUILayout.HelpBox("X and Y rotation on the Hook transform will affect the hook's X and Y rotation.", MessageType.None);

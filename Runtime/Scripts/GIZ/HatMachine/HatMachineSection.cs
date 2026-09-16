@@ -9,8 +9,10 @@ using UnityEngine;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("HatMachineSection is being replaced by HatMachineConfig")]
     public class HatMachineSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS);

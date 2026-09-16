@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GizBuilditSection.Instance.CreateVersionEditorGUI(s => s.version, "GizBuildit", out int version)) return;
+            if (!GizmoConfig.Instance.gizBuildit.CreateVersionEditorGUI(s => s.version, "GizBuildit", out int version)) return;
 
             EditorGUILayout.IntSlider(serializedObject.FindProperty("specialObjectVersion"), 1, 3);
             serializedObject.Prop("specialObjects");

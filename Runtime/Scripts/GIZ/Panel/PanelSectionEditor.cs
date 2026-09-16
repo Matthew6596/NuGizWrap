@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(PanelSection))]
+    [CustomEditor(typeof(PanelConfig))]
     public class PanelSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!PanelSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as PanelConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

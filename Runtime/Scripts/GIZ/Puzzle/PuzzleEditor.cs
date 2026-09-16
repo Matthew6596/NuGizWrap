@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!PuzzleSection.Instance.CreateVersionEditorGUI(s => s.version, "Puzzle", out int version)) return;
+            if (!GizmoConfig.Instance.puzzle.CreateVersionEditorGUI(s => s.version, "Puzzle", out int version)) return;
 
             serializedObject.Props("unknown1", "unknown2");
             if (version >= 3) serializedObject.Prop("characterFacingPosition");

@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TorpMachineSection.Instance.CreateVersionEditorGUI(s => s.version, "Torp Machine", out int version)) return;
+            if (!GizmoConfig.Instance.torpMachine.CreateVersionEditorGUI(s => s.version, "Torp Machine", out int version)) return;
 
             if (version >= 2) serializedObject.Prop("redOutline");
             if (version >= 4) serializedObject.Prop("unknown1");

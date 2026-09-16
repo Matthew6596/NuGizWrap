@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!HatMachineSection.Instance.CreateVersionEditorGUI(s => s.version, "HatMachine", out int version)) return;
+            if (!GizmoConfig.Instance.hatMachine.CreateVersionEditorGUI(s => s.version, "HatMachine", out int version)) return;
 
             serializedObject.Prop("type");
             if (version >= 3) serializedObject.Prop("handleColor");

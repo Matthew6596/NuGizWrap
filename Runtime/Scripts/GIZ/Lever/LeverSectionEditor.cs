@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(LeverSection))]
+    [CustomEditor(typeof(LeverConfig))]
     public class LeverSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!LeverSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as LeverConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

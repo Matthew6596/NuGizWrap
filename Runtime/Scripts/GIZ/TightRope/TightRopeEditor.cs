@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TightRopeSection.Instance.CreateVersionEditorGUI(s => s.version, "TightRope", out int version)) return;
+            if (!GizmoConfig.Instance.tightRope.CreateVersionEditorGUI(s => s.version, "TightRope", out int version)) return;
 
             serializedObject.Props("startKnob", "endKnob");
             if (version >= 4) serializedObject.Props("unknown3", "unknown4");

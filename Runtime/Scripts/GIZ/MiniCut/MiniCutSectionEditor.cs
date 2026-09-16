@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(MiniCutSection))]
+    [CustomEditor(typeof(MiniCutConfig))]
     public class MiniCutSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!MiniCutSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject, editable:false)) return;
+            var config = target as MiniCutConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject, editable:false)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

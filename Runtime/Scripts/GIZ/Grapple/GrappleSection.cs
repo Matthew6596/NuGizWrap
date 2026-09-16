@@ -9,8 +9,10 @@ using System.Collections.Generic;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("GrappleSection is being replaced by GrappleConfig")]
     public class GrappleSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => TTUnityProject.Prefs.gizmo.allowAllRegisteredGizmos ? game.CompareGames(TTGame.TCS, TTGame.LIJ1, TTGame.LB1) : game.CompareGames(TTGame.LIJ1,TTGame.LB1);

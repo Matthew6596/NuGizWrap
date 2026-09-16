@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(GrappleSection))]
+    [CustomEditor(typeof(GrappleConfig))]
     public class GrappleSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!GrappleSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as GrappleConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

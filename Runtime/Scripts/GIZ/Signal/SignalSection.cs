@@ -10,8 +10,10 @@ using System.Collections.Generic;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("SignalSection is being replaced by SignalConfig")]
     public class SignalSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1);

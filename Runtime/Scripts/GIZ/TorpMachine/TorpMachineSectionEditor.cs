@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(TorpMachineSection))]
+    [CustomEditor(typeof(TorpMachineConfig))]
     public class TorpMachineSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!TorpMachineSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as TorpMachineConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

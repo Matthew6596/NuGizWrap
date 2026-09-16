@@ -14,7 +14,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!LedgeSection.Instance.CreateVersionEditorGUI(s => s.version, "Ledge", out int version)) return;
+            if (!GizmoConfig.Instance.ledge.CreateVersionEditorGUI(s => s.version, "Ledge", out int version)) return;
 
             serializedObject.Prop("type");
             if (version >= 2) serializedObject.Props("leftLedge", "rightLedge");

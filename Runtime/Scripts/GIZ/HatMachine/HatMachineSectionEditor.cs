@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(HatMachineSection))]
+    [CustomEditor(typeof(HatMachineConfig))]
     public class HatMachineSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!HatMachineSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as HatMachineConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

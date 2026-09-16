@@ -4,14 +4,15 @@ using UnityEditor;
 
 namespace NuGizWrap.Gizmos
 {
-    [CustomEditor(typeof(GizDigSection))]
+    [CustomEditor(typeof(GizDigConfig))]
     public class GizDigSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!GizDigSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as GizDigConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

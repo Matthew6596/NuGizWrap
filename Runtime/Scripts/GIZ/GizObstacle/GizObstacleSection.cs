@@ -13,6 +13,7 @@ namespace NuGizWrap.Gizmos
     using Helper;
     using System.Linq;
 
+    [Obsolete("GizObstacleSection is being replaced by GizObstacleConfig")]
     public class GizObstacleSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);

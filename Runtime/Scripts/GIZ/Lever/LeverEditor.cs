@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!LeverSection.Instance.CreateVersionEditorGUI(s => s.version, "Lever", out int version)) return;
+            if (!GizmoConfig.Instance.lever.CreateVersionEditorGUI(s => s.version, "Lever", out int version)) return;
 
             serializedObject.Prop("handleColor");
             if (version >= 2) serializedObject.Prop("multiplePulls");

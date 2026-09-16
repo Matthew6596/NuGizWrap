@@ -4,15 +4,17 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(GizmoPickupSection))]
+    [CustomEditor(typeof(GizmoPickupConfig))]
     public class GizmoPickupSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!GizmoPickupSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
-            int version = GizmoPickupSection.Instance.version;
+            var config = this.target as GizmoPickupConfig;
+
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            int version = config.version;
 
             if (version >= 3) serializedObject.Prop("unknown1");
             if (version >= 5)

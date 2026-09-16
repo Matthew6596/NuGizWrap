@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!SecurityDoorSection.Instance.CreateVersionEditorGUI(s => s.version, "SecurityDoor", out int version)) return;
+            if (!GizmoConfig.Instance.securityDoor.CreateVersionEditorGUI(s => s.version, "SecurityDoor", out int version)) return;
 
             if (version >= 2)
             {

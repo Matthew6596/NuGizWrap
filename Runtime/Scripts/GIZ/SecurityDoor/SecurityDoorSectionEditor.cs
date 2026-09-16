@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(SecurityDoorSection))]
+    [CustomEditor(typeof(SecurityDoorConfig))]
     public class SecurityDoorSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!SecurityDoorSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as SecurityDoorConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

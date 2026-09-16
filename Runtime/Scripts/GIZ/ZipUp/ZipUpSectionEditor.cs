@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(ZipUpSection))]
+    [CustomEditor(typeof(ZipUpConfig))]
     public class ZipUpSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!ZipUpSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as ZipUpConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!WhipperSection.Instance.CreateVersionEditorGUI(s => s.version, "Whipper", out int version)) return;
+            if (!GizmoConfig.Instance.whipper.CreateVersionEditorGUI(s => s.version, "Whipper", out int version)) return;
 
             var verticalProp = serializedObject.FindProperty("vertical");
             EditorGUILayout.PropertyField(verticalProp);

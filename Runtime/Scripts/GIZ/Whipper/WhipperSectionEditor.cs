@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(WhipperSection))]
+    [CustomEditor(typeof(WhipperConfig))]
     public class WhipperSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!WhipperSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as WhipperConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

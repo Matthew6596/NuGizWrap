@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(GizTurretSection))]
+    [CustomEditor(typeof(GizTurretConfig))]
     public class GizTurretSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!GizTurretSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as GizTurretConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

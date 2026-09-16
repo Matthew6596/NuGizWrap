@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!MiniCutSection.Instance.CreateVersionEditorGUI(s => s.version, "MiniCut", out int version)) return;
+            if (!GizmoConfig.Instance.miniCut.CreateVersionEditorGUI(s => s.version, "MiniCut", out int version)) return;
 
             serializedObject.Props("startDelay", "duration", "blendInTime", "blendOutTime", "maxTotalDuration", "miniCutParts");
 

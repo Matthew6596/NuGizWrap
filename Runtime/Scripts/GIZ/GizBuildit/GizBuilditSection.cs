@@ -10,8 +10,10 @@ using UnityEngine;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("GizBuilditSection is being replaced by GizBuilditConfig")]
     public class GizBuilditSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);

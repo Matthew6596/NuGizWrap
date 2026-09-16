@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TechnoSection.Instance.CreateVersionEditorGUI(s => s.version, "Techno", out int version)) return;
+            if (!GizmoConfig.Instance.techno.CreateVersionEditorGUI(s => s.version, "Techno", out int version)) return;
 
             if (version >= 8) serializedObject.Prop("controlType");
             if (version >= 2) serializedObject.Props("unknown1", "controlledEntity");

@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(LedgeSection))]
+    [CustomEditor(typeof(LedgeConfig))]
     public class LedgeSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!LedgeSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as LedgeConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(TeleportSection))]
+    [CustomEditor(typeof(TeleportConfig))]
     public class TeleportSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!TeleportSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject, editable:false)) return;
+            var config = target as TeleportConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject, editable:false)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

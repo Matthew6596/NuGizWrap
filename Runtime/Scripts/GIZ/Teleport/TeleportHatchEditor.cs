@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TeleportSection.Instance.CreateVersionEditorGUI(s => s.version, "Teleport", out int version)) return;
+            if (!GizmoConfig.Instance.teleport.CreateVersionEditorGUI(s => s.version, "Teleport", out int version)) return;
 
             EditorGUILayout.HelpBox("XYZ position and Y rotation on this transform will affect the hatch's position and rotation.", MessageType.None);
             serializedObject.Props("flapSpecialObject", "flapYOffset");

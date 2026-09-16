@@ -9,8 +9,10 @@ using UnityEngine;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
     using System.Linq;
 
+    [Obsolete("PushBlocksSection is being replaced by PushBlocksConfig")]
     public class PushBlocksSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);

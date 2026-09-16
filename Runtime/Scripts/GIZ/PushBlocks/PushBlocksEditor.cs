@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!PushBlocksSection.Instance.CreateVersionEditorGUI(s => s.version, "PushBlocks", out int version)) return;
+            if (!GizmoConfig.Instance.pushBlocks.CreateVersionEditorGUI(s => s.version, "PushBlocks", out int version)) return;
 
             if (version >= 8) serializedObject.Prop("specialObject");
             serializedObject.Props("snapRange", "pushLocation", "unknown1", "lockZ", "lockX");

@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!ShardSection.Instance.CreateVersionEditorGUI(s => s.version, "Shard", out int version)) return;
+            if (!GizmoConfig.Instance.shard.CreateVersionEditorGUI(s => s.version, "Shard", out int version)) return;
 
             EditorGUILayout.HelpBox("The shard's Y rotation will be randomized as it is loaded in game.", MessageType.None);
             if (version >= 2)

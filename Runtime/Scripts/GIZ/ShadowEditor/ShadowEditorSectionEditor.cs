@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(ShadowEditorSection))]
+    [CustomEditor(typeof(ShadowEditorConfig))]
     public class ShadowEditorSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!ShadowEditorSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as ShadowEditorConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

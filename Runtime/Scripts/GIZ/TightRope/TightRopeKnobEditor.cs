@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TightRopeSection.Instance.CreateVersionEditorGUI(s => s.version, "TightRope", out int version)) return;
+            if (!GizmoConfig.Instance.tightRope.CreateVersionEditorGUI(s => s.version, "TightRope", out int version)) return;
 
             EditorGUILayout.HelpBox("Position on this transform will affect the tightrope knob's position", MessageType.None);
             if (version >= 2)

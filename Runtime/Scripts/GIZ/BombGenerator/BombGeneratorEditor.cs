@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!BombGeneratorSection.Instance.CreateVersionEditorGUI(s => s.version, "BombGenerator", out int version)) return;
+            if (!GizmoConfig.Instance.bombGenerator.CreateVersionEditorGUI(s => s.version, "BombGenerator", out int version)) return;
 
             serializedObject.Prop("unknown1");
             if (version >= 2) serializedObject.Prop("unknown2");

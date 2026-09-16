@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(TightRopeSection))]
+    [CustomEditor(typeof(TightRopeConfig))]
     public class TightRopeSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!TightRopeSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as TightRopeConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -26,12 +26,12 @@ namespace NuGizWrap.Gizmos
 
         private static Mesh studMesh, minikitMesh;
 
-        private void OnValidate()
+        /*private void OnValidate()
         {
             if (!Enum.IsDefined(typeof(Type), type)) type = Type.SilverStud;
             if (prevType != type || !meshGenerated) EditorApplication.delayCall += RefreshModel;
             prevType = type;
-        }
+        }*/
 
         [MenuItem("Nu Giz Wrap/Gizmos/Pickups/Refresh Models")]
         private static void RefreshAllPickupModels()

@@ -12,6 +12,7 @@ namespace NuGizWrap.Gizmos
     using System;
     using System.Linq;
 
+    [Obsolete("BombGeneratorSection is being replaced by BombGeneratorConfig")]
     public class BombGeneratorSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS, TTGame.LB1);

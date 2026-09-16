@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(GizFlockSection))]
+    [CustomEditor(typeof(GizFlockConfig))]
     public class GizFlockSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!GizFlockSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject, editable: false)) return;
+            var config = target as GizFlockConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject, editable: false)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

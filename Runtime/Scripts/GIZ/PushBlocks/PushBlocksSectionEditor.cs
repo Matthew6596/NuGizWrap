@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(PushBlocksSection))]
+    [CustomEditor(typeof(PushBlocksConfig))]
     public class PushBlocksSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!PushBlocksSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as PushBlocksConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

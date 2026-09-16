@@ -11,7 +11,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GizmoPickupSection.Instance.CreateVersionEditorGUI(s => s.version, "GizmoPickup", out int version)) return;
+            if (!GizmoConfig.Instance.gizmoPickup.CreateVersionEditorGUI(s => s.version, "GizmoPickup", out int version)) return;
 
             serializedObject.Prop("type");
             if (version >= 2) serializedObject.Prop("spawnType");

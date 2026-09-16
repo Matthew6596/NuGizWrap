@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GizForceSection.Instance.CreateVersionEditorGUI(s => s.version, "GizForce", out int version)) return;
+            if (!GizmoConfig.Instance.gizForce.CreateVersionEditorGUI(s => s.version, "GizForce", out int version)) return;
 
             if (version == 1) serializedObject.Prop("unknown1");
             serializedObject.Prop("returnTime");

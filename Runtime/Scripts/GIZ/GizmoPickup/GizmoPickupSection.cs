@@ -13,6 +13,7 @@ namespace NuGizWrap.Gizmos
     using Helper;
     using System.Linq;
 
+    [Obsolete("GizmoPickupSection is being replaced by GizmoPickupConfig")]
     public class GizmoPickupSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);

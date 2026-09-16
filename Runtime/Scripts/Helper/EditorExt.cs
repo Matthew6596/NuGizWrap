@@ -40,7 +40,7 @@ namespace NuGizWrap.Helper
         /// <param name="name">The name of the type of gizmo in the section (or the GizmoSection class name w/out "Section")</param>
         /// <param name="version">The version of the GizmoSection</param>
         /// <returns>Whether an instance of the GizmoSection exists</returns>
-        public static bool CreateVersionEditorGUI<T>(this T section, Func<T, int> getVersion, string name, out int version) where T : GizmoSection
+        public static bool CreateVersionEditorGUI<T>(this T section, Func<T, int> getVersion, string name, out int version) where T : GizmoTypeConfig
         {
             if (section == null)
             {
@@ -48,22 +48,24 @@ namespace NuGizWrap.Helper
                 version = 0;
                 return false;
             }
-            else CheckSectionCompatibility(section);
+            else CheckSectionCompatibility(section, getVersion(section));
             version = getVersion(section);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField($"{name} Version: {version}");
-            if (EditorGUILayout.LinkButton("Edit Version")) Selection.activeGameObject = section.gameObject;
+            if (EditorGUILayout.LinkButton("Edit Version")) Selection.activeObject = section;
             EditorGUILayout.EndHorizontal();
             return true;
         }
 
-        public static bool CheckSectionCompatibility<T>(this T section) where T : GizmoSection
+        public static bool CheckSectionCompatibility<T>(this T section, int version) where T : GizmoTypeConfig
         {
             //Add label showing all compatible games for this gizmo
-            StringBuilder sb = new($"{section.ID} is compatible with:");
+            string name = section.name[..section.name.IndexOf("Config")].Trim();
+            StringBuilder sb = new($"{name} (Version {version}) is compatible with:");
             foreach (TTGame val in Enum.GetValues(typeof(TTGame)))
             {
-                if (section.IsGameCompatible(val)) sb.Append($" {val},");
+                //if (section.IsGameCompatible(val)) sb.Append($" {val},");
+                if(section.IsGameCompatible(val) && version <= section.GetMaxVersion(val)) sb.Append($" {val},");
             }
             GUIContent lbl = new(sb.ToString()[..^1]);
             EditorGUILayout.LabelField(lbl, EditorStyles.miniLabel);
@@ -72,17 +74,17 @@ namespace NuGizWrap.Helper
             bool compatible = section.IsGameCompatible(TTUnityProject.Game);
             if (!compatible)
             {
-                EditorGUILayout.HelpBox($"{section.ID} is not compatible with the project's current target game ({TTUnityProject.Game}) and will not be exported.", MessageType.Warning);
+                EditorGUILayout.HelpBox($"{section.name} is not compatible with the project's current target game ({TTUnityProject.Game}) and will not be exported.", MessageType.Warning);
                 if (EditorGUILayout.LinkButton("Change Project Settings")) Selection.activeObject = TTUnityProject.Instance;
             }
 
             return compatible;
         }
 
-        public static bool CheckSectionCompatibilityAndVersion<T>(this T section, SerializedObject serializedObject, bool editable=true) where T : GizmoSection
+        public static bool CheckSectionCompatibilityAndVersion<T>(this T section, SerializedObject serializedObject, bool editable=true) where T : GizmoTypeConfig
         {
-            if (!CheckSectionCompatibility(section)) return false;
             var versionProp = serializedObject.FindProperty("version");
+            if (!CheckSectionCompatibility(section, versionProp.intValue)) return false;
             int maxVers = section.MaxVersion();
             if (versionProp.intValue < 1) versionProp.intValue = 1;
             if (versionProp.intValue > maxVers) versionProp.intValue = maxVers;
@@ -134,6 +136,12 @@ namespace NuGizWrap.Helper
             index += 2;
             return v;
         }
+
+        public static float ReadShortAng(this BinaryReader br) => br.ReadUInt16().ToFloatAng();
+        public static Vector3 ReadYEuler(this BinaryReader br) => new(0, br.ReadShortAng(), 0);
+        public static Vector3 ReadXZEuler(this BinaryReader br) => new(br.ReadShortAng(), 0, br.ReadShortAng());
+        public static Vector3 ReadXYEuler(this BinaryReader br) => new(br.ReadShortAng(), br.ReadShortAng(), 0);
+        public static Vector3 ReadXYZEuler(this BinaryReader br) => new(br.ReadShortAng(), br.ReadShortAng(), br.ReadShortAng());
 
         public static Vector3 ReadXYZEuler(this byte[] bytes, ref int index) => new(
             ((ushort)bytes.ReadShort(ref index)).ToFloatAng(),

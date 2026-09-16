@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!AttractoSection.Instance.CreateVersionEditorGUI(s => s.version, "Attracto", out int version)) return;
+            if (!GizmoConfig.Instance.attracto.CreateVersionEditorGUI(s => s.version, "Attracto", out int version)) return;
 
             serializedObject.Prop("pieceCount");
             if (version == 2) EditorGUILayout.HelpBox("The property made available while version is 2 is unused in game, so it is not editable here.", MessageType.None);

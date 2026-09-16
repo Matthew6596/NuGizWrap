@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(GizBuilditSection))]
+    [CustomEditor(typeof(GizBuilditConfig))]
     public class GizBuilditSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!GizBuilditSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as GizBuilditConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

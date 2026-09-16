@@ -10,7 +10,9 @@ using System.Linq;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
 
+    [Obsolete("WhipperSection is being replaced by WhipperConfig")]
     public class WhipperSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LIJ1);

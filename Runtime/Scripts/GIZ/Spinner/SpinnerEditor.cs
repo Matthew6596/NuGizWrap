@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!SpinnerSection.Instance.CreateVersionEditorGUI(s => s.version, "Spinner", out int version)) return;
+            if (!GizmoConfig.Instance.spinner.CreateVersionEditorGUI(s => s.version, "Spinner", out int version)) return;
 
             serializedObject.Prop("specialObject");
             if (version >= 2) 

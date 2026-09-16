@@ -14,7 +14,10 @@ namespace NuGizWrap
     {
         public static bool CompareGames(this TTGame game, params TTGame[] otherGames) => otherGames.Contains(game);
         public static bool IsGameCompatible(this IGameCompatible gameCompatible) => gameCompatible.IsGameCompatible(TTUnityProject.Game);
-        public static int MaxVersion(this IGameCompatible gameCompatible) => gameCompatible.GetMaxVersion(TTUnityProject.Game);
+        public static int MaxVersion(this IGameCompatible gameCompatible)
+        {
+            return Mathf.Max(gameCompatible.GetMaxVersion(TTGame.TCS), gameCompatible.GetMaxVersion(TTGame.LIJ1), gameCompatible.GetMaxVersion(TTGame.LB1));
+        }
     }
 }
 #endif

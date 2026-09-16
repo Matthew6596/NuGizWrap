@@ -14,7 +14,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!ShadowEditorSection.Instance.CreateVersionEditorGUI(s => s.version, "ShadowEditor", out int version)) return;
+            if (!GizmoConfig.Instance.shadowEditor.CreateVersionEditorGUI(s => s.version, "ShadowEditor", out int version)) return;
 
             EditorGUILayout.HelpBox("The forward vector on this transform will be used for the Shadow Direction.", MessageType.None);
 

@@ -11,7 +11,9 @@ using System.Linq;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
+    using System;
 
+    [Obsolete("TubeSection is being replaced by TubeConfig")]
     public class TubeSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);

@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!PanelSection.Instance.CreateVersionEditorGUI(s => s.version, "Panel", out int version)) return;
+            if (!GizmoConfig.Instance.panel.CreateVersionEditorGUI(s => s.version, "Panel", out int version)) return;
 
             if (TTUnityProject.Game == TTGame.LB1) EditorGUILayout.LabelField("Type: Joker Switch");
             else serializedObject.Prop("type");

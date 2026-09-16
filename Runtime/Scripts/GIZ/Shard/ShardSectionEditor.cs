@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(ShardSection))]
+    [CustomEditor(typeof(ShardConfig))]
     public class ShardSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            if (!ShardSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            var config = target as ShardConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -4,14 +4,15 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    [CustomEditor(typeof(SignalSection))]
+    [CustomEditor(typeof(SignalConfig))]
     public class SignalSectionEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-
-            if (!SignalSection.Instance.CheckSectionCompatibilityAndVersion(serializedObject)) return;
+            
+            var config = target as SignalConfig;
+            if (!config.CheckSectionCompatibilityAndVersion(serializedObject)) return;
 
             serializedObject.ApplyModifiedProperties();
         }

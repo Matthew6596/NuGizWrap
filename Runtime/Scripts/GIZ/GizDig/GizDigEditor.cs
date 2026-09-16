@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!GizDigSection.Instance.CreateVersionEditorGUI(s => s.version, "GizDig", out int version)) return;
+            if (!GizmoConfig.Instance.gizDig.CreateVersionEditorGUI(s => s.version, "GizDig", out int version)) return;
 
             if (version >= 17) serializedObject.Prop("unknown1");
             serializedObject.Props("unknown2", "interactionOptions");

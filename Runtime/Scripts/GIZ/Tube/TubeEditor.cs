@@ -12,7 +12,7 @@ namespace NuGizWrap.Gizmos
         {
             serializedObject.Update();
 
-            if (!TubeSection.Instance.CreateVersionEditorGUI(s => s.version, "Tube", out int version)) return;
+            if (!GizmoConfig.Instance.tube.CreateVersionEditorGUI(s => s.version, "Tube", out int version)) return;
 
             serializedObject.Props("height", "radius");
             if (version >= 2) serializedObject.Prop("magnetic");
