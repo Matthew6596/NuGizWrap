@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class BlowupConfig : GizmoTypeConfig
     {
+        public override string ID => "blowup";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 31, TTGame.LIJ1 => 40, TTGame.LB1 => 45, _ => 1 };
 

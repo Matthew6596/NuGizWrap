@@ -9,10 +9,11 @@ using UnityEditor;
 namespace NuGizWrap.Gizmos
 {
     using Helper;
-    using UnityEngine.XR;
 
     public class SignalConfig : GizmoTypeConfig
     {
+        public override string ID => "Signal";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LB1 => 7, _ => 1 };
 

@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class TeleportConfig : GizmoTypeConfig
     {
+        public override string ID => "Teleport";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LIJ1 => 2, _ => 2 };
 

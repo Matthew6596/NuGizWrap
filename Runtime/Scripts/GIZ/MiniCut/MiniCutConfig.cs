@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class MiniCutConfig : GizmoTypeConfig
     {
+        public override string ID => "MiniCut";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 1, TTGame.LIJ1 => 1, TTGame.LB1 => 1, _ => 1 };
 

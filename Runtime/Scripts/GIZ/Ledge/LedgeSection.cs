@@ -12,6 +12,7 @@ namespace NuGizWrap.Gizmos
     using System;
     using System.Linq;
 
+    [Obsolete("LedgeSection is being replaced by LedgeConfig")]
     public class LedgeSection : GizmoSection
     {
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LIJ1, TTGame.LB1);

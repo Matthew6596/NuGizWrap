@@ -67,7 +67,7 @@ namespace NuGizWrap.GameScene
             int unk4 = br.ReadInt32();
             int unk5 = br.ReadInt32();
 
-            return;
+            //return;
             MaterialBlock.NuMaterial material = default;
             Matrix4x4 matrix = Matrix4x4.identity;
 
@@ -81,7 +81,7 @@ namespace NuGizWrap.GameScene
 
             //MaterialBlock.NuMaterial material = default;
             //Matrix4x4 matrix = Matrix4x4.identity;
-            //return;
+            return;
 
             //Read Unknown Display Objects
             GameObject unkDisplayObjectsParent = new("Unknown Display Objects");
@@ -404,10 +404,12 @@ namespace NuGizWrap.GameScene
                 List<Vector2>[] uvsets = new List<Vector2>[uvSetCount];
                 for (int i = 0; i < uvSetCount; i++) uvsets[i] = new();
 
+                //Debug.Log("vertexCount: " + vertexCount + ", uvSetCount: " + uvSetCount);
                 //Reading Vertices
                 for (int i = 0; i < vertexCount; i++)
                 {
                     vertexBuffer.BaseStream.Position = vertSize * i;
+
                     vertices.Add(vertexBuffer.ReadVector3());
 
                     if (normalType == 1) normals.Add(vertexBuffer.ReadVector3());
@@ -422,8 +424,8 @@ namespace NuGizWrap.GameScene
 
                     for(int j=0; j<uvSetCount; j++)
                     {
-                        if (halfFloatUvs) uvsets[j].Add(new(vertexBuffer.ReadHalf(), vertexBuffer.ReadHalf()));
-                        else uvsets[j].Add(new(vertexBuffer.ReadSingle(), vertexBuffer.ReadSingle()));
+                        if (halfFloatUvs) uvsets[j].Add(new(vertexBuffer.ReadHalf(), 1 -vertexBuffer.ReadHalf()));
+                        else uvsets[j].Add(new(vertexBuffer.ReadSingle(), 1 -vertexBuffer.ReadSingle()));
                     }
 
                     //do other stuff later

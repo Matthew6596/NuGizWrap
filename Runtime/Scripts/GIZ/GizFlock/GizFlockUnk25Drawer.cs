@@ -14,7 +14,7 @@ namespace NuGizWrap.Gizmos
             if (!property.isExpanded) return EditorGUIUtility.singleLineHeight;
 
             int unk1Val = property.FindPropertyRelative("unk1").intValue;
-            int version = GizFlockSection.Instance.version;
+            int version = GizmoConfig.Instance.gizFlock.version;
 
             float height = EditorGUIUtility.singleLineHeight * 4;
             if (version >= 2) height += EditorGUIUtility.singleLineHeight*2;
@@ -27,7 +27,7 @@ namespace NuGizWrap.Gizmos
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            int version = GizFlockSection.Instance.version;
+            int version = GizmoConfig.Instance.gizFlock.version;
 
             float height = EditorGUIUtility.singleLineHeight;
 

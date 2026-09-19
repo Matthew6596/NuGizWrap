@@ -11,6 +11,7 @@ namespace NuGizWrap.Gizmos
         public abstract int GetMaxVersion(TTGame game);
         public abstract int Load(BinaryReader br, Transform parent);
         public abstract void Save(BinaryWriter bw);
+        public abstract string ID { get; }
     }
 }
 #endif

@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class BombGeneratorConfig : GizmoTypeConfig
     {
+        public override string ID => "BombGenerator";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS, TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 1, TTGame.LB1 => 2, _ => 1 };
 

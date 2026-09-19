@@ -11,6 +11,8 @@ namespace NuGizWrap.Gizmos
 {
     public class AttractoConfig : GizmoTypeConfig
     {
+        public override string ID => "Attracto";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LB1 => 3, _ => 1 };
 
@@ -36,7 +38,7 @@ namespace NuGizWrap.Gizmos
                 var attracto = attractoObj.AddComponent<Attracto>();
 
                 attracto.pieceCount = br.ReadByte();
-                if (version == 2) br.ReadString8();
+                if (version == 2) br.ReadString8(); //unused string8 property
             }
 
             return attractoCount;

@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class ShardConfig : GizmoTypeConfig
     {
+        public override string ID => "Shard";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LB1 => 2, _ => 1 };
 

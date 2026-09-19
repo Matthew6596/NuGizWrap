@@ -12,6 +12,7 @@ namespace NuGizWrap.Gizmos
 
     public static class GIZExporter
     {
+#pragma warning disable
         public static Type[] SectionTypes = new Type[]
         {
             typeof(GizObstacleSection),
@@ -46,6 +47,7 @@ namespace NuGizWrap.Gizmos
             typeof(PuzzleSection), //LIJ1
             typeof(GizFlockSection), //LIJ1/LB1
         };
+#pragma warning restore
 
         [MenuItem("Nu Giz Wrap/Export/File/GIZ")]
         static void Export() 
@@ -60,9 +62,15 @@ namespace NuGizWrap.Gizmos
         {
             try
             {
-                byte[] bytes = GetBytes();
-                if (bytes.Length == 0) return;
-                File.WriteAllBytes(path, bytes);
+                var config = Object.FindFirstObjectByType<GizmoConfig>(FindObjectsInactive.Exclude);
+                if (config == null) throw new NullReferenceException("No active instance of GizmoConfig was found in the open scene to export. Make sure that the gameObject with GizmoConfig is set to active.");
+
+                using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+                using BinaryWriter bw = new(fs);
+
+                bw.Write(1);
+                config.ToBytes(bw, GizmoConfig.ExportSettings.Default);
+                bw.Write(0);
             }
             catch(IOException ioe)
             {
@@ -73,7 +81,7 @@ namespace NuGizWrap.Gizmos
             if(notify) EditorUtility.DisplayDialog("Gizmos Exported!", $"Successfully exported Gizmos to '{path}'", "OK");
         }
 
-        public static byte[] GetBytes()
+        /*public static byte[] GetBytes()
         {
             EditorUtility.DisplayProgressBar("Exporting", $"Exporting Gizmos...", 0);
 
@@ -85,6 +93,10 @@ namespace NuGizWrap.Gizmos
 
             List<byte> bytes = new();
             bytes.AddInt(1);
+
+            
+
+            config.ToBytes(bw, GizmoConfig.ExportSettings.Default);
 
             int sectionsCount = SectionTypes.Length;
 
@@ -121,7 +133,7 @@ namespace NuGizWrap.Gizmos
             }
 
             return true;
-        }
+        }*/
 
         private static void Error(string msg) => TTLevelEditor.Error(msg);
     }

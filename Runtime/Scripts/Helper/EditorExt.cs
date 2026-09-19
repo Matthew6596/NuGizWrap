@@ -284,14 +284,9 @@ namespace NuGizWrap.Helper
         public static string ReadString(this BinaryReader reader, int length)
         {
             char[] chars = reader.ReadChars(length);
-            bool endOfStr = false;
             for (int i = 0; i < length; i++)
             {
-                if (chars[i] == '\0' || endOfStr)
-                {
-                    chars[i] = ' ';
-                    endOfStr = true;
-                }
+                if (chars[i] == '\0') return new(chars.Take(i).ToArray());
             }
             return new(chars);
         }
@@ -309,11 +304,9 @@ namespace NuGizWrap.Helper
                 writer.Write(value.ToCharArray());
                 writer.Write(new byte[length - strLen]);
             }
-
-            writer.Write(value.ToCharArray());
         }
 
-        public static void WriteString8(this BinaryWriter writer, string value)
+        public static void WriteString8(this BinaryWriter writer, string value, bool terminate=true)
         {
             if (value.Length == 0)
             {
@@ -322,26 +315,31 @@ namespace NuGizWrap.Helper
             }
             byte maxLen = byte.MaxValue - 1;
             if (value.Length > maxLen) value = value[..maxLen];
-            writer.Write((byte)(value.Length+1));
+            byte len = (byte)value.Length;
+            if (terminate) len++;
+            writer.Write(len);
             writer.Write(value.ToCharArray());
-            writer.Write('\0');
+            if(terminate) writer.Write('\0');
         }
 
-        public static void WriteString16(this BinaryWriter writer, string value)
+        public static void WriteString16(this BinaryWriter writer, string value, bool terminate=true)
         {
             if (value.Length == 0)
             {
                 writer.Write((short)0);
                 return;
             }
-            short maxLen = short.MaxValue - 1;
+            ushort maxLen = ushort.MaxValue - 1;
             if (value.Length > maxLen) value = value[..maxLen];
-            writer.Write((short)(value.Length + 1));
+
+            ushort len = (ushort)value.Length;
+            if (terminate) len++;
+            writer.Write(len);
             writer.Write(value.ToCharArray());
             writer.Write('\0');
         }
 
-        public static void WriteString32(this BinaryWriter writer, string value)
+        public static void WriteString32(this BinaryWriter writer, string value, bool terminate=false)
         {
             if (value.Length == 0)
             {
@@ -350,9 +348,11 @@ namespace NuGizWrap.Helper
             }
             int maxLen = int.MaxValue - 1;
             if (value.Length > maxLen) value = value[..maxLen];
-            writer.Write((int)(value.Length + 1));
+            int len = value.Length;
+            if (terminate) len++;
+            writer.Write(len);
             writer.Write(value.ToCharArray());
-            writer.Write('\0');
+            if(terminate) writer.Write('\0');
         }
 
         public static void Write(this BinaryWriter writer, Vector3 value)
@@ -400,6 +400,8 @@ namespace NuGizWrap.Helper
 
         public static long Pos(this BinaryReader br) => br.BaseStream.Position;
         public static long Pos(this BinaryWriter bw) => bw.BaseStream.Position;
+        public static void Pos(this BinaryReader br, long pos) => br.BaseStream.Position = pos;
+        public static void Pos(this BinaryWriter bw, long pos) => bw.BaseStream.Position = pos;
 
         public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         public static Color ReadColor(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
@@ -496,6 +498,53 @@ namespace NuGizWrap.Helper
             List<T> comps = new();
             foreach (var obj in scene.GetRootGameObjects()) comps.AddRange(obj.GetComponentsInChildren<T>());
             return comps;
+        }
+
+        /// <summary>
+        /// Creates a textbox that shows options for the value to auto-fill to as the user types.
+        /// </summary>
+        /// <returns>The new value of the textbox.</returns>
+        public static string SearchTextBox(string label, string value, string[] options, bool onlyShowMatches=true, int optionsShown = 5, bool autoFillClosestMatch = true)
+        {
+            var controlName = $"{label}_searchbox";
+            GUI.SetNextControlName(controlName);
+            value = EditorGUILayout.TextField(label, value);
+
+            var closestOptions = options.OrderByDescending(x =>
+            {
+                int score = 0;
+                if (x.StartsWith(value)) score++;
+                if (x.ToLower().StartsWith(value.ToLower())) score++;
+                if (x.Contains(value)) score++;
+                if (x.ToLower().Contains(value.ToLower())) score++;
+                return score;
+            }).ToArray();
+
+            if (GUI.GetNameOfFocusedControl() == controlName)
+            {
+                StringBuilder topList = new($"[Options for {label}]:\n");
+
+                int listLen = Math.Min(optionsShown, closestOptions.Length);
+                for (int i = 0; i < listLen; i++)
+                {
+                    if (onlyShowMatches && !closestOptions[i].ToLower().Contains(value.ToLower())) break;
+                    topList.Append(closestOptions[i] + (i == listLen - 1 ? "" : "\n"));
+                }
+
+                EditorGUILayout.HelpBox(topList.ToString(), MessageType.Info);
+            }
+            else if(autoFillClosestMatch && value.Trim() != string.Empty && closestOptions.Length > 0 && closestOptions[0].ToLower().Contains(value.ToLower()))
+            {
+                value = closestOptions[0];
+            }
+
+            return value;
+        }
+
+        public static void SearchTextBox(this SerializedObject serializedObject, string propertyName, string[] options, bool onlyShowMatches = true, int optionsShown = 5, bool autoFillClosestMatch = true)
+        {
+            var prop = serializedObject.FindProperty(propertyName);
+            prop.stringValue = SearchTextBox(ObjectNames.NicifyVariableName(propertyName), prop.stringValue, options, onlyShowMatches, optionsShown, autoFillClosestMatch);
         }
     }
 }

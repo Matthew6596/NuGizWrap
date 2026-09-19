@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class SpinnerConfig : GizmoTypeConfig
     {
+        public override string ID => "Spinner";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 9, TTGame.LIJ1 => 11, TTGame.LB1 => 13, _ => 1 };
 

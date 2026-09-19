@@ -10,11 +10,13 @@ namespace NuGizWrap.GameScene
 
         public override void Load(BinaryReader br)
         {
+            return;
             int unk1Count = br.ReadInt32();
             int unk0 = br.ReadInt32();
             int[] unk2Ptrs = new int[unk1Count];
             for(int i=0; i<unk1Count; i++) unk2Ptrs[i] = br.ReadInt32();
             int unk2Count = br.ReadInt32();
+            unknown2s = new Unknown2[unk2Count];
             for (int i = 0; i < unk2Count; i++) unknown2s[i] = Unknown2.FromBytes(br);
         }
 

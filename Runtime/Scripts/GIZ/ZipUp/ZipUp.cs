@@ -26,7 +26,8 @@ namespace NuGizWrap.Gizmos
             if (hook != null) Giz.DrawSphere(hook.position, GizmoScale);
             if (end != null) Giz.DrawSphere(endPos, GizmoScale);
 
-            if (ZipUpSection.Instance != null && ZipUpSection.Instance.version >= 5 && start != null && end != null)
+            var zipUpConfig = GizmoConfig.Instance.zipUp;
+            if (zipUpConfig != null && zipUpConfig.version >= 5 && start != null && end != null)
             {
                 //face platforms towards each other
                 float ang = Mathf.Atan2(-(endPos.z-startPos.z), endPos.x-startPos.x) * Mathf.Rad2Deg;

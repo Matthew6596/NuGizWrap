@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class ShadowEditorConfig : GizmoTypeConfig
     {
+        public override string ID => "ShadowEditor";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 8, TTGame.LIJ1 => 8, TTGame.LB1 => 12, _ => 1 };
 

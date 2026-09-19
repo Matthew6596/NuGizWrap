@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class PanelConfig : GizmoTypeConfig
     {
+        public override string ID => "Panel";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS, TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 8, TTGame.LB1 => 8, _ => 1 };
 
@@ -91,7 +93,7 @@ namespace NuGizWrap.Gizmos
                     }
                     else
                     {
-                        bw.Write(panel.target.position - panel.transform.position);
+                        bw.Write(panel.target.localPosition);
                         bw.Write(panel.target.localScale.x);
                     }
                 }

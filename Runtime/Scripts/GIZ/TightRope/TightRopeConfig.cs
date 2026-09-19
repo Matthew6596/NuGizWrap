@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class TightRopeConfig : GizmoTypeConfig
     {
+        public override string ID => "TightRope";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LB1 => 4, _ => 1 };
 

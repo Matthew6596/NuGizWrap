@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class GrappleConfig : GizmoTypeConfig
     {
+        public override string ID => "Grapple";
+
         public override bool IsGameCompatible(TTGame game) => TTUnityProject.Prefs.gizmo.allowAllRegisteredGizmos ? game.CompareGames(TTGame.TCS, TTGame.LIJ1, TTGame.LB1) : game.CompareGames(TTGame.LIJ1, TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 7, TTGame.LIJ1 => 11, TTGame.LB1 => 11, _ => 1 };
 

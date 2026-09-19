@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class LedgeConfig : GizmoTypeConfig
     {
+        public override string ID => "Ledge";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LIJ1, TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.LIJ1 => 5, TTGame.LB1 => 5, _ => 1 };
 

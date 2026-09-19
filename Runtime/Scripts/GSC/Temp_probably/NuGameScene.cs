@@ -9,6 +9,7 @@ using UnityEngine;
 namespace NuGizWrap.GameScene
 {
     using Helper;
+    using UnityEditor.AssetImporters;
 
     public class NuGameScene : MonoBehaviour
     {
@@ -163,7 +164,8 @@ namespace NuGizWrap.GameScene
 
                 try
                 {
-                    tempTextures[i] = DDSConvert.DDSBytesToTexture(br.ReadBytes(dataSize), FilterMode.Bilinear, TextureWrapMode.Repeat);
+                    tempTextures[i] = FlipTextureVertically(DDSConvert.DDSBytesToTexture(br.ReadBytes(dataSize), FilterMode.Bilinear, TextureWrapMode.Repeat));
+                    if (tempTextures[i] != null) tempTextures[i].name = $"Texture_{i}";
                 }
                 catch (Exception e)
                 {
@@ -173,6 +175,50 @@ namespace NuGizWrap.GameScene
                 br.BaseStream.Position = startPos + dataSize;
             }
         }
+
+        public static Texture2D FlipTextureVertically(Texture2D sourceTxtr)
+        {
+            if (sourceTxtr == null)
+                throw new ArgumentNullException(nameof(sourceTxtr));
+
+            int width = sourceTxtr.width;
+            int height = sourceTxtr.height;
+
+            Color32[] pixels = sourceTxtr.GetPixels32();
+            Color32[] flipped = new Color32[pixels.Length];
+
+            for (int y = 0; y < height; y++)
+            {
+                int srcRow = y * width;
+                int dstRow = (height - 1 - y) * width;
+                Array.Copy(pixels, srcRow, flipped, dstRow, width);
+            }
+
+            var result = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            result.SetPixels32(flipped);
+            result.Apply(false, false);
+
+            return result;
+        }
+
+        /*private void FlipTexture(Texture2D txtr)
+        {
+            int w = txtr.width, h = txtr.height;
+
+            var pixels = txtr.GetPixels(0, 0, w, h);
+            Color[] newPixels = new Color[pixels.Length];
+
+            for(int i=0; i<w; i++)
+            {
+                for(int j=0; j<h; j++)
+                {
+                    newPixels[i + j * w] = pixels[i + (h - j - 1) * w];
+                }
+            }
+
+            txtr.SetPixels(newPixels);
+            txtr.Apply();
+        }*/
 
         public byte[][] tempVertexBuffers;
         private void TempLoadVertices(BinaryReader br)

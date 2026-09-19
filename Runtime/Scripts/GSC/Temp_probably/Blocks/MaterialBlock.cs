@@ -30,7 +30,9 @@ namespace NuGizWrap.GameScene
                 long matPos = br.BaseStream.Position;
                 var numat = NuMaterial.LoadNew(br);
                 numaterials.Add(matPos, numat);
-                materials.Add(numat, CreateMaterial(numat));
+                var mat = CreateMaterial(numat);
+                mat.name = $"Material_{i}";
+                materials.Add(numat, mat);
             }
         }
 
@@ -122,7 +124,7 @@ namespace NuGizWrap.GameScene
                 this.ptr4 = ptr4;
                 this.alphaBlend = alphaBlend;
                 this.unk15 = unk15;
-                this.diffuseColor = diffuseColor;
+                this.diffuseColor = new(diffuseColor.r,diffuseColor.g,diffuseColor.b,1-diffuseColor.a);
                 this.unkColor = unkColor;
                 this.diffuseTextureID = diffuseTextureID;
                 this.unkTextureID1 = unkTextureID1;

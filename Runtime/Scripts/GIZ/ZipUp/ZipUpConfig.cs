@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class ZipUpConfig : GizmoTypeConfig
     {
+        public override string ID => "ZipUp";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 4, TTGame.LIJ1 => 6, TTGame.LB1 => 6, _ => 1 };
 

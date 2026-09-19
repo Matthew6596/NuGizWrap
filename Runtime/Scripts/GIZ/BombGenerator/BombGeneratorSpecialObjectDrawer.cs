@@ -14,7 +14,7 @@ namespace NuGizWrap.Gizmos
             if (!property.isExpanded) return EditorGUIUtility.singleLineHeight;
 
             int specObjVers = property.serializedObject.FindProperty("specialObjectVersion").intValue;
-            int version = BombGeneratorSection.Instance.version;
+            int version = GizmoConfig.Instance.bombGenerator.version;
 
             float height = EditorGUIUtility.singleLineHeight * 4;
             if (specObjVers >= 2) height += EditorGUIUtility.singleLineHeight;
@@ -28,7 +28,7 @@ namespace NuGizWrap.Gizmos
             EditorGUI.BeginProperty(position, label, property);
 
             int specObjVers = property.serializedObject.FindProperty("specialObjectVersion").intValue;
-            int version = BombGeneratorSection.Instance.version;
+            int version = GizmoConfig.Instance.bombGenerator.version;
 
             float height = EditorGUIUtility.singleLineHeight;
 

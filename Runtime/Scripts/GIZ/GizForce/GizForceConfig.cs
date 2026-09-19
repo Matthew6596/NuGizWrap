@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class GizForceConfig : GizmoTypeConfig
     {
+        public override string ID => "GizForce";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 16, _ => 1 };
 

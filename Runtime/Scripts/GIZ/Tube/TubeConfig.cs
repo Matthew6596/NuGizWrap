@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class TubeConfig : GizmoTypeConfig
     {
+        public override string ID => "Tube";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.LB1, TTGame.TCS, TTGame.LIJ1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 2, TTGame.LIJ1 => 3, TTGame.LB1 => 5, _ => 1 };
 

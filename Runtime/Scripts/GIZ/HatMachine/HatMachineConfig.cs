@@ -11,6 +11,8 @@ namespace NuGizWrap.Gizmos
 
     public class HatMachineConfig : GizmoTypeConfig
     {
+        public override string ID => "HatMachine";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 5, _ => 1 };
 

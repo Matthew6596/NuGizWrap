@@ -12,6 +12,8 @@ namespace NuGizWrap.Gizmos
 
     public class TorpMachineConfig : GizmoTypeConfig
     {
+        public override string ID => "Torp Machine";
+
         public override bool IsGameCompatible(TTGame game) => game.CompareGames(TTGame.TCS, TTGame.LB1);
         public override int GetMaxVersion(TTGame game) => (game) switch { TTGame.TCS => 3, TTGame.LB1 => 4, _ => 1 };
 
