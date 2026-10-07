@@ -29,8 +29,8 @@ namespace NuGizWrap.GizFlow
                 string[] lines = File.ReadAllLines(path);
                 if (lines.Length == 0) return;
 
-                GitManager gizFlow = Object.FindFirstObjectByType<GitManager>(FindObjectsInactive.Exclude);
-                if (gizFlow == null) gizFlow = new GameObject("Gizmo Flow").AddComponent<GitManager>();
+                GitManager_old gizFlow = Object.FindFirstObjectByType<GitManager_old>(FindObjectsInactive.Exclude);
+                if (gizFlow == null) gizFlow = new GameObject("Gizmo Flow").AddComponent<GitManager_old>();
                 gizFlow.FromLines(lines);
             }
             catch (IOException ioe)

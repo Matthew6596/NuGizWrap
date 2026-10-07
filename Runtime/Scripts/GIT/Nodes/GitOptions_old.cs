@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NuGizWrap.GizFlow
 {
-    public class GitOptions : IGitNode
+    public class GitOptions_old : IGitNode
     {
         public string ID => "GitOptions";
 

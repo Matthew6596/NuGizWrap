@@ -11,30 +11,30 @@ namespace NuGizWrap.GizFlow
 {
     using Helper;
 
-    public class GitManager : MonoBehaviour, ISerializationCallbackReceiver
+    public class GitManager_old : MonoBehaviour, ISerializationCallbackReceiver
     {
         [SerializeField, HideInInspector] private string serializedGraph = "";
 
-        private static GitManager _instance;
-        public static GitManager Instance
+        private static GitManager_old _instance;
+        public static GitManager_old Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = FindFirstObjectByType<GitManager>(FindObjectsInactive.Exclude);
+                    _instance = FindFirstObjectByType<GitManager_old>(FindObjectsInactive.Exclude);
                     if (_instance == null)
                     {
-                        _instance = new GameObject("Gizmo Flow").AddComponent<GitManager>();
+                        _instance = new GameObject("Gizmo Flow").AddComponent<GitManager_old>();
                     }
                 }
                 return _instance;
             }
         }
 
-        public GitOptions gitOptions = new();
+        public GitOptions_old gitOptions = new();
 
-        public List<GitBox> boxes = new();
+        public List<GitBox_old> boxes = new();
 
         private void OnDrawGizmosSelected()
         {
@@ -60,18 +60,18 @@ namespace NuGizWrap.GizFlow
             Debug.Log($"Total Boxes: {Instance.boxes.Count}");
         }
 
-        public static GitBox FindBoxByID(int boxID) => Instance.boxes.Where(b=>b.boxID == boxID).FirstOrDefault();
+        public static GitBox_old FindBoxByID(int boxID) => Instance.boxes.Where(b=>b.boxID == boxID).FirstOrDefault();
 
-        public static void AddBox(GitBox box)
+        public static void AddBox(GitBox_old box)
         {
             Instance.boxes.Add(box);
-            GitWindow.SyncGraphNodes(Instance.boxes);
+            GitWindow_old.SyncGraphNodes(Instance.boxes);
         }
 
-        public static void RemoveBox(GitBox box)
+        public static void RemoveBox(GitBox_old box)
         {
             Instance.boxes.Remove(box);
-            GitWindow.SyncGraphNodes(Instance.boxes);
+            GitWindow_old.SyncGraphNodes(Instance.boxes);
         }
 
         public string[] ToLines()
@@ -113,13 +113,13 @@ namespace NuGizWrap.GizFlow
                 {
                     case "GitOptions": gitOptions.ContentFromLines(lines, ref index); break;
                     case "Collapse":
-                        CollapseBox collapse = new();
+                        CollapseBox_old collapse = new();
                         collapse.ContentFromLines(lines, ref index);
                         AddBox(collapse);
                         collapse.RefreshVisualElements();
                         break;
                     case "FlowBox":
-                        FlowBox flow = new();
+                        FlowBox_old flow = new();
                         flow.ContentFromLines(lines, ref index);
                         AddBox(flow);
                         flow.RefreshFlowBoxElements();

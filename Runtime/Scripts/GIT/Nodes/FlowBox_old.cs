@@ -11,7 +11,7 @@ namespace NuGizWrap.GizFlow
     using Gizmos;
     using Helper;
 
-    public class FlowBox : GitBox
+    public class FlowBox_old : GitBox_old
     {
         public override string ID => "FlowBox";
 
@@ -20,9 +20,9 @@ namespace NuGizWrap.GizFlow
         public GitAction action;
         public int AiAssistID;
 
-        public FlowBox() : base("New Flow Box") { CreateFlowBox(); }
+        public FlowBox_old() : base("New Flow Box") { CreateFlowBox(); }
 
-        public FlowBox(string name) : base(name) { CreateFlowBox(); }
+        public FlowBox_old(string name) : base(name) { CreateFlowBox(); }
 
         private void CreateFlowBox()
         {

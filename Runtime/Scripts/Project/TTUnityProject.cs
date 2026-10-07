@@ -10,6 +10,7 @@ using UnityEngine.Events;
 
 namespace NuGizWrap
 {
+    using GizFlow;
     using Terrain;
 
     [InitializeOnLoad]
@@ -199,7 +200,11 @@ namespace NuGizWrap
             [Serializable]
             public struct GizFlow
             {
+                public GitOptionsAsset defaultGitOptions;
                 public bool expandBoxPositionsIfColliding;
+                public bool exportCompressed;
+                public bool caseSensitiveVariables;
+                public bool onlyOneGitWindow;
             }
             public GizFlow gizFlow;
 
@@ -246,7 +251,11 @@ namespace NuGizWrap
 
                 gizFlow = new()
                 {
+                    defaultGitOptions = GitOptionsAsset.Default,
                     expandBoxPositionsIfColliding = true,
+                    exportCompressed = false,
+                    caseSensitiveVariables = true,
+                    onlyOneGitWindow = true,
                 },
 
                 terrain = new()

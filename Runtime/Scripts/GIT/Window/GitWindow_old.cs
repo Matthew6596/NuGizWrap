@@ -8,24 +8,24 @@ using System.Collections.Generic;
 namespace NuGizWrap.GizFlow
 {
     
-    public class GitWindow : EditorWindow
+    public class GitWindow_old : EditorWindow
     {
-        private static GitGraphView gitGraph;
+        private static GitGraphView_old gitGraph;
         private VisualElement boxPropertiesView;
 
         [MenuItem("Nu Giz Wrap/Giz Flow/Open Editor Window")]
         public static void OpenGitEditor()
         {
             // This method is called when the user selects the menu item in the Editor
-            EditorWindow wnd = GetWindow<GitWindow>();
+            EditorWindow wnd = GetWindow<GitWindow_old>();
             wnd.titleContent = new GUIContent("GizFlow GIT Editor");
         }
 
         public void CreateGUI()
         {
-            gitGraph ??= new GitGraphView();
+            gitGraph ??= new GitGraphView_old();
 
-            // Create a two-pane view with the left pane being fixed with
+            // Create a two-pane view with the left pane being fixed width
             var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
 
             // Add the view to the visual tree by adding it as a child to the root element
@@ -52,9 +52,9 @@ namespace NuGizWrap.GizFlow
             gitTabPane.Add(resetCamBtn);
 
             //Add flowbox and collapse buttons
-            var addFlowBoxBtn = new Button(() => { GitManager.AddBox(new FlowBox("New FlowBox")); });
+            var addFlowBoxBtn = new Button(() => { GitManager_old.AddBox(new FlowBox_old("New FlowBox")); });
             addFlowBoxBtn.Add(new Label("Add FlowBox"));
-            var addCollapseBtn = new Button(() => { GitManager.AddBox(new CollapseBox("New Collapse")); });
+            var addCollapseBtn = new Button(() => { GitManager_old.AddBox(new CollapseBox_old("New Collapse")); });
             addCollapseBtn.Add(new Label("Add Collapse Box"));
             gitTabPane.Add(addFlowBoxBtn);
             gitTabPane.Add(addCollapseBtn);
@@ -70,7 +70,7 @@ namespace NuGizWrap.GizFlow
             });
         }
 
-        public static void SyncGraphNodes(List<GitBox> boxes)
+        public static void SyncGraphNodes(List<GitBox_old> boxes)
         {
             gitGraph.ClearBoxes();
             foreach (var box in boxes)

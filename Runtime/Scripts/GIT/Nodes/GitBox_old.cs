@@ -9,15 +9,15 @@ using UnityEngine.UIElements;
 
 namespace NuGizWrap.GizFlow
 {
-    public abstract class GitBox : Node, IGitNode
+    public abstract class GitBox_old : Node, IGitNode
     {
         public enum NodeOutput { NoOutput=0, False=1, True=2 }
 
         public abstract string ID { get; }
 
         public int boxID;
-        public List<GitBox> children;
-        public List<(GitBox,int)> parents;
+        public List<GitBox_old> children;
+        public List<(GitBox_old,int)> parents;
         public float x, y;
 
         protected Port InputPort { get; private set; }
@@ -27,7 +27,7 @@ namespace NuGizWrap.GizFlow
 
         public int GetOutputPortIndex(Port port) => OutputPorts.IndexOf(port);
 
-        public GitBox(string name)
+        public GitBox_old(string name)
         {
             this.name = name;
             title = name;
@@ -69,7 +69,7 @@ namespace NuGizWrap.GizFlow
 
         protected void RemoveOutputPort(Port port)
         {
-            GitWindow.DeleteElements(port.connections);
+            GitWindow_old.DeleteElements(port.connections);
             outputContainer.Remove(port);
             OutputPorts.Remove(port);
         }
@@ -77,7 +77,7 @@ namespace NuGizWrap.GizFlow
 
         protected void ClearOutputPorts()
         {
-            foreach(var port in OutputPorts) GitWindow.DeleteElements(port.connections);
+            foreach(var port in OutputPorts) GitWindow_old.DeleteElements(port.connections);
             outputContainer.Clear();
             OutputPorts.Clear();
             //RefreshPorts();
@@ -128,17 +128,17 @@ namespace NuGizWrap.GizFlow
                         int parentBoxId = int.Parse(line[(ind+1)..space2Ind]);
                         int outputNum = int.Parse(line[(space2Ind+1)..]);
                         EditorApplication.delayCall += () => {
-                            var parentBox = GitManager.FindBoxByID(parentBoxId);
+                            var parentBox = GitManager_old.FindBoxByID(parentBoxId);
                             parents.Add((parentBox, outputNum));
                             if (parentBox != null && outputNum < parentBox.OutputPorts.Count)
                             {
-                                GitWindow.AddElement(parentBox.OutputPorts[outputNum].ConnectTo(InputPort));
+                                GitWindow_old.AddElement(parentBox.OutputPorts[outputNum].ConnectTo(InputPort));
                             }
                         };
                         break;
                     case "Child":
                         int childInd = int.Parse(line[(ind + 1)..]);
-                        EditorApplication.delayCall += () => { children.Add(GitManager.FindBoxByID(childInd)); };
+                        EditorApplication.delayCall += () => { children.Add(GitManager_old.FindBoxByID(childInd)); };
                         break;
                     case "x":
                         string xStr = line[(ind + 1)..];

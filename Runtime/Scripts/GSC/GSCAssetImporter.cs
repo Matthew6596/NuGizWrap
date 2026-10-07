@@ -19,6 +19,7 @@ namespace NuGizWrap.GameScene
 
             ctx.AddObjectToAsset(gameSceneObj.name, gameSceneObj);
 
+            return; //TEMP
             gameScene.Load(new MemoryStream(File.ReadAllBytes(ctx.assetPath)));
 
             int txtrCount = gameScene.tempTextures.Length;

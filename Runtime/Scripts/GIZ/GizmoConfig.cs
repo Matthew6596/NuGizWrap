@@ -11,23 +11,60 @@ namespace NuGizWrap.Gizmos
     [ExecuteInEditMode]
     public class GizmoConfig : MonoBehaviour
     {
-        private static GizmoConfig _instance;
+        public static string[] GizmoNames => new[]
+        {
+            "GizObstacle", "GizBuildit", "GizForce", "blowup", "GizDig", "GizmoPickup",
+            "Shard", "Signal", "Grapple", "TightRope", "Ledge", "Lever", "Spinner",
+            "Techno", "SecurityDoor", "Attracto", "MiniCut", "Tube", "ZipUp", "Whipper",
+            "GizTurret", "BombGenerator", "Panel", "HatMachine", "Plug", "PushBlocks",
+            "Torp Machine", "ShadowEditor", "Teleport", "Puzzle", "GizFlock"
+        };
+
+        /*private static GizmoConfig _instance;
         public static GizmoConfig Instance
         {
             get
             {
                 if(_instance == null)
                 {
-                    _instance = GameObject.FindFirstObjectByType<GizmoConfig>();
+                    var configs = FindObjectsByType<GizmoConfig>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID).Where(c => c.activeInstance);
+                    _instance = configs.FirstOrDefault();
+                    if(configs.Count() > 1)
+                    {
+                        Debug.LogWarning($"Multiple Active Instances of GizmoConfig found, disabling all but the first ({_instance.name}).");
+                        foreach(var c in configs) if(c != _instance) c.activeInstance = false;
+                    }
                     if(_instance == null)
                     {
                         _instance = new GameObject("Gizmo Config").AddComponent<GizmoConfig>();
                     }
+                    _instance.activeInstance = true;
                 }
                 return _instance;
             }
             private set { _instance = value; }
+        }*/
+
+        public static GizmoConfig Instance { 
+            get
+            {
+                GizmoConfig _instance;
+                var configs = FindObjectsByType<GizmoConfig>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID).Where(c => c.activeInstance);
+                _instance = configs.FirstOrDefault();
+                if (configs.Count() > 1)
+                {
+                    Debug.LogWarning($"Multiple Active Instances of GizmoConfig found, disabling all but {_instance.name}.");
+                    foreach (var c in configs) if (c != _instance) c.activeInstance = false;
+                }
+                if (_instance == null)
+                {
+                    _instance = new GameObject("Gizmo Config").AddComponent<GizmoConfig>();
+                }
+                return _instance;
+            } 
         }
+
+        public bool activeInstance = false;
 
         public GizObstacleConfig gizObstacle;
         public GizBuilditConfig gizBuildit;
@@ -63,23 +100,29 @@ namespace NuGizWrap.Gizmos
 
         private void Awake()
         {
+            if (!activeInstance) return;
             if (Instance != null && Instance != this)
             {
-                Debug.LogWarning("Instance of GizmoConfig already exists, destroying old instance.");
-                DestroyImmediate(Instance);
+                Debug.LogWarning($"Instance of GizmoConfig already exists, setting Active Instance property on {name} to false.");
+                activeInstance = false;
+                return;
             }
-            Instance = this;
+            //Instance = this;
         }
+
+        public GizmoTypeConfig[] GetGizmoConfigs() => new GizmoTypeConfig[]
+        {
+            gizObstacle, gizBuildit, gizForce, blowup, gizDig, gizmoPickup, shard, signal,
+            grapple, tightRope, ledge, lever, spinner, techno, securityDoor, attracto,
+            miniCut, tube, zipUp, whipper, gizTurret, bombGenerator, panel, hatMachine,
+            plug, pushBlocks, torpMachine, shadowEditor, teleport, puzzle, gizFlock
+        };
+
+        public GizmoTypeConfig GetConfigByName(string name) => GetGizmoConfigs().Where(c=>c.ID == name).FirstOrDefault();
 
         public void ToBytes(BinaryWriter bw, ExportSettings exportSettings)
         {
-            var configs = new GizmoTypeConfig[]
-            {
-                gizObstacle, gizBuildit, gizForce, blowup, gizDig, gizmoPickup, shard, signal,
-                grapple, tightRope, ledge, lever, spinner, techno, securityDoor, attracto,
-                miniCut, tube, zipUp, whipper, gizTurret, bombGenerator, panel, hatMachine,
-                plug, pushBlocks, torpMachine, shadowEditor, teleport, puzzle, gizFlock
-            };
+            var configs = GetGizmoConfigs();
 
             string[] ignoreIDs = exportSettings.ignoredGizmos;
             foreach(var config in configs)

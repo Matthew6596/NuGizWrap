@@ -23,6 +23,13 @@ namespace NuGizWrap.Helper
             EditorGUILayout.LabelField(txt, headerStyle);
         }
 
+        public static void HorizontalRule()
+        {
+            EditorGUILayout.BeginFadeGroup(0.1f);
+            EditorGUILayout.HelpBox("", MessageType.None);
+            EditorGUILayout.EndFadeGroup();
+        }
+
         public static void Prop(this SerializedObject obj, string propName) => EditorGUILayout.PropertyField(obj.FindProperty(propName));
         public static void Props(this SerializedObject obj, params string[] propNames)
         {
@@ -406,6 +413,12 @@ namespace NuGizWrap.Helper
         public static Vector3 ReadVector3(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         public static Color ReadColor(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         public static Color ReadColorA(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        public static void WriteColor(this BinaryWriter bw, Color color)
+        {
+            bw.Write(color.r);
+            bw.Write(color.g);
+            bw.Write(color.b);
+        }
         public static void WriteColorA(this BinaryWriter bw, Color color)
         {
             bw.Write(color.r);

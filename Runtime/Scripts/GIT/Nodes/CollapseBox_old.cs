@@ -8,16 +8,16 @@ using System.Linq;
 
 namespace NuGizWrap.GizFlow
 {
-    public class CollapseBox : GitBox
+    public class CollapseBox_old : GitBox_old
     {
         public override string ID => "Collapse";
 
         private bool _collapsed = false;
         private Toggle nodeToggle, propToggle;
 
-        public CollapseBox() : base("New Collapse Box") { CreateCollapseBox(); }
+        public CollapseBox_old() : base("New Collapse Box") { CreateCollapseBox(); }
 
-        public CollapseBox(string name) : base(name) { CreateCollapseBox(); }
+        public CollapseBox_old(string name) : base(name) { CreateCollapseBox(); }
 
         private void CreateCollapseBox()
         {

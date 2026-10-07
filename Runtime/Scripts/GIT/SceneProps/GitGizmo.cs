@@ -84,7 +84,7 @@ namespace NuGizWrap.GizFlow
             if (gizmo == null)
             {
                 GameObject ga = new(gizName, gizType);
-                ga.transform.SetParent(GitManager.Instance.transform);
+                ga.transform.SetParent(GitManager_old.Instance.transform);
                 gitGiz = ga.AddComponent<GitGizmo>();
                 gitGiz.connectedGizmo = ga.GetComponent(gizType) as Gizmo;
                 gitGiz.connectedGizmoName = gizName;
