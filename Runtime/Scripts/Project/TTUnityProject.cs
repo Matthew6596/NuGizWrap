@@ -205,6 +205,7 @@ namespace NuGizWrap
                 public bool exportCompressed;
                 public bool caseSensitiveVariables;
                 public bool onlyOneGitWindow;
+                public bool gitWindowUndoSaveToScene;
             }
             public GizFlow gizFlow;
 
@@ -256,6 +257,7 @@ namespace NuGizWrap
                     exportCompressed = false,
                     caseSensitiveVariables = true,
                     onlyOneGitWindow = true,
+                    gitWindowUndoSaveToScene = true,
                 },
 
                 terrain = new()

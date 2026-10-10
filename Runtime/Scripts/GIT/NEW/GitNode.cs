@@ -396,7 +396,7 @@ namespace NuGizWrap.GizFlow
 
             public readonly override string ToString()
             {
-                string numVal = HasNumberValue ? numberValue.ToString() : string.Empty;
+                string numVal = HasNumberValue ? $" {numberValue}" : string.Empty;
                 string monitorInpVal = monitorInputs ? "\n\t\tMonitorInputs" : string.Empty;
                 return $"\n\tCondition {{\n\t\tType {type}{numVal}{monitorInpVal}\n\t}}";
             }

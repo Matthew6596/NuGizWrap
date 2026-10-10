@@ -14,12 +14,7 @@ namespace NuGizWrap.GizFlow
 
     public class GitBoxGraphNode : Node
     {
-        public readonly List<Port> inputPorts = new();
-        public readonly List<Port> outputPorts = new();
-
         public GitBox box;
-
-        public bool newBox = false;
 
         public Vector2 Position => new(style.left.value.value, style.top.value.value);
 
@@ -244,6 +239,7 @@ namespace NuGizWrap.GizFlow
                 typeDropdown.RegisterValueChangedCallback(e =>
                 {
                     flowGizmos[gizIndex].type = Enum.Parse<FlowBox.Gizmo.Type>(e.newValue);
+                    //TO-DO: refresh output ports
                 });
                 gizBox.Add(typeDropdown);
 
@@ -349,6 +345,9 @@ namespace NuGizWrap.GizFlow
 
         public void RefreshBoxPorts()
         {
+            inputContainer.Clear();
+            outputContainer.Clear();
+
             if (box is CustomGitBox custom)
             {
                 CreateCustomPorts(custom);
@@ -361,8 +360,6 @@ namespace NuGizWrap.GizFlow
                 if (box is FlowBox flowbox) CreateFlowboxPorts(flowbox);
                 else CreatePort(Direction.Output, "Output"); //Collapse Box
             }
-
-            RefreshPortContainers();
         }
 
         public void CreatePort(Direction direction, string name)
@@ -370,7 +367,7 @@ namespace NuGizWrap.GizFlow
             var port = InstantiatePort(Orientation.Horizontal, direction, Port.Capacity.Multi, null);
             port.name = name;
             port.portName = name;
-            (direction == Direction.Input ? inputPorts : outputPorts).Add(port);
+            (direction == Direction.Input ? inputContainer : outputContainer).Add(port);
         }
 
         private void CreateFlowboxPorts(FlowBox flowbox)
@@ -388,14 +385,8 @@ namespace NuGizWrap.GizFlow
                 CreatePort(Direction.Output, outpt.name);
         }
 
-        public void RefreshPortContainers()
-        {
-            inputContainer.Clear();
-            foreach(var inp in inputPorts) inputContainer.Add(inp);
-
-            outputContainer.Clear();
-            foreach (var outpt in outputPorts) outputContainer.Add(outpt);
-        }
+        public int GetOutputPortIndex(Port outputPort) => outputContainer.IndexOf(outputPort);
+        public int GetInputPortIndex(Port inputPort) => inputContainer.IndexOf(inputPort);
 
         public void SaveBox()
         {

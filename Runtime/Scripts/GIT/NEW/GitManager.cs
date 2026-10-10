@@ -45,6 +45,13 @@ namespace NuGizWrap.GizFlow
             if (!visualizeInScene) return;
         }
 
+        [ContextMenu("Export .GIT File")]
+        public void Export()
+        {
+            GITExporter.gm = this;
+            GITExporter.Export();
+        }
+
         public IEnumerable<int> GetChildren(GitBox parent)
         {
             var conns = connections.Where(c => c.parent == parent);

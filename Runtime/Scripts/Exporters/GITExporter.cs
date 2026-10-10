@@ -18,7 +18,7 @@ namespace NuGizWrap.GizFlow
         public readonly static Dictionary<GitBox, int> boxIDs = new();
 
         [MenuItem("Nu Giz Wrap/Export/File/GIT")]
-        static void Export()
+        public static void Export()
         {
             string path = EditorUtility.SaveFilePanel("Export GIT File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgit", "git");
             if (string.IsNullOrEmpty(path) || !Directory.Exists(Path.GetDirectoryName(path))) return;
@@ -30,7 +30,7 @@ namespace NuGizWrap.GizFlow
         {
             try
             {
-                gm = Object.FindFirstObjectByType<GitManager>(FindObjectsInactive.Exclude);
+                if(gm == null) gm = Object.FindFirstObjectByType<GitManager>(FindObjectsInactive.Exclude);
                 if (gm == null)
                 {
                     Debug.LogError("An Instance of GitManager must be present and active in your current scene to export a .GIT file.");

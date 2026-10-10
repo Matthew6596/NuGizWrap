@@ -119,7 +119,7 @@ namespace NuGizWrap.GizFlow
 
                     box.position = graphView.Center;
 
-                    graphView.AddBox(new GitBoxGraphNode(box) { newBox = true });
+                    graphView.AddBox(new GitBoxGraphNode(box));
                 }
             });
             addBoxBtn.Add(new Label("Add Box"));
@@ -129,7 +129,7 @@ namespace NuGizWrap.GizFlow
             addBoxRoot.Add(addBoxCustomField);
 
             var saveBtn = new Button(Save);
-            saveBtn.Add(new Label("Save"));
+            saveBtn.Add(new Label("Save To Scene"));
             mainBox.Add(saveBtn);
 
             var resetCamBtn = new Button(() => { graphView.FrameAll(); });
@@ -158,20 +158,61 @@ namespace NuGizWrap.GizFlow
                 var parentNode = graphView.GetGraphNode(conn.parent);
                 var childNode = graphView.GetGraphNode(conn.child);
 
-                var edge = parentNode.outputPorts[conn.parentOutput].ConnectTo(childNode.inputPorts[conn.childInput]);
+                var outPort = (Port)parentNode.outputContainer.ElementAt(conn.parentOutput);
+                var inpPort = (Port)childNode.inputContainer.ElementAt(conn.childInput);
+
+                if(outPort == null)
+                {
+                    Debug.LogWarning($"Attempted to load null output port. Parent: {parentNode.title}, Child: {childNode.title}");
+                    continue;
+                }
+                if (inpPort == null)
+                {
+                    Debug.LogWarning($"Attempted to load null input port. Parent: {parentNode.title}, Child: {childNode.title}");
+                    continue;
+                }
+
+                var edge = outPort.ConnectTo(inpPort);
                 graphView.AddElement(edge);
             }
         }
 
         private void Save()
         {
+            if (TTUnityProject.Prefs.gizFlow.gitWindowUndoSaveToScene)
+                Undo.RecordObject(_gm, $"Save GitWindow changes to GitManager '{_gm.name}'");
+            else EditorUtility.SetDirty(_gm);
+
+            List<GitBox> boxes = new();
+            List<Connection> connections = new();
+
             //Sync GitGraphView nodes and content to GitManager
-            foreach(var node in graphView.graphElements.Where(e=>e is GitBoxGraphNode))
+            foreach(var node in graphView.graphElements.OfType<GitBoxGraphNode>())
             {
-                ((GitBoxGraphNode)node).SaveBox();
+                node.SaveBox();
+                boxes.Add(node.box);
+
+                foreach(var outPort in node.outputContainer.Children())
+                {
+                    if (outPort is not Port p) continue;
+                    foreach(var conn in p.connections)
+                    {
+                        var inpPort = conn.input;
+                        var child = (GitBoxGraphNode)inpPort.node;
+                        connections.Add(new Connection()
+                        {
+                            parent = node.box,
+                            parentOutput = node.GetOutputPortIndex(p),
+                            child = child.box,
+                            childInput = child.GetInputPortIndex(inpPort),
+                        });
+                    }
+                }
             }
 
-            //Sync connections
+            //Sync
+            _gm.boxes = boxes.ToArray();
+            _gm.connections = connections.ToArray();
         }
 
         private void Update()
