@@ -10,6 +10,7 @@ using System.Collections.Generic;
 namespace NuGizWrap.GizFlow
 {
     using Helper;
+    using System.Linq;
 
     public class GitWindow : EditorWindow
     {
@@ -108,15 +109,17 @@ namespace NuGizWrap.GizFlow
                 if (boxType == "Custom" && addBoxCustomField.value == null) Debug.Log("Cannot add null custom box");
                 else
                 {
-                    var box = (boxType) switch
+                    GitBox box = (boxType) switch
                     {
-                        "Collapse" => new CollapseBox("New Collapse", graphView.Center, false),
-                        "FlowBox" => new FlowBox("New FlowBox", graphView.Center, new FlowBox.Gizmo[0], false, false, false, default, default, 0),
-                        "Custom" => ((CustomGitNodeAsset)addBoxCustomField.value).node.CreateCopy(),
+                        "Collapse" => new CollapseBox("New Collapse", false, gm),
+                        "FlowBox" => new FlowBox("New FlowBox", new FlowBox.Gizmo[0], false, false, false, default, default, 0, gm),
+                        "Custom" => ((CustomGitNodeAsset)addBoxCustomField.value).node,
                         _ => throw new NotSupportedException($"GitBox type '{boxType}' is not supported.")
                     };
 
-                    graphView.AddBox(new GitBoxGraphNode(box));
+                    box.position = graphView.Center;
+
+                    graphView.AddBox(new GitBoxGraphNode(box) { newBox = true });
                 }
             });
             addBoxBtn.Add(new Label("Add Box"));
@@ -125,7 +128,7 @@ namespace NuGizWrap.GizFlow
             addBoxRoot.Add(addBoxDropdown);
             addBoxRoot.Add(addBoxCustomField);
 
-            var saveBtn = new Button(SaveChanges);
+            var saveBtn = new Button(Save);
             saveBtn.Add(new Label("Save"));
             mainBox.Add(saveBtn);
 
@@ -163,6 +166,12 @@ namespace NuGizWrap.GizFlow
         private void Save()
         {
             //Sync GitGraphView nodes and content to GitManager
+            foreach(var node in graphView.graphElements.Where(e=>e is GitBoxGraphNode))
+            {
+                ((GitBoxGraphNode)node).SaveBox();
+            }
+
+            //Sync connections
         }
 
         private void Update()

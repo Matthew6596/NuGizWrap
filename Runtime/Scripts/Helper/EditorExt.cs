@@ -559,6 +559,21 @@ namespace NuGizWrap.Helper
             var prop = serializedObject.FindProperty(propertyName);
             prop.stringValue = SearchTextBox(ObjectNames.NicifyVariableName(propertyName), prop.stringValue, options, onlyShowMatches, optionsShown, autoFillClosestMatch);
         }
+
+        /// <summary>
+        /// https://stackoverflow.com/questions/457453/remove-element-of-a-regular-array#457501
+        /// </summary>
+        public static T[] RemoveAt<T>(this T[] source, int index)
+        {
+            T[] dest = new T[source.Length - 1];
+            if (index > 0)
+                Array.Copy(source, 0, dest, 0, index);
+
+            if (index < source.Length - 1)
+                Array.Copy(source, index + 1, dest, index, source.Length - index - 1);
+
+            return dest;
+        }
     }
 }
 #endif

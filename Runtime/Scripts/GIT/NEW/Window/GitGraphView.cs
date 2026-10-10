@@ -33,7 +33,6 @@ namespace NuGizWrap.GizFlow
 
         public void AddBox(GitBoxGraphNode node)
         {
-            node.SetPosition(new Rect(node.box.position, new Vector2(150, 200)));
             boxes.Add(node);
             AddElement(node);
         }

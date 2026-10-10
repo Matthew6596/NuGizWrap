@@ -147,11 +147,12 @@ namespace NuGizWrap.GizFlow
             name = "unnamed_collapse";
         }
 
-        public CollapseBox(string name, Vector2 position, bool collapsed)
+        public CollapseBox(string name, bool collapsed, GitManager gm=null)
         {
             this.name = name;
-            this.position = position;
             this.collapsed = collapsed;
+
+            if(gm != null) boxColor = gm.options.node.collapseBoxColor;
         }
 
         public CollapseBox(GITAssetImporter.TextReader tr, GitManager gm)
@@ -163,7 +164,7 @@ namespace NuGizWrap.GizFlow
             boxColor = gm.options.node.collapseBoxColor;
         }
 
-        public override GitBox CreateCopy() => new CollapseBox(name, position, collapsed)
+        public override GitBox CreateCopy() => new CollapseBox(name, collapsed)
         {
             boxColor = boxColor
         };
@@ -201,10 +202,9 @@ namespace NuGizWrap.GizFlow
             hasAssistID = false;
         }
 
-        public FlowBox(string name, Vector2 position, Gizmo[] gizmos, bool hasAction, bool hasCondition, bool hasAssistID, Action action, Condition condition, int assistID)
+        public FlowBox(string name, Gizmo[] gizmos, bool hasAction, bool hasCondition, bool hasAssistID, Action action, Condition condition, int assistID, GitManager gm=null)
         {
             this.name = name;
-            this.position = position;
             this.gizmos = gizmos;
             this.hasAction = hasAction;
             this.hasCondition = hasCondition;
@@ -212,6 +212,14 @@ namespace NuGizWrap.GizFlow
             this.action = action;
             this.condition = condition;
             AIAssistID = assistID;
+
+            if(gm != null)
+            {
+                boxColor = gm.options.node.defaultFlowboxColor;
+                if (hasAction) boxColor = gm.options.node.defaultActionFlowboxColor;
+                else if (hasCondition) boxColor = gm.options.node.defaultConditionFlowboxColor;
+                else if (gizmos.Length > 0) boxColor = gm.options.node.flowboxGizmoColors.GetGizmoColor(gizmos[0].type);
+            }
         }
 
         public FlowBox(GITAssetImporter.TextReader tr, GitManager gm)
@@ -304,7 +312,7 @@ namespace NuGizWrap.GizFlow
             if (numGizmos != gizmoCount) Debug.LogWarning($"Num_Gizmos ({numGizmos}) and actual Gizmo count ({gizmoCount}) did not match onFlowBox '{name}' ID: {boxID}");
         }
 
-        public override GitBox CreateCopy() => new FlowBox(name, position, gizmos, hasAction, hasCondition, hasAssistID, action, condition, AIAssistID)
+        public override GitBox CreateCopy() => new FlowBox(name, gizmos, hasAction, hasCondition, hasAssistID, action, condition, AIAssistID)
         {
             boxColor = boxColor
         };
@@ -384,9 +392,11 @@ namespace NuGizWrap.GizFlow
             public int numberValue;
             public bool monitorInputs;
 
+            public readonly bool HasNumberValue => type == Type.Exactly || type == Type.Sum;
+
             public readonly override string ToString()
             {
-                string numVal = (type == Type.Exactly || type == Type.Sum) ? numberValue.ToString() : string.Empty;
+                string numVal = HasNumberValue ? numberValue.ToString() : string.Empty;
                 string monitorInpVal = monitorInputs ? "\n\t\tMonitorInputs" : string.Empty;
                 return $"\n\tCondition {{\n\t\tType {type}{numVal}{monitorInpVal}\n\t}}";
             }
