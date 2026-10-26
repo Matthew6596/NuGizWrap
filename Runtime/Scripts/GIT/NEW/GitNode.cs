@@ -346,6 +346,8 @@ namespace NuGizWrap.GizFlow
             public string name;
             public string[] tempGizmoLines;
 
+            public static Gizmo Default => new() { name = "new_gizmo", type = Type.GizObstacle, tempGizmoLines = new string[0] };
+
             public readonly override string ToString()
             {
                 string typeStr = type == Type.GizTimer ? $"{type}" : $"\"{type}\"";

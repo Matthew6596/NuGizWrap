@@ -8,22 +8,22 @@ using UnityEditor.SceneManagement;
 namespace NuGizWrap.Audio
 {
     [CustomPropertyDrawer(typeof(SampleReference))]
-    [InitializeOnLoad]
+    //[InitializeOnLoad]
     public class SampleReferenceDrawer : PropertyDrawer
     {
         static string[] sampleNames = null;
 
-        static SampleReferenceDrawer()
+        /*static SampleReferenceDrawer()
         {
             EditorSceneManager.sceneOpened -= OnSceneOpened;
             EditorSceneManager.sceneOpened += OnSceneOpened;
-        }
+        }*/
 
-        private static void OnSceneOpened(Scene scene, OpenSceneMode mode) => sampleNames = null;
+        //private static void OnSceneOpened(Scene scene, OpenSceneMode mode) => sampleNames = null;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            sampleNames ??= AudioExporter.GetAllSampleNames();
+            /*sampleNames ??= AudioExporter.GetAllSampleNames();
 
             EditorGUI.BeginProperty(position, label, property);
 
@@ -59,7 +59,7 @@ namespace NuGizWrap.Audio
                 sampleProp.stringValue = EditorGUI.TextField(fieldRect, sampleProp.stringValue);
             }
 
-            EditorGUI.EndProperty();
+            EditorGUI.EndProperty();*/
         }
     }
 }

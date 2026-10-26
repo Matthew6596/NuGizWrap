@@ -45,12 +45,13 @@ namespace NuGizWrap
 
         public static string[] GetAllSampleNames()
         {
-            var scene = TTUnityProject.GetScene("PROJECT.unity");
-            var samples = scene.FindAllInScene<Sample>().ToArray();
-            var sampleNames = new string[samples.Length];
-            for (int i = 0; i<samples.Length; i++) sampleNames[i] = samples[i].name;
-            TTUnityProject.CloseScene(scene);
-            return sampleNames;
+            //var scene = TTUnityProject.GetScene("PROJECT.unity");
+            //var samples = scene.FindAllInScene<Sample>().ToArray();
+            //var sampleNames = new string[samples.Length];
+            //for (int i = 0; i<samples.Length; i++) sampleNames[i] = samples[i].name;
+            //TTUnityProject.CloseScene(scene);
+            //return sampleNames;
+            return new string[0];
         }
 
         /*public static List<AudioClip> GetAllAudioClipsInScene()

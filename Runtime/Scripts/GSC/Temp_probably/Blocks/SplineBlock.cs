@@ -15,6 +15,8 @@ namespace NuGizWrap.GameScene
 
         public override void Load(BinaryReader br)
         {
+            return;
+
             int splineCount = br.ReadInt32();
             splines = new Spline[splineCount];
             splineDataSize = br.ReadInt32();

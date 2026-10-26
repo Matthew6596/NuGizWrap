@@ -25,7 +25,8 @@ namespace NuGizWrap
         public ModManagerSettings modManagerSettings;
         public ModMeta modMeta;
         public Preferences prefs;
-        public GameScene.Things globalThings;
+        //public GameScene.Things globalThings;
+        public GameScene.NuGameScene globalThings;
 
         [Tooltip("Relative paths of files or directories the mod should to remove from the game. Example: stuff/text/danish.txt or chars/gonkdroid")]
         public string[] removalPaths;

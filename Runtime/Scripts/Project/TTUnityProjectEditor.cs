@@ -16,7 +16,12 @@ namespace NuGizWrap
 
             EditorExt.Header("Mod Data");
             serializedObject.Prop("modMeta");
-            serializedObject.Prop("globalThings");
+
+            EditorExt.Header("Global Assets");
+            var thingsProp = serializedObject.FindProperty("globalThings");
+            thingsProp.objectReferenceValue = EditorGUILayout.ObjectField(
+                new GUIContent("Things Scene", "The things.gsc scene that is used globally loaded objects such as minikits."),
+                thingsProp.objectReferenceValue, typeof(GameScene.NuGameScene), allowSceneObjects: false);
 
             EditorExt.Header("Preferences");
             serializedObject.Prop("prefs");

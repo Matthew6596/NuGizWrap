@@ -9,6 +9,7 @@ using System.IO;
 namespace NuGizWrap.Audio
 {
     using Helper;
+    using UnityEditor.AssetImporters;
 
     public class AudioConfig : MonoBehaviour
     {
@@ -69,6 +70,11 @@ namespace NuGizWrap.Audio
             EditorUtility.DisplayDialog("Audio Loaded!", $"Successfully loaded Audio on '{name}' GameObject", "OK");
         }
 
+        public static void Import(string[] lines, AssetImportContext ctx)
+        {
+
+        }
+
         public static void FromLines(string[] lines)
         {
             int index = 0;
@@ -108,8 +114,8 @@ namespace NuGizWrap.Audio
                     string name = parts[parts.IndexOf("name") + 1];
                     var obj = new GameObject(name);
                     obj.transform.parent = parent;
-                    var sample = obj.AddComponent<Sample>();
-                    if (sample.FromLine(parts)) parent = sample.transform;
+                    //var sample = obj.AddComponent<Sample>();
+                    //if (sample.FromLine(parts)) parent = sample.transform;
                 }
                 else if(type == "group")
                 {

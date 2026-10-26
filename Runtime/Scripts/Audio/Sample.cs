@@ -8,7 +8,8 @@ using UnityEngine;
 
 namespace NuGizWrap.Audio
 {
-    public class Sample : MonoBehaviour
+    [CreateAssetMenu(fileName = "AudioSample", menuName = "Scriptable Objects/Audio Sample")]
+    public class Sample : ScriptableObject
     {
         //Please ensure audio clip file path is set in data
         public AudioClip clip;

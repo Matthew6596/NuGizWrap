@@ -56,6 +56,28 @@ namespace NuGizWrap.GizFlow
             contentBox = new Box();
             mainContainer.Insert(1, contentBox);
 
+            var titleElement = titleContainer.ElementAt(0);
+            TextField titleField = new() { value = title };
+            titleField.RegisterCallback<FocusOutEvent>((e) =>
+            {
+                title = titleField.value;
+                titleField.SetVisible(false);
+                titleElement.SetVisible(true);
+            });
+            titleField.SetVisible(false);
+            titleContainer.Add(titleField);
+
+            this.RegisterCallback<ContextualMenuPopulateEvent>((e) =>
+            {
+                e.menu.AppendAction("Rename", (a) =>
+                {
+                    titleField.value = title;
+                    titleField.SetVisible(true);
+                    titleField.Focus();
+                    titleElement.SetVisible(false);
+                });
+            });
+
             RefreshBox();
         }
 
@@ -91,11 +113,11 @@ namespace NuGizWrap.GizFlow
                 IsCollapsed = c.collapsed;
                 titleButtonContainer.Add(collapseBtn);
             }
-            else if(box is FlowBox f) CreateFlowBoxContent(f);
+            else if(box is FlowBox f) LoadFlowBox(f);
             else if(box is CustomGitBox custom) CreateCustomBoxContent(custom);
         }
 
-        private void CreateFlowBoxContent(FlowBox flowbox)
+        private void LoadFlowBox(FlowBox flowbox)
         {
             //Load flowbox data (action, condition, gizmos)
             flowHasAction = flowbox.hasAction;
@@ -104,6 +126,7 @@ namespace NuGizWrap.GizFlow
             flowHasAssistID = flowbox.hasAssistID;
             flowAssistID = flowbox.AIAssistID;
 
+            //Assign types
             flowType = FlowBoxType.Any;
             if (flowHasAction)
             {
@@ -124,6 +147,34 @@ namespace NuGizWrap.GizFlow
             }
             else flowGizmos = new FlowBox.Gizmo[0];
 
+            CreateFlowBoxContent();
+        }
+
+        private void CreateFlowBoxContent()
+        {
+            contentBox.Clear();
+
+            //Default flowbox values
+            VisualElement flowboxOutline = new();
+            flowboxOutline.style.paddingBottom = 4;
+            Box flowboxBox = new();
+            flowboxOutline.Add(flowboxBox);
+            contentBox.Add(flowboxOutline);
+
+            ColorField boxColorField = new("Box Color") { value = style.backgroundColor.value };
+            boxColorField.RegisterValueChangedCallback(c => style.backgroundColor = c.newValue);
+            flowboxBox.Add(boxColorField);
+
+            var flowboxTypes = Enum.GetNames(typeof(FlowBoxType)).ToList();
+            DropdownField flowboxTypeField = new("FlowBox Type", flowboxTypes, (int)flowType);
+            flowboxTypeField.RegisterValueChangedCallback((t) =>
+            {
+                flowType = Enum.Parse<FlowBoxType>(t.newValue);
+                CreateFlowBoxContent();
+                RefreshFlowboxOutputPorts();
+            });
+            flowboxBox.Add(flowboxTypeField);
+
             void CreateActionContent()
             {
                 //Making sure box is cleared
@@ -141,6 +192,7 @@ namespace NuGizWrap.GizFlow
                 if(!alreadyHasActionBox) contentBox.Add(actionBox);
 
                 //Action Lines
+                flowAction.tempActionLines ??= new string[0];
                 var lines = flowAction.tempActionLines;
                 for (int i=0; i<lines.Length; i++)
                 {
@@ -170,15 +222,26 @@ namespace NuGizWrap.GizFlow
                     flowAction.tempActionLines = flowAction.tempActionLines.Append("").ToArray();
                     CreateActionContent();
                 })
-                { text = "Add line" };
+                { text = "Add Action Line" };
                 actionBox.Add(addLineBtn);
 
             }
 
             void CreateConditionContent()
             {
-                Box conditionBox = new();
-                contentBox.Add(conditionBox);
+                //Making sure box is cleared
+                Box conditionBox = new() { name = "conditionBox" };
+                bool alreadyHasConditionBox = false;
+                foreach (var child in contentBox.Children())
+                {
+                    if (conditionBox.name == child.name)
+                    {
+                        conditionBox = (Box)child;
+                        alreadyHasConditionBox = true;
+                        conditionBox.Clear();
+                    }
+                }
+                if (!alreadyHasConditionBox) contentBox.Add(conditionBox);
 
                 //Prepare horizontal for type+number
                 VisualElement typeArea = new();
@@ -213,17 +276,27 @@ namespace NuGizWrap.GizFlow
             {
                 //Making sure box is cleared
                 Box gizmosRoot = new() { name = "gizmosRoot" };
-                bool alreadyHasActionBox = false;
+                bool alreadyHasGizmoBox = false;
                 foreach (var child in contentBox.Children())
                 {
                     if (gizmosRoot.name == child.name)
                     {
                         gizmosRoot = (Box)child;
-                        alreadyHasActionBox = true;
+                        alreadyHasGizmoBox = true;
                         gizmosRoot.Clear();
                     }
                 }
-                if (!alreadyHasActionBox) contentBox.Add(gizmosRoot);
+                if (!alreadyHasGizmoBox) contentBox.Add(gizmosRoot);
+
+                Button addGizBtn = new(() =>
+                {
+                    flowGizmos = flowGizmos.Append(FlowBox.Gizmo.Default).ToArray();
+                    CreateFlowBoxContent();
+                    RefreshFlowboxOutputPorts();
+                })
+                { text = "Add Gizmo" };
+                gizmosRoot.Add(addGizBtn);
+
                 for(int i=0; i<flowGizmos.Length; i++) CreateGizmoContent(i, gizmosRoot);
             }
 
@@ -231,17 +304,32 @@ namespace NuGizWrap.GizFlow
             {
                 var giz = flowGizmos[gizIndex];
                 Box gizBox = new();
+                gizBox.style.paddingBottom = 4;
                 gizmosRoot.Add(gizBox);
+
+                VisualElement gizHeadHoz = new();
+                gizHeadHoz.style.flexDirection = FlexDirection.Row;
+                gizBox.Add(gizHeadHoz);
 
                 //Gizmo Type Field
                 var gizTypes = Enum.GetNames(typeof(FlowBox.Gizmo.Type)).ToList();
-                DropdownField typeDropdown = new("Gizmo Type", gizTypes, (int)giz.type);
+                DropdownField typeDropdown = new(gizTypes, (int)giz.type);
                 typeDropdown.RegisterValueChangedCallback(e =>
                 {
                     flowGizmos[gizIndex].type = Enum.Parse<FlowBox.Gizmo.Type>(e.newValue);
-                    //TO-DO: refresh output ports
+                    RefreshFlowboxOutputPorts();
                 });
-                gizBox.Add(typeDropdown);
+                gizHeadHoz.Add(typeDropdown);
+
+                //Gizmo delete button
+                Button gizDelBtn = new(() =>
+                {
+                    flowGizmos = flowGizmos.RemoveAt(gizIndex);
+                    CreateFlowBoxContent();
+                    RefreshFlowboxOutputPorts();
+                })
+                { text = "Delete Gizmo" };
+                gizHeadHoz.Add(gizDelBtn);
 
                 //Gizmo Name Field - TO-DO: ObjectField alternative
                 TextField nameField = new("Gizmo Name") { value = giz.name };
@@ -253,6 +341,11 @@ namespace NuGizWrap.GizFlow
 
                 //Gizmo Lines
                 var lines = giz.tempGizmoLines;
+                if(lines == null)
+                {
+                    lines = new string[0];
+                    flowGizmos[gizIndex].tempGizmoLines = new string[0];
+                }
                 for (int i = 0; i < lines.Length; i++)
                 {
                     VisualElement lineArea = new();
@@ -281,7 +374,7 @@ namespace NuGizWrap.GizFlow
                     flowGizmos[gizIndex].tempGizmoLines = flowGizmos[gizIndex].tempGizmoLines.Append("").ToArray();
                     CreateGizmosContent();
                 })
-                { text = "Add line" };
+                { text = "Add Gizmo Line" };
                 gizBox.Add(addLineBtn);
 
                 //AI Assist horizontal group
@@ -368,6 +461,20 @@ namespace NuGizWrap.GizFlow
             port.name = name;
             port.portName = name;
             (direction == Direction.Input ? inputContainer : outputContainer).Add(port);
+        }
+
+        private void RefreshFlowboxOutputPorts()
+        {
+            List<string> outputs = new();
+            if (flowType == FlowBoxType.Gizmo || flowGizmos.Length > 0)
+            {
+                foreach (var giz in flowGizmos) outputs.AddRange(giz.GetOutputs());
+            }
+            else outputs.Add("Output");
+
+            outputContainer.Clear();
+            foreach (var outpt in outputs)
+                CreatePort(Direction.Output, outpt);
         }
 
         private void CreateFlowboxPorts(FlowBox flowbox)

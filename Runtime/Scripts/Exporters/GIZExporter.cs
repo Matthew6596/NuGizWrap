@@ -50,19 +50,21 @@ namespace NuGizWrap.Gizmos
 #pragma warning restore
 
         [MenuItem("Nu Giz Wrap/Export/File/GIZ")]
-        static void Export() 
+        public static void Export() => Export(null);
+
+        public static void Export(GizmoConfig config) 
         {
             string path = EditorUtility.SaveFilePanel("Export GIZ File", TTUnityProject.GetDefaultFileExplorerPath(), "levelgiz", "giz");
             if (string.IsNullOrEmpty(path) || !Directory.Exists(Path.GetDirectoryName(path))) return;
 
-            Export(path, true);
+            Export(path, true, config);
         }
 
-        public static void Export(string path, bool notify=false)
+        public static void Export(string path, bool notify=false, GizmoConfig config=null)
         {
             try
             {
-                var config = Object.FindFirstObjectByType<GizmoConfig>(FindObjectsInactive.Exclude);
+                if(config == null) config = Object.FindFirstObjectByType<GizmoConfig>(FindObjectsInactive.Exclude);
                 if (config == null) throw new NullReferenceException("No active instance of GizmoConfig was found in the open scene to export. Make sure that the gameObject with GizmoConfig is set to active.");
 
                 using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);

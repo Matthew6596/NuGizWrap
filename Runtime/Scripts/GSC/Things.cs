@@ -9,7 +9,7 @@ namespace NuGizWrap.GameScene
     [CreateAssetMenu(fileName = "Things", menuName = "TT Modding/Things")]
     public class Things : ScriptableObject
     {
-        public static Things CurrentThings { get=>TTUnityProject.Instance.globalThings; } //TEMP
+        //public static Things CurrentThings { get=>TTUnityProject.Instance.globalThings; } //TEMP
 
         public string[] objectNames = new string[0];
         public GameObject[] objects = new GameObject[0];

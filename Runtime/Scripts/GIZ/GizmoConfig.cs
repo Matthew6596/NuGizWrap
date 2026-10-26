@@ -153,6 +153,12 @@ namespace NuGizWrap.Gizmos
 
             public static ExportSettings Default => new(new string[0]);
         }
+
+        [ContextMenu("Export .GIZ File")]
+        public void Export()
+        {
+            GIZExporter.Export(this);
+        }
     }
 }
 #endif
